@@ -6,23 +6,23 @@ import styles from './Concept1Methodology.module.css';
 const STAGES = [
   {
     num: '01',
-    title: 'Requirement Intake & Boundary Analysis',
-    desc: 'We conduct a structured dialogue to understand specific asset typologies, geographical trade-offs, spatial priorities, and capital constraints before undertaking market work.',
+    title: 'Requirement Intake & Parameter Definition',
+    desc: 'We conduct a structured dialogue to understand specific asset typologies, geographical preferences, spatial priorities, and budget guidelines before undertaking market research.',
   },
   {
     num: '02',
-    title: 'Discreet Sourcing & Preliminary Diligence',
-    desc: 'Our team queries private owner networks, off-market channels, and institutional mandates. We filter out conflicting titles and encumbered properties prior to presentation.',
+    title: 'Direct Sourcing & Preliminary Review',
+    desc: 'Our team evaluates direct owner representations and matching opportunities, cross-referencing published municipal zoning and preliminary property parameters prior to presentation.',
   },
   {
     num: '03',
-    title: 'Accompanied Private Inspections',
-    desc: 'Targeted on-site property walkthroughs with your dedicated advisory partner. We evaluate micro-neighborhood acoustic levels, solar orientation, and structural build quality.',
+    title: 'Accompanied Property Walkthroughs',
+    desc: 'Coordinated on-site visits with a brokerage team member, evaluating neighborhood access, daylight, layout suitability, and immediate residential surroundings.',
   },
   {
     num: '04',
-    title: 'Transaction Stewardship & Settlement',
-    desc: 'From counter-party negotiation through documentation coordination with your legal counsel, we ensure a transparent, orderly closing process.',
+    title: 'Transaction Guidance & Settlement',
+    desc: 'From negotiation through documentation coordination with your appointed legal counsel, we facilitate an orderly, transparent transaction closing.',
   },
 ];
 

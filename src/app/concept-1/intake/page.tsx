@@ -6,9 +6,13 @@ import { Concept1Intake } from '@/components/Concept1/Concept1Intake';
 import { Concept1Footer } from '@/components/Concept1/Concept1Footer';
 
 export const metadata: Metadata = {
-  title: `Acquisition Brief Preview — ${CANONICAL_BRAND} (Concept 1)`,
+  title: `[INTERNAL PREVIEW] Acquisition Brief Preview — ${CANONICAL_BRAND} (Concept 1)`,
   description:
-    'Stepped Acquisition Brief preview for INSTLE REAL ESTATE Concept 1: Garden City Modernism.',
+    'Internal prototype: Stepped Acquisition Brief preview for INSTLE REAL ESTATE Concept 1.',
+  robots: {
+    index: false,
+    follow: false,
+  },
 };
 
 export default function Concept1IntakePage() {

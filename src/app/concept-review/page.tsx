@@ -11,9 +11,13 @@ import {
 import styles from './page.module.css';
 
 export const metadata: Metadata = {
-  title: `Design Review & Selection Lab — ${CANONICAL_BRAND}`,
+  title: `[INTERNAL PREVIEW] Design Review & Selection Lab — ${CANONICAL_BRAND}`,
   description:
-    'Side-by-side rendered visual concept analysis, media ledger, and architectural recommendation for INSTLE REAL ESTATE.',
+    'Internal design review: Side-by-side rendered visual concept analysis, media ledger, and architectural recommendation for INSTLE REAL ESTATE.',
+  robots: {
+    index: false,
+    follow: false,
+  },
 };
 
 export default function ConceptReviewPage() {

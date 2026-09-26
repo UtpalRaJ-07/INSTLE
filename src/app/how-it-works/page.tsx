@@ -39,23 +39,23 @@ export default function HowItWorksPage() {
 
           <div className={styles.diffGrid}>
             <div className={styles.diffCard}>
-              <h3 className={styles.cardHeading}>Zero Speculative Inventory</h3>
+              <h3 className={styles.cardHeading}>Service-Led Sourcing</h3>
               <p className={styles.cardText}>
-                Traditional portals monetize clicks and fake inventory cards. We maintain no public inventory feed. We source verified properties specifically matched to your defined brief.
+                We maintain no public inventory database. Properties are evaluated directly in response to specific client briefs, eliminating stale catalogues and outdated listings.
               </p>
             </div>
 
             <div className={styles.diffCard}>
               <h3 className={styles.cardHeading}>Data Minimization &amp; Privacy</h3>
               <p className={styles.cardText}>
-                We do not sell client contact data to call centers or broadcast details to multi-broker networks. All personal data is governed under strict India DPDP Act 2023 principles.
+                We do not sell client contact details to third-party telemarketers or broadcast requirements to multi-broker networks. All communication adheres to Indian privacy principles.
               </p>
             </div>
 
             <div className={styles.diffCard}>
-              <h3 className={styles.cardHeading}>Accountable Human Ownership</h3>
+              <h3 className={styles.cardHeading}>Accountable Human Advisory</h3>
               <p className={styles.cardText}>
-                From initial intake through accompanied property walkthroughs, you work with an assigned senior advisor responsible for physical verification and transaction guidance.
+                From initial intake through accompanied walkthroughs, you work with an accountable brokerage partner responsible for requirement coordination and transaction guidance.
               </p>
             </div>
           </div>
@@ -64,7 +64,7 @@ export default function HowItWorksPage() {
             <div className={styles.bannerContent}>
               <h3 className={styles.bannerTitle}>Ready to discuss your Bengaluru property requirement?</h3>
               <p className={styles.bannerText}>
-                Call our advisory desk directly or commission an acquisition brief online.
+                Call our advisory desk directly or share your requirements online.
               </p>
             </div>
             <div className={styles.bannerActions}>
@@ -72,7 +72,7 @@ export default function HowItWorksPage() {
                 ☎ Call {PRIMARY_PHONE}
               </a>
               <Link href="/buy" className={styles.briefActionBtn}>
-                Commission a Brief →
+                Share Requirement →
               </Link>
             </div>
           </div>

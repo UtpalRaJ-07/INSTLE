@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 import {
   CANONICAL_BRAND,
   PRIMARY_PHONE,
@@ -24,17 +23,20 @@ interface IntakeFormData {
 export function Concept1Intake() {
   const [currentStep, setCurrentStep] = useState<number>(1);
   const [formData, setFormData] = useState<IntakeFormData>({
-    assetType: 'Independent Villa / Bungalow',
-    localities: ['Indiranagar / Old Airport Road'],
-    budgetBand: '₹5 Cr – ₹10 Cr',
-    horizon: '3 – 6 Months',
+    assetType: '',
+    localities: [],
+    budgetBand: '',
+    horizon: '',
     name: '',
     phone: '',
     contactPreference: 'Phone Call',
     consent: false,
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [submitted, setSubmitted] = useState<boolean>(false);
+  const [referenceId, setReferenceId] = useState<string>('');
+  const [apiError, setApiError] = useState<string | null>(null);
 
   const toggleLocality = (loc: string) => {
     setFormData((prev) => {
@@ -48,40 +50,86 @@ export function Concept1Intake() {
 
   const validateStep4 = () => {
     const errs: Record<string, string> = {};
-    if (!formData.name.trim()) {
-      errs.name = 'Please provide your full name.';
+    if (!formData.name.trim() || formData.name.trim().length < 2) {
+      errs.name = 'Please provide your full name (minimum 2 characters).';
     }
-    const cleanPhone = formData.phone.replace(/[^0-9+]/g, '');
-    if (!cleanPhone || cleanPhone.length < 10) {
+    const cleanPhone = formData.phone.replace(/[^0-9]/g, '');
+    const isIndian10Digit = /^[6-9]\d{9}$/.test(cleanPhone);
+    const isStandardValid = cleanPhone.length >= 10 && cleanPhone.length <= 15;
+
+    if (!cleanPhone || (!isIndian10Digit && !isStandardValid)) {
       errs.phone = 'Please provide a valid 10-digit telephone number.';
     }
-    if (!formData.consent) {
-      errs.consent = 'Consent under DPDP notice is required to initiate consultation.';
+    if (formData.consent !== true) {
+      errs.consent = 'Consent under DPDP privacy principles is required to process your requirement.';
     }
     setErrors(errs);
     return Object.keys(errs).length === 0;
   };
 
   const handleNext = () => {
+    if (currentStep === 1 && !formData.assetType) {
+      setErrors({ assetType: 'Please select an asset typology or choose "Open to Guidance".' });
+      return;
+    }
     if (currentStep === 4) {
       if (!validateStep4()) return;
       setCurrentStep(5); // Review step
     } else {
+      setErrors({});
       setCurrentStep((prev) => Math.min(prev + 1, 5));
     }
   };
 
   const handleBack = () => {
+    setErrors({});
     setCurrentStep((prev) => Math.max(prev - 1, 1));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validateStep4()) {
       setCurrentStep(4);
       return;
     }
-    setSubmitted(true);
+
+    setIsSubmitting(true);
+    setApiError(null);
+
+    try {
+      const cleanPhone = formData.phone.replace(/[^0-9]/g, '');
+      const res = await fetch('/api/enquiry', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          intent: 'buy',
+          assetType: formData.assetType || 'Open to Guidance',
+          localities: formData.localities.length > 0 ? formData.localities : ['Open to Guidance'],
+          budgetBand: formData.budgetBand || 'Open to Discussion',
+          timeline: formData.horizon || 'Flexible',
+          name: formData.name.trim(),
+          phone: cleanPhone,
+          contactPreference: formData.contactPreference,
+          consent: formData.consent === true,
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || 'Failed to submit enquiry.');
+      }
+
+      setReferenceId(data.leadId);
+      setSubmitted(true);
+    } catch (err: unknown) {
+      setApiError(
+        err instanceof Error
+          ? err.message
+          : 'Unable to connect to the intake queue. Please call our desk directly at 9353096264.'
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -92,13 +140,13 @@ export function Concept1Intake() {
           <div className={styles.sidebarFrame}>
             <Image
               src="/media/concept1-courtyard-detail.jpg"
-              alt="Architectural study of a calm stone and teak courtyard in Bengaluru"
+              alt="Conceptual architectural rendering: courtyard study exploring natural light and stone elements. Non-inventory design illustration."
               width={800}
               height={600}
               className={styles.sidebarImage}
             />
             <div className={styles.sidebarPlate}>
-              <span className={styles.plateTag}>CONCEPTUAL DOSSIER · BENGALURU</span>
+              <span className={styles.plateTag}>CONCEPTUAL STUDY · NON-INVENTORY</span>
               <p className={styles.plateQuote}>
                 “Every acquisition begins with a quiet parameter definition—not an indiscriminate market broadcast.”
               </p>
@@ -108,7 +156,7 @@ export function Concept1Intake() {
           <div className={styles.directPhoneCard}>
             <span className={styles.phoneCardLabel}>Prefer direct conversation?</span>
             <p className={styles.phoneCardDesc}>
-              Skip digital intake and discuss your mandate directly with our advisory desk.
+              Skip digital intake and discuss your mandate directly with our brokerage desk.
             </p>
             <a href={PRIMARY_PHONE_TEL} className={styles.phoneCardLink}>
               ☎ {PRIMARY_PHONE}
@@ -120,105 +168,138 @@ export function Concept1Intake() {
         <div className={styles.formColumn}>
           <div className={styles.headerBlock}>
             <div className={styles.dossierMeta}>
-              <span className={styles.dossierBadge}>ACQUISITION BRIEF</span>
+              <span className={styles.dossierBadge}>BUYER INTAKE</span>
               <span className={styles.stepCounter}>STEP {currentStep} OF 5</span>
             </div>
             <h1 id="intake-title" className={styles.formHeading}>
-              Commission a Bengaluru Property Brief
+              Share Your Purchase Requirement
             </h1>
             <p className={styles.formSub}>
-              Share your property parameters. We evaluate off-market opportunities and coordinate accompanied reviews.
+              Share your spatial and capital parameters. Our team evaluates off-market opportunities directly.
             </p>
           </div>
 
           {/* Progress Bar */}
-          <div className={styles.progressTrack} role="progressbar" aria-valuenow={currentStep} aria-valuemin={1} aria-valuemax={5}>
+          <div
+            className={styles.progressTrack}
+            role="progressbar"
+            aria-valuenow={currentStep}
+            aria-valuemin={1}
+            aria-valuemax={5}
+            aria-label="Form progress"
+          >
             <div className={styles.progressBar} style={{ width: `${(currentStep / 5) * 100}%` }} />
           </div>
 
           {submitted ? (
             <div className={styles.confirmationBox} role="alert">
-              <span className={styles.confirmBadge}>LOCAL PREVIEW RECEIPT</span>
-              <h2 className={styles.confirmTitle}>Acquisition Brief Formatted Successfully</h2>
+              <span className={styles.confirmBadge}>INTAKE ACKNOWLEDGED</span>
+              <h2 className={styles.confirmTitle}>Requirement Registered Successfully</h2>
               <p className={styles.confirmDesc}>
-                This is a local design demonstration of {CANONICAL_BRAND}’s stepped intake. In production, this record routes into an accountable lead queue with durable persistence.
+                Your purchase parameters have been logged in our advisory intake queue.
               </p>
+              <div className={styles.referenceBlock}>
+                <span className={styles.refLabel}>Advisory Reference Number:</span>
+                <strong className={styles.refValue}>{referenceId}</strong>
+              </div>
               <div className={styles.reviewSummary}>
                 <p><strong>Client:</strong> {formData.name} ({formData.phone})</p>
-                <p><strong>Asset:</strong> {formData.assetType}</p>
-                <p><strong>Localities:</strong> {formData.localities.join(', ')}</p>
-                <p><strong>Capital Range:</strong> {formData.budgetBand}</p>
-                <p><strong>Horizon:</strong> {formData.horizon}</p>
+                <p><strong>Typology:</strong> {formData.assetType || 'Open to Guidance'}</p>
+                <p><strong>Target Localities:</strong> {formData.localities.length ? formData.localities.join(', ') : 'Open to Guidance'}</p>
+                <p><strong>Capital Band:</strong> {formData.budgetBand || 'Open to Discussion'}</p>
+                <p><strong>Timeline:</strong> {formData.horizon || 'Flexible'}</p>
               </div>
+              <p className={styles.followupNote}>
+                Our team reviews submissions directly. For immediate priority consultation, call our desk directly at <a href={PRIMARY_PHONE_TEL} className={styles.inlinePhone}>{PRIMARY_PHONE}</a>.
+              </p>
               <button
                 type="button"
                 className={styles.resetButton}
                 onClick={() => {
                   setSubmitted(false);
                   setCurrentStep(1);
+                  setFormData({
+                    assetType: '',
+                    localities: [],
+                    budgetBand: '',
+                    horizon: '',
+                    name: '',
+                    phone: '',
+                    contactPreference: 'Phone Call',
+                    consent: false,
+                  });
                 }}
               >
-                Reset Intake Preview
+                Submit Another Requirement
               </button>
             </div>
           ) : (
             <form onSubmit={handleSubmit} noValidate>
+              {apiError && (
+                <div className={styles.apiErrorBox} role="alert">
+                  <span>{apiError}</span>
+                  <a href={PRIMARY_PHONE_TEL} className={styles.errorPhoneBtn}>
+                    ☎ Call {PRIMARY_PHONE}
+                  </a>
+                </div>
+              )}
+
               {/* STEP 1: ASSET TYPOLOGY */}
               {currentStep === 1 && (
                 <fieldset className={styles.fieldset}>
-                  <legend className={styles.legend}>01. Select Property Classification</legend>
-                  <p className={styles.stepPrompt}>What type of Bengaluru asset are you looking to acquire or lease?</p>
+                  <legend className={styles.legend}>01. Select Property Typology</legend>
+                  <p className={styles.stepPrompt}>What type of Bengaluru property are you looking to acquire?</p>
+                  {errors.assetType && <span className={styles.errorMsg} role="alert">{errors.assetType}</span>}
                   <div className={styles.optionsGrid}>
                     {[
-                      'Independent Villa / Bungalow',
-                      'Prime Penthouse / Luxury Apartment',
+                      'Independent House / Villa',
+                      'Gated Community Villa',
+                      'Prime Penthouse / Duplex',
+                      'Luxury Apartment',
                       'Residential Plot / Land Parcel',
-                      'Relocation / Open to Guidance',
+                      'Open to Guidance / Exploring',
                     ].map((type) => (
                       <button
                         key={type}
                         type="button"
-                        className={`${styles.selectCard} ${formData.assetType === type ? styles.selected : ''}`}
-                        onClick={() => setFormData({ ...formData, assetType: type })}
-                        aria-pressed={formData.assetType === type}
+                        className={`${styles.optionCard} ${formData.assetType === type ? styles.selectedOption : ''}`}
+                        onClick={() => {
+                          setFormData({ ...formData, assetType: type });
+                          setErrors({});
+                        }}
                       >
-                        <span className={styles.cardRadio} aria-hidden="true">
-                          {formData.assetType === type ? '●' : '○'}
-                        </span>
-                        <span className={styles.cardLabel}>{type}</span>
+                        <span className={styles.optionRadio}>{formData.assetType === type ? '●' : '○'}</span>
+                        <span className={styles.optionLabel}>{type}</span>
                       </button>
                     ))}
                   </div>
                 </fieldset>
               )}
 
-              {/* STEP 2: MICRO-MARKET GEOGRAPHY */}
+              {/* STEP 2: MICRO-MARKETS */}
               {currentStep === 2 && (
                 <fieldset className={styles.fieldset}>
-                  <legend className={styles.legend}>02. Target Micro-Markets</legend>
-                  <p className={styles.stepPrompt}>Select preferred areas or opt for advisory guidance.</p>
+                  <legend className={styles.legend}>02. Prime Bengaluru Micro-Markets</legend>
+                  <p className={styles.stepPrompt}>Select preferred areas (multiple selections supported, or leave open):</p>
                   <div className={styles.optionsGrid}>
                     {[
                       'Indiranagar / Old Airport Road',
-                      'Koramangala / HSR Layout',
-                      'Sadashivanagar / Central Heritage',
-                      'Hebbal / Bellary Road Corridor',
-                      'Whitefield / Outer Ring Road',
-                      'Open to Advisory Recommendation',
+                      'Koramangala & Surrounding Blocks',
+                      'Sadashivanagar / Palace Orchards',
+                      'North Bengaluru / Hebbal Corridor',
+                      'Whitefield / East Bengaluru',
+                      'Open to Recommendations',
                     ].map((loc) => {
-                      const isSel = formData.localities.includes(loc);
+                      const isSelected = formData.localities.includes(loc);
                       return (
                         <button
                           key={loc}
                           type="button"
-                          className={`${styles.selectCard} ${isSel ? styles.selected : ''}`}
+                          className={`${styles.optionCard} ${isSelected ? styles.selectedOption : ''}`}
                           onClick={() => toggleLocality(loc)}
-                          aria-pressed={isSel}
                         >
-                          <span className={styles.cardRadio} aria-hidden="true">
-                            {isSel ? '✓' : '+'}
-                          </span>
-                          <span className={styles.cardLabel}>{loc}</span>
+                          <span className={styles.optionRadio}>{isSelected ? '☑' : '☐'}</span>
+                          <span className={styles.optionLabel}>{loc}</span>
                         </button>
                       );
                     })}
@@ -226,107 +307,100 @@ export function Concept1Intake() {
                 </fieldset>
               )}
 
-              {/* STEP 3: CAPITAL & TIMELINE */}
+              {/* STEP 3: CAPITAL ALLOCATION */}
               {currentStep === 3 && (
                 <fieldset className={styles.fieldset}>
-                  <legend className={styles.legend}>03. Investment Horizon &amp; Budget Band</legend>
-                  
-                  <div className={styles.subGroup}>
-                    <label className={styles.fieldLabel}>Estimated Capital Deployment Band</label>
-                    <div className={styles.pillGrid}>
-                      {[
-                        '₹2.5 Cr – ₹5 Cr',
-                        '₹5 Cr – ₹10 Cr',
-                        '₹10 Cr – ₹20 Cr',
-                        '₹20 Cr+',
-                        'Discuss in Consultation',
-                      ].map((band) => (
-                        <button
-                          key={band}
-                          type="button"
-                          className={`${styles.pillBtn} ${formData.budgetBand === band ? styles.pillSelected : ''}`}
-                          onClick={() => setFormData({ ...formData, budgetBand: band })}
-                        >
-                          {band}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className={styles.subGroup} style={{ marginTop: '24px' }}>
-                    <label className={styles.fieldLabel}>Acquisition Timeline</label>
-                    <div className={styles.pillGrid}>
-                      {[
-                        'Immediate (< 60 Days)',
-                        '3 – 6 Months',
-                        '6 – 12 Months',
-                        'Long-term Horizon',
-                      ].map((h) => (
-                        <button
-                          key={h}
-                          type="button"
-                          className={`${styles.pillBtn} ${formData.horizon === h ? styles.pillSelected : ''}`}
-                          onClick={() => setFormData({ ...formData, horizon: h })}
-                        >
-                          {h}
-                        </button>
-                      ))}
-                    </div>
+                  <legend className={styles.legend}>03. Indicative Capital Allocation</legend>
+                  <p className={styles.stepPrompt}>Select an estimated budget range (optional / guidance available):</p>
+                  <div className={styles.optionsGrid}>
+                    {[
+                      'Under ₹2.5 Crore',
+                      '₹2.5 Crore – ₹5 Crore',
+                      '₹5 Crore – ₹10 Crore',
+                      '₹10 Crore – ₹20 Crore',
+                      '₹20 Crore+',
+                      'Open to Discussion / Guidance Needed',
+                    ].map((band) => (
+                      <button
+                        key={band}
+                        type="button"
+                        className={`${styles.optionCard} ${formData.budgetBand === band ? styles.selectedOption : ''}`}
+                        onClick={() => setFormData({ ...formData, budgetBand: band })}
+                      >
+                        <span className={styles.optionRadio}>{formData.budgetBand === band ? '●' : '○'}</span>
+                        <span className={styles.optionLabel}>{band}</span>
+                      </button>
+                    ))}
                   </div>
                 </fieldset>
               )}
 
-              {/* STEP 4: CONTACT & DPDP NOTICE */}
+              {/* STEP 4: TIMELINE & CONTACT DETAILS */}
               {currentStep === 4 && (
                 <fieldset className={styles.fieldset}>
-                  <legend className={styles.legend}>04. Consultation Contact Details</legend>
-                  <p className={styles.stepPrompt}>How should our brokerage team reach you to review the brief?</p>
+                  <legend className={styles.legend}>04. Timeline &amp; Contact Information</legend>
+                  <p className={styles.stepPrompt}>How should our brokerage team reach you to discuss matching opportunities?</p>
 
-                  <div className={styles.inputGroup}>
-                    <label htmlFor="c1-name" className={styles.inputLabel}>
-                      Full Name <span aria-hidden="true">*</span>
+                  <div className={styles.fieldGroup}>
+                    <label htmlFor="c1-horizon" className={styles.label}>
+                      Acquisition Timeline
+                    </label>
+                    <select
+                      id="c1-horizon"
+                      className={styles.select}
+                      value={formData.horizon}
+                      onChange={(e) => setFormData({ ...formData, horizon: e.target.value })}
+                    >
+                      <option value="">Select timeframe (or leave flexible)</option>
+                      <option value="Immediate (0–30 days)">Immediate (0–30 days)</option>
+                      <option value="1–3 Months">1–3 Months</option>
+                      <option value="3–6 Months">3–6 Months</option>
+                      <option value="Flexible / Exploring">Flexible / Exploring</option>
+                    </select>
+                  </div>
+
+                  <div className={styles.fieldGroup}>
+                    <label htmlFor="c1-name" className={styles.label}>
+                      Full Name *
                     </label>
                     <input
                       id="c1-name"
                       type="text"
-                      className={`${styles.textInput} ${errors.name ? styles.inputError : ''}`}
+                      className={`${styles.input} ${errors.name ? styles.inputError : ''}`}
+                      placeholder="e.g. Vikram Malhotra"
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      placeholder="e.g. Ramesh Basavaraj"
-                      autoComplete="name"
                       required
                     />
                     {errors.name && <span className={styles.errorMsg} role="alert">{errors.name}</span>}
                   </div>
 
-                  <div className={styles.inputGroup}>
-                    <label htmlFor="c1-phone" className={styles.inputLabel}>
-                      Telephone Number <span aria-hidden="true">*</span>
+                  <div className={styles.fieldGroup}>
+                    <label htmlFor="c1-phone" className={styles.label}>
+                      Telephone Number *
                     </label>
                     <input
                       id="c1-phone"
                       type="tel"
-                      className={`${styles.textInput} ${errors.phone ? styles.inputError : ''}`}
+                      className={`${styles.input} ${errors.phone ? styles.inputError : ''}`}
+                      placeholder="e.g. 9845012345"
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      placeholder="e.g. 9845012345"
-                      autoComplete="tel"
                       required
                     />
                     {errors.phone && <span className={styles.errorMsg} role="alert">{errors.phone}</span>}
+                    <span className={styles.fieldHelp}>Used solely for direct advisory follow-up. Zero telemarketing or lead resale.</span>
                   </div>
 
                   <div className={styles.consentGroup}>
-                    <label className={styles.consentLabel}>
+                    <label className={styles.checkboxLabel}>
                       <input
                         type="checkbox"
                         checked={formData.consent}
                         onChange={(e) => setFormData({ ...formData, consent: e.target.checked })}
-                        className={styles.checkbox}
-                        required
                       />
                       <span>
-                        I consent to {CANONICAL_BRAND} contacting me regarding this requirement in accordance with DPDP Act 2023 principles. No automated broadcasts or unrequested marketing.
+                        I consent to {CANONICAL_BRAND} storing and processing these details under Indian privacy principles solely for advisory communication.
                       </span>
                     </label>
                     {errors.consent && <span className={styles.errorMsg} role="alert">{errors.consent}</span>}
@@ -337,25 +411,27 @@ export function Concept1Intake() {
               {/* STEP 5: REVIEW SUMMARY */}
               {currentStep === 5 && (
                 <div className={styles.fieldset}>
-                  <legend className={styles.legend}>05. Review &amp; Confirm Brief</legend>
-                  <p className={styles.stepPrompt}>Please verify your parameters prior to transmitting to advisory queue.</p>
+                  <legend className={styles.legend}>05. Review &amp; Register Brief</legend>
+                  <p className={styles.stepPrompt}>Please verify your parameters prior to transmitting to our intake queue.</p>
 
                   <div className={styles.summaryCard}>
                     <div className={styles.summaryRow}>
-                      <span className={styles.sumKey}>Asset Class</span>
-                      <span className={styles.sumVal}>{formData.assetType}</span>
+                      <span className={styles.sumKey}>Typology</span>
+                      <span className={styles.sumVal}>{formData.assetType || 'Open to Guidance'}</span>
                     </div>
                     <div className={styles.summaryRow}>
                       <span className={styles.sumKey}>Target Localities</span>
-                      <span className={styles.sumVal}>{formData.localities.join(', ')}</span>
+                      <span className={styles.sumVal}>
+                        {formData.localities.length ? formData.localities.join(', ') : 'Open to Guidance'}
+                      </span>
                     </div>
                     <div className={styles.summaryRow}>
-                      <span className={styles.sumKey}>Capital Allocation</span>
-                      <span className={styles.sumVal}>{formData.budgetBand}</span>
+                      <span className={styles.sumKey}>Capital Band</span>
+                      <span className={styles.sumVal}>{formData.budgetBand || 'Open to Discussion'}</span>
                     </div>
                     <div className={styles.summaryRow}>
                       <span className={styles.sumKey}>Timeline</span>
-                      <span className={styles.sumVal}>{formData.horizon}</span>
+                      <span className={styles.sumVal}>{formData.horizon || 'Flexible'}</span>
                     </div>
                     <div className={styles.summaryRow}>
                       <span className={styles.sumKey}>Client Contact</span>
@@ -364,7 +440,7 @@ export function Concept1Intake() {
                   </div>
 
                   <p className={styles.submitNotice}>
-                    Submitting will dispatch this brief to our senior brokerage team. You can also contact us immediately at {PRIMARY_PHONE}.
+                    Submitting logs this brief into our advisory queue for desk review. You can also connect directly by calling {PRIMARY_PHONE}.
                   </p>
                 </div>
               )}
@@ -376,6 +452,7 @@ export function Concept1Intake() {
                     type="button"
                     className={styles.backBtn}
                     onClick={handleBack}
+                    disabled={isSubmitting}
                   >
                     ← Back
                   </button>
@@ -393,8 +470,9 @@ export function Concept1Intake() {
                   <button
                     type="submit"
                     className={styles.submitBtn}
+                    disabled={isSubmitting}
                   >
-                    Transmit Acquisition Brief →
+                    {isSubmitting ? 'Registering Brief...' : 'Transmit Requirement →'}
                   </button>
                 )}
               </div>

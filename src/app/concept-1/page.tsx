@@ -9,9 +9,13 @@ import { Concept1Methodology } from '@/components/Concept1/Concept1Methodology';
 import { Concept1Footer } from '@/components/Concept1/Concept1Footer';
 
 export const metadata: Metadata = {
-  title: `Concept 1: Garden City Modernism — ${CANONICAL_BRAND}`,
+  title: `[INTERNAL PREVIEW] Concept 1: Garden City Modernism — ${CANONICAL_BRAND}`,
   description:
-    'Visual Concept 1 for INSTLE REAL ESTATE: Architectural Dossier & Garden City Modernism. Human-led property advisory in Bengaluru.',
+    'Internal design review for INSTLE REAL ESTATE: Architectural Dossier & Garden City Modernism. For stakeholder evaluation only.',
+  robots: {
+    index: false,
+    follow: false,
+  },
 };
 
 export default function Concept1Page() {

@@ -9,9 +9,13 @@ import { Concept2Methodology } from '@/components/Concept2/Concept2Methodology';
 import { Concept2Footer } from '@/components/Concept2/Concept2Footer';
 
 export const metadata: Metadata = {
-  title: `Concept 2: Metropolitan Monolith — ${CANONICAL_BRAND}`,
+  title: `[INTERNAL PREVIEW] Concept 2: Metropolitan Monolith — ${CANONICAL_BRAND}`,
   description:
-    'Visual Concept 2 for INSTLE REAL ESTATE: Bengaluru Metropolitan Monolith & Precision Console. High-precision brokerage advisory.',
+    'Internal design review for INSTLE REAL ESTATE Concept 2: Metropolitan Monolith & Quantitative Advisory. For stakeholder evaluation only.',
+  robots: {
+    index: false,
+    follow: false,
+  },
 };
 
 export default function Concept2Page() {

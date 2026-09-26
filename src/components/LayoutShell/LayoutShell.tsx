@@ -15,8 +15,12 @@ export function LayoutShell({ children }: { children: React.ReactNode }) {
 
   return (
     <>
-      <ConceptSwitcher />
-      {!isConceptRoute ? (
+      {isConceptRoute ? (
+        <>
+          <ConceptSwitcher />
+          {children}
+        </>
+      ) : (
         <>
           <Header />
           <main id="main-content" tabIndex={-1}>
@@ -24,8 +28,6 @@ export function LayoutShell({ children }: { children: React.ReactNode }) {
           </main>
           <Footer />
         </>
-      ) : (
-        children
       )}
     </>
   );

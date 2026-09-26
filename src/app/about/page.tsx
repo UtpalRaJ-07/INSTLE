@@ -57,12 +57,12 @@ export default function AboutPage() {
             </div>
           </div>
 
-          {/* Holding Note for Team & Entity Details per D-01 / D-02 */}
+          {/* Corporate Profile Note */}
           <div className={styles.holdingNote}>
-            <span className={styles.noteTag}>GOVERNANCE DISCLOSURE // BLUEPRINT D-01 &amp; D-02</span>
-            <h4 className={styles.noteTitle}>Corporate Identity &amp; Leadership Disclosures</h4>
+            <span className={styles.noteTag}>CORPORATE GOVERNANCE</span>
+            <h4 className={styles.noteTitle}>Brokerage Mandate &amp; Professional Standards</h4>
             <p className={styles.noteText}>
-              In accordance with blueprint governance rules (D-01 and D-02), formal corporate trading-name registrations, counsel clearance logs, and executive biographical entries remain held pending final verification. For all immediate operational inquiries, our primary brokerage desk is contactable directly at {PRIMARY_PHONE}.
+              {CANONICAL_BRAND} operates as a human-led residential real estate brokerage and advisory practice in Bengaluru. Formal statutory disclosures and credentials are coordinated in accordance with applicable regulatory frameworks and are available upon formal client engagement. For all direct consultations, contact our central brokerage desk at {PRIMARY_PHONE}.
             </p>
           </div>
 

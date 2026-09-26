@@ -7,7 +7,7 @@ import styles from './contact.module.css';
 export const metadata: Metadata = {
   title: `Contact Advisory Desk — ${CANONICAL_BRAND}`,
   description:
-    'Direct telephone and digital communication with INSTLE REAL ESTATE in Bengaluru. Connect at 9353096264 for acquisition briefs and owner mandates.',
+    'Direct telephone and digital communication with INSTLE REAL ESTATE in Bengaluru. Connect at 9353096264 for property advisory and client representation.',
 };
 
 export default function ContactPage() {
@@ -20,7 +20,7 @@ export default function ContactPage() {
             Connect with {CANONICAL_BRAND}
           </h1>
           <p className={styles.lead}>
-            To discuss property requirements or owner representation in Bengaluru, connect directly with our brokerage team by telephone or submit a tailored digital brief.
+            To discuss property requirements or owner representation in Bengaluru, connect directly with our brokerage team by telephone or share a tailored digital brief.
           </p>
         </div>
       </section>
@@ -33,46 +33,46 @@ export default function ContactPage() {
               <span className={styles.boxTag}>DIRECT TELEPHONE DESK</span>
               <h2 className={styles.phoneHeading}>Voice Consultation</h2>
               <p className={styles.boxText}>
-                Speak directly with an assigned member of our brokerage team for immediate guidance regarding Bengaluru micro-markets.
+                Speak directly with a member of our brokerage team for guidance regarding Bengaluru residential micro-markets.
               </p>
               <a href={PRIMARY_PHONE_TEL} className={styles.bigPhoneLink}>
                 ☎ {PRIMARY_PHONE}
               </a>
               <div className={styles.hoursMeta}>
-                <span>Operational Hours: Monday – Saturday, 09:30 – 18:30 IST</span>
-                <span>Location Coverage: Bengaluru Metropolitan Region</span>
+                <span>Desk Connection: Direct phone access to brokerage team</span>
+                <span>Focus Areas: Indiranagar, Koramangala, Sadashivanagar &amp; North Bengaluru</span>
               </div>
             </div>
 
             {/* Digital Briefs Box */}
             <div className={styles.briefBox}>
-              <span className={styles.boxTag}>DIGITAL INTAKE TRACKS</span>
-              <h2 className={styles.boxHeading}>Structured Requirements</h2>
+              <span className={styles.boxTag}>DIGITAL REQUIREMENT INTAKE</span>
+              <h2 className={styles.boxHeading}>Share Your Requirement</h2>
               <p className={styles.boxText}>
-                Prefer to share spatial and capital parameters online before a phone consultation? Select the appropriate pathway:
+                Prefer to outline spatial and capital parameters online before a phone consultation? Select your service pathway:
               </p>
 
               <div className={styles.trackList}>
                 <Link href="/buy" className={styles.trackLink}>
                   <div className={styles.trackInfo}>
-                    <strong>Commission Acquisition Brief</strong>
-                    <span>Independent homes, luxury residences &amp; land parcels</span>
+                    <strong>Buy a Home</strong>
+                    <span>Independent residences, boutique apartments &amp; plots</span>
                   </div>
                   <span className={styles.arrow} aria-hidden="true">→</span>
                 </Link>
 
                 <Link href="/rent" className={styles.trackLink}>
                   <div className={styles.trackInfo}>
-                    <strong>Prime Tenancy Brief</strong>
-                    <span>Executive leasing and corporate relocation</span>
+                    <strong>Rent a Residence</strong>
+                    <span>Executive leasing and corporate tenancy advisory</span>
                   </div>
                   <span className={styles.arrow} aria-hidden="true">→</span>
                 </Link>
 
                 <Link href="/sell" className={styles.trackLink}>
                   <div className={styles.trackInfo}>
-                    <strong>Owner Representation Mandate</strong>
-                    <span>Discreet sale and landlord leasing representation</span>
+                    <strong>Sell or Lease Property</strong>
+                    <span>Discreet representation for property owners and landlords</span>
                   </div>
                   <span className={styles.arrow} aria-hidden="true">→</span>
                 </Link>
@@ -84,7 +84,10 @@ export default function ContactPage() {
           <div className={styles.boundaryCard}>
             <h3 className={styles.boundaryTitle}>Communications &amp; Privacy Boundary</h3>
             <p className={styles.boundaryText}>
-              In accordance with the India DPDP Act 2023, personal data shared during phone calls or digital briefs is utilized strictly for direct brokerage communication by {CANONICAL_BRAND}. We do not operate unsolicited telemarketing, automated promotional robocalls, or third-party lead distribution networks.
+              In accordance with Indian privacy principles (DPDP Act 2023), personal contact details shared during phone consultations or digital briefs are utilized solely for direct advisory communication by {CANONICAL_BRAND}. We do not operate unsolicited telemarketing, automated promotional calls, or third-party lead resale.
+            </p>
+            <p className={styles.boundarySubtext}>
+              * Physical consultations are scheduled by prior appointment. Corporate address disclosures are maintained in accordance with applicable statutory registration filings.
             </p>
           </div>
         </div>

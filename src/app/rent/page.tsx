@@ -1,13 +1,13 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import { CANONICAL_BRAND, PRIMARY_PHONE, PRIMARY_PHONE_TEL } from '@/config/constants';
-import { Concept1Intake } from '@/components/Concept1/Concept1Intake';
+import { RentalIntake } from '@/components/RentalIntake/RentalIntake';
 import styles from './rent.module.css';
 
 export const metadata: Metadata = {
-  title: `Prime Residential Tenancy Advisory — ${CANONICAL_BRAND}`,
+  title: `Residential Tenancies — ${CANONICAL_BRAND}`,
   description:
-    'Executive tenancy representation in Bengaluru. Connect directly with our advisory desk at 9353096264 for curated homes and executive residences.',
+    'Executive tenancy advisory in Bengaluru. Connect directly with our advisory desk at 9353096264 for high-specification residences and private leasing representation.',
 };
 
 export default function RentPage() {
@@ -25,12 +25,12 @@ export default function RentPage() {
             Curated Residential Tenancies in Bengaluru
           </h1>
           <p className={styles.lead}>
-            We assist corporate executives, leaders, and relocating families in securing high-specification residences across Bengaluru’s established residential enclaves. Direct landlord communication and verified lease terms.
+            We assist corporate executives, leaders, and relocating families in securing high-specification residences across Bengaluru’s established residential enclaves. Direct landlord communication and transparent lease terms.
           </p>
         </div>
       </section>
 
-      <Concept1Intake />
+      <RentalIntake />
 
       <section className={styles.serviceSection} aria-labelledby="tenancy-standards-title">
         <div className={styles.container}>
@@ -45,15 +45,15 @@ export default function RentPage() {
               </p>
             </div>
             <div className={styles.standardCard}>
-              <h3 className={styles.cardHeading}>Lease Agreement Governance</h3>
+              <h3 className={styles.cardHeading}>Lease Terms Review</h3>
               <p className={styles.cardText}>
-                We assist in structuring fair lease terms, maintenance protocols, deposit schedules, and move-in conditions before commitment.
+                We assist in structuring clear lease terms, maintenance protocols, deposit schedules, and move-in conditions before commitment.
               </p>
             </div>
             <div className={styles.standardCard}>
-              <h3 className={styles.cardHeading}>Human Follow-Up</h3>
+              <h3 className={styles.cardHeading}>Direct Coordination</h3>
               <p className={styles.cardText}>
-                Every brief receives personal attention from an assigned team member. Call {PRIMARY_PHONE} for immediate consultation.
+                Every requirement receives direct attention from our brokerage team. Call {PRIMARY_PHONE} for immediate consultation.
               </p>
             </div>
           </div>

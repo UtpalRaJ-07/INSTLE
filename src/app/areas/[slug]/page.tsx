@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { CANONICAL_BRAND, PRIMARY_PHONE, PRIMARY_PHONE_TEL } from '@/config/constants';
-import { VERIFIED_LOCALITIES } from '@/config/localities';
+import { getPublishedLocalities, getPublishedLocalityBySlug } from '@/config/localities';
 import styles from './locality.module.css';
 
 interface LocalityPageProps {
@@ -11,25 +11,25 @@ interface LocalityPageProps {
 }
 
 export async function generateStaticParams() {
-  return VERIFIED_LOCALITIES.map((loc) => ({
+  return getPublishedLocalities().map((loc) => ({
     slug: loc.slug,
   }));
 }
 
 export async function generateMetadata({ params }: LocalityPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const locality = VERIFIED_LOCALITIES.find((l) => l.slug === slug);
+  const locality = getPublishedLocalityBySlug(slug);
   if (!locality) return { title: `Locality Not Found — ${CANONICAL_BRAND}` };
 
   return {
     title: `${locality.name} Property Advisory — ${CANONICAL_BRAND}`,
-    description: `Verified micro-market intelligence for ${locality.name}, Bengaluru. Transit reality, zoning parameters, and bespoke acquisition advisory.`,
+    description: `Micro-market intelligence for ${locality.name}, Bengaluru. Transit infrastructure, zoning parameters, and bespoke client advisory.`,
   };
 }
 
 export default async function LocalityPage({ params }: LocalityPageProps) {
   const { slug } = await params;
-  const locality = VERIFIED_LOCALITIES.find((l) => l.slug === slug);
+  const locality = getPublishedLocalityBySlug(slug);
 
   if (!locality) {
     notFound();
@@ -49,7 +49,7 @@ export default async function LocalityPage({ params }: LocalityPageProps) {
           <div className={styles.metaRow}>
             <span className={styles.kicker}>{locality.quadrant}</span>
             <span className={styles.zoneBadge}>{locality.bbmpZone}</span>
-            <span className={styles.gateBadge}>VERIFIED: {locality.reviewDate}</span>
+            <span className={styles.gateBadge}>Reviewed: {locality.lastReviewedAt}</span>
           </div>
 
           <h1 id="loc-title" className={styles.heading}>
@@ -62,31 +62,32 @@ export default async function LocalityPage({ params }: LocalityPageProps) {
         </div>
       </section>
 
-      {/* Main Analysis Body */}
-      <div className={styles.container}>
-        <div className={styles.contentLayout}>
-          <div className={styles.mainColumn}>
-            {/* Transit Infrastructure Breakdown */}
+      {/* Main Body Dossier */}
+      <div className={styles.dossierContainer}>
+        <div className={styles.twoColumnGrid}>
+          {/* Main Intelligence Column */}
+          <div className={styles.intelColumn}>
+            {/* Transit Infrastructure Realities */}
             <section className={styles.sectionBlock} aria-labelledby="transit-heading">
               <h2 id="transit-heading" className={styles.subHeading}>
-                Transit &amp; Municipal Infrastructure
+                Transit &amp; Arterial Road Reality
               </h2>
-              <div className={styles.infraGrid}>
-                <div className={styles.infraCard}>
-                  <span className={styles.infraStatus}>OPERATIONAL TRANSIT</span>
-                  <p className={styles.infraText}>{locality.transitOperational}</p>
+              <div className={styles.factCard}>
+                <div className={styles.factRow}>
+                  <strong className={styles.factKey}>Operational Transit:</strong>
+                  <span>{locality.transitOperational}</span>
                 </div>
-                <div className={styles.infraCard}>
-                  <span className={styles.infraStatus}>UNDER CONSTRUCTION / PLANNED</span>
-                  <p className={styles.infraText}>{locality.transitPlanned}</p>
+                <div className={styles.factRow}>
+                  <strong className={styles.factKey}>Under Construction / Planned:</strong>
+                  <span>{locality.transitPlanned}</span>
                 </div>
               </div>
             </section>
 
-            {/* Typical Residential Profile */}
-            <section className={styles.sectionBlock} aria-labelledby="profile-heading">
-              <h2 id="profile-heading" className={styles.subHeading}>
-                Residential Character &amp; Asset Typology
+            {/* Residential Typologies */}
+            <section className={styles.sectionBlock} aria-labelledby="typology-heading">
+              <h2 id="typology-heading" className={styles.subHeading}>
+                Prevalent Residential Typologies
               </h2>
               <p className={styles.bodyText}>
                 {locality.typicalResidentialTypology}
@@ -96,49 +97,54 @@ export default async function LocalityPage({ params }: LocalityPageProps) {
             {/* Advisory Focus */}
             <section className={styles.sectionBlock} aria-labelledby="focus-heading">
               <h2 id="focus-heading" className={styles.subHeading}>
-                INSTLE Brokerage Diligence in {locality.name}
+                Advisory Guidance in {locality.name}
               </h2>
               <p className={styles.bodyText}>
                 {locality.advisoryFocus}
               </p>
             </section>
 
-            {/* Two-Source Claim Gate Register */}
+            {/* Citations & Municipal References */}
             <section className={styles.sourceSection} aria-labelledby="sources-heading">
               <h3 id="sources-heading" className={styles.sourceHeading}>
-                Authoritative Sources &amp; Governance
+                Authoritative Sources &amp; Municipal Citations
               </h3>
               <ul className={styles.sourceList}>
-                {locality.sources.map((s, idx) => (
+                {locality.citations.map((c, idx) => (
                   <li key={idx} className={styles.sourceItem}>
-                    <strong>Source {idx + 1}:</strong> {s.title} ({s.ref})
+                    <strong>Claim {idx + 1}:</strong> {c.claim}
+                    <div className={styles.sourceCiteMeta}>
+                      <span>Source: {c.sourceName}</span>
+                      <span>·</span>
+                      <span>Reference: {c.referenceUrlOrDoc}</span>
+                    </div>
                   </li>
                 ))}
               </ul>
               <p className={styles.disclaimerText}>
-                * All locality observations comply with the two-source claim gate. No unconfirmed commercial timelines or speculative market price trends are published.
+                * Published observations are cross-referenced with public municipal and transit records. No speculative pricing or unverified development dates are published.
               </p>
             </section>
           </div>
 
-          {/* Sticky Sidebar CTA */}
+          {/* Sidebar CTA */}
           <aside className={styles.sidebarColumn} aria-label="Engage Advisory">
             <div className={styles.ctaBox}>
               <span className={styles.ctaBadge}>LOCALITY CONSULTATION</span>
               <h3 className={styles.ctaTitle}>
-                Commission an Acquisition Brief for {locality.name}
+                Discuss Property in {locality.name}
               </h3>
               <p className={styles.ctaDesc}>
-                Looking for an independent home, apartment, or plot in this enclave? Our team evaluates off-market opportunities directly.
+                Seeking an independent house, apartment, or plot in this micro-market? Connect with our desk directly or submit your requirement.
               </p>
               <Link
                 href={`/buy?locality=${locality.slug}`}
                 className={styles.primaryAction}
               >
-                Begin Acquisition Brief →
+                Share Buyer Requirement →
               </Link>
               <div className={styles.phoneDivider}>
-                <span>OR SPEAK TO A BROKER DIRECTLY:</span>
+                <span>OR TELEPHONE DIRECTLY:</span>
                 <a href={PRIMARY_PHONE_TEL} className={styles.phoneBtn}>
                   ☎ {PRIMARY_PHONE}
                 </a>

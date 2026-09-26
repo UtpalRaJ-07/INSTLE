@@ -10,12 +10,64 @@ export function Concept1Hero() {
   return (
     <section className={styles.heroSection} aria-labelledby="c1-hero-title">
       <div className={styles.container}>
-        {/* Left/Top: Architectural Fine Media Composition */}
+        {/* Left / Top on Mobile: Editorial Content Column */}
+        <div className={styles.contentColumn}>
+          <div className={styles.dossierBadge}>
+            <span className={styles.dossierNum}>BENGALURU</span>
+            <span className={styles.dossierDivider} aria-hidden="true" />
+            <span className={styles.dossierType}>PROPERTY ADVISORY &amp; BROKERAGE</span>
+          </div>
+
+          <h1 id="c1-hero-title" className={styles.heroTitle}>
+            Property Advisory &amp; Brokerage in Bengaluru
+          </h1>
+
+          <p className={styles.heroSummary}>
+            Direct advisory, ground diligence, and private brokerage for buyers, tenants, and property owners across Bengaluru’s prime residential enclaves. No public listings; purely dedicated client representation.
+          </p>
+
+          {/* Quick Dual Action Group */}
+          <div className={styles.actionGroup}>
+            <Link href="/buy" className={styles.primaryAction}>
+              <span>Share Requirement</span>
+              <span className={styles.arrow} aria-hidden="true">→</span>
+            </Link>
+
+            <a href={PRIMARY_PHONE_TEL} className={styles.phoneAction}>
+              <span>☎ Call {PRIMARY_PHONE}</span>
+            </a>
+          </div>
+
+          {/* Secondary Intent Links */}
+          <div className={styles.intentRow}>
+            <span className={styles.intentLabel}>Direct Services:</span>
+            <Link href="/buy" className={styles.intentLink}>Buy</Link>
+            <span className={styles.intentDivider}>·</span>
+            <Link href="/rent" className={styles.intentLink}>Rent</Link>
+            <span className={styles.intentDivider}>·</span>
+            <Link href="/sell" className={styles.intentLink}>Sell / Lease</Link>
+            <span className={styles.intentDivider}>·</span>
+            <Link href="/areas" className={styles.intentLink}>Localities</Link>
+          </div>
+
+          {/* Direct Phone Line */}
+          <div className={styles.phoneTouchpoint}>
+            <div className={styles.phoneMeta}>
+              <span className={styles.phoneLabel}>Advisory Desk Telephone:</span>
+            </div>
+            <a href={PRIMARY_PHONE_TEL} className={styles.phoneLink}>
+              {PRIMARY_PHONE}
+            </a>
+            <span className={styles.phoneSubtext}>Direct connection to an accountable brokerage team member</span>
+          </div>
+        </div>
+
+        {/* Right / Beneath on Mobile: Architectural Conceptual Media */}
         <div className={styles.mediaColumn}>
           <div className={styles.imageFrame}>
             <Image
               src="/media/concept1-garden-modernism.jpg"
-              alt="Architectural study of a contemporary residence in Bengaluru surrounded by raintrees and stone reflection pool"
+              alt="Conceptual architectural rendering exploring modern Bengaluru residential design principles with stone and garden elements"
               width={1600}
               height={900}
               priority
@@ -24,55 +76,14 @@ export function Concept1Hero() {
             <div className={styles.imageOverlay}>
               <div className={styles.imageTag}>
                 <span className={styles.tagDot} aria-hidden="true" />
-                <span>ARCHITECTURAL SANCTUARY · BENGALURU</span>
+                <span>ARCHITECTURAL STUDY · CONCEPTUAL</span>
               </div>
-              <span className={styles.imageCoordinate}>12°58′N 77°35′E</span>
+              <span className={styles.studyBadge}>NON-INVENTORY</span>
             </div>
           </div>
           <p className={styles.mediaCaption}>
-            Conceptual architectural atmosphere representing Bengaluru modernism (Sadahalli granite, teak louvers, and raintree canopy). Non-inventory editorial reference.
+            Conceptual architectural rendering illustrating stone and courtyard elements in Bengaluru. Prototype design study; not an authentic location photograph.
           </p>
-        </div>
-
-        {/* Right/Bottom: Editorial Dossier Card */}
-        <div className={styles.contentColumn}>
-          <div className={styles.dossierBadge}>
-            <span className={styles.dossierNum}>DOSSIER NO. 01</span>
-            <span className={styles.dossierDivider} aria-hidden="true" />
-            <span className={styles.dossierType}>PROPERTY ADVISORY</span>
-          </div>
-
-          <h1 id="c1-hero-title" className={styles.heroTitle}>
-            Deliberate property advisory for acquisitions, tenancies, and owner representation.
-          </h1>
-
-          <p className={styles.heroSummary}>
-            We connect buyers, tenants, and property owners with a considered human advisory process—focused on Bengaluru’s mature enclaves and evolving growth belts. No public listings; purely dedicated representation.
-          </p>
-
-          {/* Quick Dual Action Group */}
-          <div className={styles.actionGroup}>
-            <Link href="/concept-1/intake" className={styles.primaryAction}>
-              <span>Commission Acquisition Brief</span>
-              <span className={styles.arrow} aria-hidden="true">→</span>
-            </Link>
-
-            <Link href="#owner-mandates" className={styles.secondaryAction}>
-              <span>Owner Representation</span>
-            </Link>
-          </div>
-
-          {/* Direct Phone Line */}
-          <div className={styles.phoneTouchpoint}>
-            <div className={styles.phoneMeta}>
-              <span className={styles.phoneIcon} aria-hidden="true">☎</span>
-              <span className={styles.phoneLabel}>Direct Telephone Consultation:</span>
-            </div>
-            <a href={PRIMARY_PHONE_TEL} className={styles.phoneLink}>
-              {PRIMARY_PHONE}
-            </a>
-            <span className={styles.phoneSubtext}>Human brokerage team available Mon–Sat 9:30–18:30 IST</span>
-          </div>
         </div>
       </div>
     </section>

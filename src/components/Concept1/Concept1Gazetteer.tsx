@@ -60,7 +60,7 @@ export function Concept1Gazetteer() {
         <div className={styles.header}>
           <div className={styles.metaRow}>
             <span className={styles.kicker}>MICRO-MARKET GAZETTEER</span>
-            <span className={styles.gateBadge}>TWO-SOURCE CLAIM GATE VERIFIED</span>
+            <span className={styles.gateBadge}>MUNICIPAL &amp; TRANSIT CITATIONS</span>
           </div>
           <h2 id="c1-gazetteer-title" className={styles.title}>
             Bengaluru micro-market intelligence. Context before commitment.
@@ -99,10 +99,10 @@ export function Concept1Gazetteer() {
               <div className={styles.rowAction}>
                 <span className={styles.sourceMeta}>{loc.sourceRef}</span>
                 <Link
-                  href={`/concept-1/intake?locality=${loc.id}`}
+                  href={`/areas/${loc.id}`}
                   className={styles.inquireLink}
                 >
-                  <span>Consult on this micro-market →</span>
+                  <span>View Enclave Profile →</span>
                 </Link>
               </div>
             </article>

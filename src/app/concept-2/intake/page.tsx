@@ -6,9 +6,13 @@ import { Concept2Intake } from '@/components/Concept2/Concept2Intake';
 import { Concept2Footer } from '@/components/Concept2/Concept2Footer';
 
 export const metadata: Metadata = {
-  title: `Requirements Console Preview — ${CANONICAL_BRAND} (Concept 2)`,
+  title: `[INTERNAL PREVIEW] Advisory Desk Console Preview — ${CANONICAL_BRAND} (Concept 2)`,
   description:
-    'Requirements Console preview for INSTLE REAL ESTATE Concept 2: Bengaluru Metropolitan Monolith.',
+    'Internal prototype: Institutional matrix intake preview for INSTLE REAL ESTATE Concept 2.',
+  robots: {
+    index: false,
+    follow: false,
+  },
 };
 
 export default function Concept2IntakePage() {

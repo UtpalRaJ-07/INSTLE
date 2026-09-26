@@ -56,8 +56,8 @@ export function Concept1Pillars() {
             </ul>
 
             <div className={styles.dossierAction}>
-              <Link href="/concept-1/intake" className={styles.dossierLink}>
-                <span>Initiate Acquisition Brief</span>
+              <Link href="/buy" className={styles.dossierLink}>
+                <span>Share Buyer Requirement</span>
                 <span className={styles.arrow} aria-hidden="true">→</span>
               </Link>
             </div>
@@ -85,8 +85,8 @@ export function Concept1Pillars() {
             </div>
 
             <div className={styles.dossierAction}>
-              <Link href="/concept-1/intake?intent=rent" className={styles.secondaryLink}>
-                <span>State Tenancy Requirement →</span>
+              <Link href="/rent" className={styles.secondaryLink}>
+                <span>Share Rental Requirement →</span>
               </Link>
             </div>
           </article>
@@ -113,8 +113,8 @@ export function Concept1Pillars() {
             </div>
 
             <div className={styles.dossierAction}>
-              <Link href="/concept-1#contact" className={styles.secondaryLink}>
-                <span>Request Owner Consultation →</span>
+              <Link href="/sell" className={styles.secondaryLink}>
+                <span>Represent Property →</span>
               </Link>
             </div>
           </article>

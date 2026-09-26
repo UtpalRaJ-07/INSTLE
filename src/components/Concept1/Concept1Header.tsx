@@ -16,12 +16,12 @@ export function Concept1Header() {
   const dialogRef = useRef<HTMLDivElement>(null);
 
   const navLinks = [
-    { label: 'Acquisitions', href: '/concept-1/intake' },
-    { label: 'Tenancies', href: '/concept-1#tenancies' },
-    { label: 'Owner Mandates', href: '/concept-1#owner-mandates' },
-    { label: 'Localities', href: '/concept-1#localities' },
-    { label: 'Methodology', href: '/concept-1#methodology' },
-    { label: 'Contact', href: '/concept-1#contact' },
+    { label: 'Buy', href: '/concept-1/intake' },
+    { label: 'Rent', href: '/rent' },
+    { label: 'Sell', href: '/sell' },
+    { label: 'Areas', href: '/areas' },
+    { label: 'How It Works', href: '/how-it-works' },
+    { label: 'Contact', href: '/contact' },
   ];
 
   // Mobile modal focus trap and escape handling

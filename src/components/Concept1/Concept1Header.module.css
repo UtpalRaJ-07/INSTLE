@@ -7,45 +7,22 @@
 }
 
 .topDatum {
-  background: var(--c1-surface-tint);
-  border-bottom: 1px solid var(--c1-border);
-  font-family: var(--font-sans);
-  font-size: 0.6875rem;
-  letter-spacing: 0.12em;
-  color: var(--c1-text-muted);
-  text-transform: uppercase;
-  padding: 6px 0;
+  display: none; /* Removed to keep header compact and avoid vertical bloat */
 }
 
 .topDatumInner {
-  max-width: var(--max-content-width);
-  margin: 0 auto;
-  padding: 0 var(--edge-padding);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.datumPhone {
-  color: var(--c1-forest);
-  font-weight: 600;
-  text-decoration: none;
-}
-
-.datumPhone:hover {
-  text-decoration: underline;
+  display: none;
 }
 
 .mainNav {
   max-width: var(--max-content-width);
   margin: 0 auto;
-  padding: 20px var(--edge-padding);
+  padding: 12px var(--edge-padding);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 24px;
+  gap: 20px;
+  min-height: 64px;
 }
 
 .brandGroup {
@@ -61,9 +38,9 @@
 
 .brandTitle {
   font-family: var(--c1-font-serif);
-  font-size: clamp(1.35rem, 2.2vw, 1.85rem);
+  font-size: clamp(1.15rem, 1.8vw, 1.45rem);
   font-weight: 600;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.12em;
   color: var(--c1-forest);
   text-transform: uppercase;
   line-height: 1.1;
@@ -71,11 +48,11 @@
 
 .brandSubtitle {
   font-family: var(--font-sans);
-  font-size: 0.625rem;
-  letter-spacing: 0.22em;
+  font-size: 0.5625rem;
+  letter-spacing: 0.18em;
   color: var(--c1-text-muted);
   text-transform: uppercase;
-  margin-top: 4px;
+  margin-top: 2px;
 }
 
 .desktopNav {

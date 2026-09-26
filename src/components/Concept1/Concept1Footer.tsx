@@ -33,18 +33,18 @@ export function Concept1Footer() {
               <span className={styles.colTitle}>SERVICES</span>
               <ul className={styles.linkList}>
                 <li>
-                  <Link href="/concept-1/intake" className={styles.link}>
-                    Acquisition Brief
+                  <Link href="/buy" className={styles.link}>
+                    Buy a Home
                   </Link>
                 </li>
                 <li>
-                  <Link href="/concept-1#tenancies" className={styles.link}>
-                    Prime Tenancies
+                  <Link href="/rent" className={styles.link}>
+                    Rent a Residence
                   </Link>
                 </li>
                 <li>
-                  <Link href="/concept-1#owner-mandates" className={styles.link}>
-                    Owner Representation
+                  <Link href="/sell" className={styles.link}>
+                    Sell / Lease Property
                   </Link>
                 </li>
               </ul>
@@ -54,22 +54,22 @@ export function Concept1Footer() {
               <span className={styles.colTitle}>LOCALITIES</span>
               <ul className={styles.linkList}>
                 <li>
-                  <Link href="/concept-1#localities" className={styles.link}>
+                  <Link href="/areas/indiranagar" className={styles.link}>
                     Indiranagar
                   </Link>
                 </li>
                 <li>
-                  <Link href="/concept-1#localities" className={styles.link}>
+                  <Link href="/areas/koramangala" className={styles.link}>
                     Koramangala
                   </Link>
                 </li>
                 <li>
-                  <Link href="/concept-1#localities" className={styles.link}>
+                  <Link href="/areas/sadashivanagar" className={styles.link}>
                     Sadashivanagar
                   </Link>
                 </li>
                 <li>
-                  <Link href="/concept-1#localities" className={styles.link}>
+                  <Link href="/areas/north-bengaluru" className={styles.link}>
                     North Bengaluru
                   </Link>
                 </li>
@@ -77,18 +77,25 @@ export function Concept1Footer() {
             </div>
 
             <div className={styles.linkCol}>
-              <span className={styles.colTitle}>GOVERNANCE</span>
+              <span className={styles.colTitle}>PRACTICE</span>
               <ul className={styles.linkList}>
                 <li>
-                  <Link href="/concept-1#methodology" className={styles.link}>
-                    Methodology
+                  <Link href="/how-it-works" className={styles.link}>
+                    How It Works
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/about" className={styles.link}>
+                    About
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/contact" className={styles.link}>
+                    Contact
                   </Link>
                 </li>
                 <li>
                   <span className={styles.statusMuted}>Domain: {DOMAIN_STATUS}</span>
-                </li>
-                <li>
-                  <span className={styles.statusMuted}>Data: DPDP 2023 Regulated</span>
                 </li>
               </ul>
             </div>
