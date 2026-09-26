@@ -112,6 +112,10 @@ describe('Brand & Contact Invariants (Strict Enforcement)', () => {
       'across the city',
       'viewing coordination',
       'accountable brokers',
+      'rental options',
+      'realistic options',
+      'commute patterns',
+      'local infrastructure',
     ];
 
     for (const phrase of forbiddenPhrases) {

@@ -26,9 +26,10 @@ export default function RentPage() {
           marginBottom: 'var(--space-6)',
         }}
       >
-        Share your rental timeline, preferred localities, and space requirements with {CANONICAL_BRAND}.
-        Our brokerage team assists tenants in reviewing realistic rental options and discussing
-        relevant next steps. To discuss your requirement, connect with our team directly by phone.
+        Tell {CANONICAL_BRAND} what you are looking for in a Bengaluru rental. Our brokerage
+        team assists tenants in clarifying priorities, understanding local trade-offs, and
+        discussing relevant next steps. To share your rental requirement, connect with our
+        team directly by phone.
       </p>
       <a
         href={PRIMARY_PHONE_TEL}

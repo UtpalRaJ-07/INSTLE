@@ -16,7 +16,7 @@ const INTENTS: IntentOption[] = [
     title: 'Buying Advisory',
     audience: 'Home & Site Seekers',
     description:
-      'Share your property parameters, timeline, and preferred areas to discuss purchasing options with the brokerage team.',
+      'Share your property parameters, timeline, and preferred areas to discuss your requirement directly with the brokerage team.',
     href: '/buy',
     ctaText: 'Discuss Buying Requirements',
   },
@@ -24,7 +24,7 @@ const INTENTS: IntentOption[] = [
     title: 'Rental Guidance',
     audience: 'Tenants & Relocations',
     description:
-      'Specify your move-in window, preferred localities, and furnishing requirements to discuss rental options directly with the team.',
+      'Specify your move-in window, preferred localities, and space requirements to discuss your rental requirement directly with the team.',
     href: '/rent',
     ctaText: 'Discuss Rental Guidance',
   },

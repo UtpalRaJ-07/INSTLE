@@ -23,7 +23,7 @@ export default function HomePage() {
           <p className={styles.lead}>
             Tell {CANONICAL_BRAND} what you are looking for; the team will understand the
             requirement and discuss relevant next steps. We assist in clarifying priorities,
-            evaluating local trade-offs, and discussing options directly with clients.
+            evaluating local trade-offs, and discussing next steps directly with clients.
           </p>
 
           <div className={styles.actions}>
@@ -62,12 +62,9 @@ export default function HomePage() {
             Navigating Bengaluru Property Decisions
           </h2>
           <p className={styles.geoDescription}>
-            Property decisions in Bengaluru involve navigating local trade-offs across commute
-            patterns, infrastructure, and evolving neighbourhood environments.
-          </p>
-          <p className={styles.geoDescription}>
-            Rather than browsing unverified listings, connect directly with our brokerage team to
-            discuss your preferred localities and understand realistic options.
+            Tell {CANONICAL_BRAND} which parts of Bengaluru you are considering. Our brokerage
+            team assists clients in discussing location preferences, clarifying priorities,
+            and understanding relevant next steps.
           </p>
           <div className={styles.geoActions}>
             <Link href="/contact" className={styles.geoLink}>

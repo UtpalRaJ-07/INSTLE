@@ -28,7 +28,7 @@ export default function BuyPage() {
       >
         Tell {CANONICAL_BRAND} what you are looking for in a Bengaluru property. Our brokerage
         team assists buyers in clarifying priorities, understanding local trade-offs, and
-        discussing realistic options. To share your requirement, connect with our team directly
+        discussing relevant next steps. To share your requirement, connect with our team directly
         by phone.
       </p>
       <a

@@ -5,13 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "next dev",
-    "prebuild": "node scripts/optimize-nomodule-polyfills.js",
     "build": "next build",
     "measure:js": "node scripts/measure-homepage-js.js",
     "start": "next start",
     "lint": "eslint .",
-    "test": "vitest run",
-    "postinstall": "node scripts/optimize-nomodule-polyfills.js"
+    "test": "vitest run"
   },
   "dependencies": {
     "next": "^16.3.6",

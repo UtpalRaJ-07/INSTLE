@@ -16,7 +16,7 @@ export default function AreasPage() {
         Bengaluru Geography
       </span>
       <h1 style={{ fontSize: 'var(--font-size-h1)', margin: 'var(--space-4) 0' }}>
-        Locality Context &amp; Guidance
+        Locality Advisory
       </h1>
       <p
         style={{
@@ -26,10 +26,9 @@ export default function AreasPage() {
           marginBottom: 'var(--space-6)',
         }}
       >
-        Navigating Bengaluru real estate involves understanding neighbourhood-specific trade-offs,
-        commute patterns, and local infrastructure. Rather than browsing unverified catalogues,
-        connect directly with our brokerage team to discuss your preferred localities and
-        explore suitable options.
+        Tell {CANONICAL_BRAND} which localities in Bengaluru you are considering. Our brokerage
+        team assists clients in clarifying location priorities and discussing relevant trade-offs.
+        To discuss specific areas with our team, connect with us directly by telephone.
       </p>
       <a
         href={PRIMARY_PHONE_TEL}
@@ -45,7 +44,7 @@ export default function AreasPage() {
           fontWeight: 600,
         }}
       >
-        <span aria-hidden="true">☎</span> Inquire About Bengaluru Corridors: {PRIMARY_PHONE}
+        <span aria-hidden="true">☎</span> Speak with Our Team: {PRIMARY_PHONE}
       </a>
     </div>
   );
