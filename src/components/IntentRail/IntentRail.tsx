@@ -16,25 +16,25 @@ const INTENTS: IntentOption[] = [
     title: 'Buying Advisory',
     audience: 'Home & Site Seekers',
     description:
-      'Share your property parameters, timeline, and preferred areas to discuss your requirement directly with the brokerage team.',
+      'Connect with our team by telephone to discuss your property parameters, timeline, and preferred areas in Bengaluru.',
     href: '/buy',
-    ctaText: 'Discuss Buying Requirements',
+    ctaText: 'View Buying Advisory Details',
   },
   {
     title: 'Rental Guidance',
     audience: 'Tenants & Relocations',
     description:
-      'Specify your move-in window, preferred localities, and space requirements to discuss your rental requirement directly with the team.',
+      'Connect with our team by telephone to discuss move-in timing, preferred localities, and rental space needs.',
     href: '/rent',
-    ctaText: 'Discuss Rental Guidance',
+    ctaText: 'View Rental Advisory Details',
   },
   {
     title: 'Owner Representation',
     audience: 'Sellers & Landlords',
     description:
-      'Share property basics to request a direct conversation with the brokerage team regarding representation and next steps.',
+      'Connect with our team by telephone to discuss property representation, parameters, and next steps.',
     href: '/sell',
-    ctaText: 'Discuss Your Property',
+    ctaText: 'View Owner Advisory Details',
   },
 ];
 
@@ -47,7 +47,7 @@ export const IntentRail: React.FC = () => {
           Select Your Property Objective
         </h2>
         <p className={styles.subtitle}>
-          Choose the pathway that matches your need, or speak directly with our team by telephone.
+          Choose an advisory pathway to review details, or speak directly with our team by telephone.
         </p>
       </div>
 

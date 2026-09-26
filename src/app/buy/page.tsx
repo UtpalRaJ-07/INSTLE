@@ -26,10 +26,9 @@ export default function BuyPage() {
           marginBottom: 'var(--space-6)',
         }}
       >
-        Tell {CANONICAL_BRAND} what you are looking for in a Bengaluru property. Our brokerage
-        team assists buyers in clarifying priorities, understanding local trade-offs, and
-        discussing relevant next steps. To share your requirement, connect with our team directly
-        by phone.
+        Buyers can call {CANONICAL_BRAND} directly at {PRIMARY_PHONE} to discuss property
+        requirements in Bengaluru. Our brokerage team assists buyers by phone in clarifying
+        priorities, evaluating local trade-offs, and discussing relevant next steps.
       </p>
       <a
         href={PRIMARY_PHONE_TEL}
@@ -45,7 +44,7 @@ export default function BuyPage() {
           fontWeight: 600,
         }}
       >
-        <span aria-hidden="true">☎</span> Speak with Our Team: {PRIMARY_PHONE}
+        <span aria-hidden="true">☎</span> Call Our Team: {PRIMARY_PHONE}
       </a>
     </div>
   );

@@ -26,9 +26,9 @@ export default function SellPage() {
           marginBottom: 'var(--space-6)',
         }}
       >
-        Property owners can share property basics to request a direct conversation with the
-        brokerage team. We discuss representation terms, property parameters, and realistic
-        next steps. To discuss your property, connect with our team by phone.
+        Property owners can call {CANONICAL_BRAND} directly at {PRIMARY_PHONE} to discuss
+        property representation in Bengaluru. Our brokerage team discusses representation terms,
+        property parameters, and realistic next steps by telephone.
       </p>
       <a
         href={PRIMARY_PHONE_TEL}
@@ -44,7 +44,7 @@ export default function SellPage() {
           fontWeight: 600,
         }}
       >
-        <span aria-hidden="true">☎</span> Contact Brokerage Team: {PRIMARY_PHONE}
+        <span aria-hidden="true">☎</span> Call Brokerage Team: {PRIMARY_PHONE}
       </a>
     </div>
   );

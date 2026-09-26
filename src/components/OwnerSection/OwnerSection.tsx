@@ -13,16 +13,16 @@ export const OwnerSection: React.FC = () => {
             Looking to Sell or Lease Property in Bengaluru?
           </h2>
           <p className={styles.description}>
-            {CANONICAL_BRAND} offers a direct way for property owners to share property basics and
-            request a conversation with the brokerage team to discuss representation and next steps.
+            {CANONICAL_BRAND} offers direct telephone consultation for property owners to discuss
+            property representation, parameters, and next steps with the brokerage team.
           </p>
           <div className={styles.actions}>
-            <Link href="/sell" className={styles.primaryLink}>
-              Discuss Your Property →
-            </Link>
-            <a href={PRIMARY_PHONE_TEL} className={styles.phoneLink}>
-              <span aria-hidden="true">☎</span> Speak with Brokerage: {PRIMARY_PHONE}
+            <a href={PRIMARY_PHONE_TEL} className={styles.primaryLink}>
+              <span aria-hidden="true">☎</span> Call Brokerage: {PRIMARY_PHONE}
             </a>
+            <Link href="/sell" className={styles.phoneLink}>
+              View Owner Advisory Details →
+            </Link>
           </div>
         </div>
       </div>

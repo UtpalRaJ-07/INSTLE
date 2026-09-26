@@ -116,6 +116,7 @@ describe('Brand & Contact Invariants (Strict Enforcement)', () => {
       'realistic options',
       'commute patterns',
       'local infrastructure',
+      'state your requirement',
     ];
 
     for (const phrase of forbiddenPhrases) {

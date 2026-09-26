@@ -29,6 +29,7 @@
     "typescript": "^5.7.0",
     "vitest": "^3.0.0"
   },
+  "// browserslist": "PROPOSED / OWNER CONFIRMATION REQUIRED: Target baseline pending owner approval; do not assume universal browser support",
   "browserslist": {
     "production": [
       "chrome >= 100",

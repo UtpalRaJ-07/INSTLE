@@ -7,7 +7,7 @@ export interface ArchitecturalGraphicProps {
 
 /**
  * ArchitecturalGraphic: A temporary architectural elevation study composition serving
- * as a design placeholder until the homepage's visual direction is reviewed.
+ * as a design placeholder awaiting owner visual review.
  * Avoids unverified photography while providing a restrained, architectural texture.
  */
 export const ArchitecturalGraphic: React.FC<ArchitecturalGraphicProps> = ({ className = '' }) => {

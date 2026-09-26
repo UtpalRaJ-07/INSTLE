@@ -21,25 +21,18 @@ export default function HomePage() {
             A considered approach to Bengaluru property decisions.
           </h1>
           <p className={styles.lead}>
-            Tell {CANONICAL_BRAND} what you are looking for; the team will understand the
-            requirement and discuss relevant next steps. We assist in clarifying priorities,
-            evaluating local trade-offs, and discussing next steps directly with clients.
+            Call {CANONICAL_BRAND} at {PRIMARY_PHONE} to discuss what you are looking for in a
+            Bengaluru property. Our brokerage team assists clients by telephone in clarifying
+            priorities, evaluating local trade-offs, and discussing relevant next steps.
           </p>
 
           <div className={styles.actions}>
-            <Link href="/buy" className={styles.primaryCta}>
-              State Your Requirement →
-            </Link>
-            <Link href="/sell" className={styles.secondaryCta}>
-              Discuss Your Property
-            </Link>
-          </div>
-
-          <div className={styles.directContactPrompt}>
-            <span>Prefer an immediate conversation?</span>{' '}
-            <a href={PRIMARY_PHONE_TEL} className={styles.phonePromptLink}>
-              Call {PRIMARY_PHONE}
+            <a href={PRIMARY_PHONE_TEL} className={styles.primaryCta}>
+              <span aria-hidden="true">☎</span> Call {PRIMARY_PHONE}
             </a>
+            <Link href="/contact" className={styles.secondaryCta}>
+              Advisory Contact Details
+            </Link>
           </div>
         </div>
 

@@ -4,11 +4,14 @@ import zlib from 'zlib';
 
 /**
  * Audits JavaScript assets referenced in the generated Next.js homepage HTML (.next/server/app/index.html).
- * Per web standards (HTML Living Standard § 4.12.1.2) and Browserslist targets:
- * - Supported browsers (Chrome >= 100, Firefox >= 100, Safari >= 15, Edge >= 100, iOS Safari >= 15)
- *   download module and standard scripts, and skip scripts with the "nomodule" attribute.
- * - This script separates modern browser transfer from legacy fallback (nomodule) scripts,
- *   and reports both the actual browser download size and the combined unseparated total.
+ *
+ * NOTE: Target Browserslist minimum versions (Chrome >= 100, Firefox >= 100, Safari >= 15,
+ * Edge >= 100, iOS Safari >= 15) are PROPOSED and REQUIRE OWNER CONFIRMATION.
+ * They do NOT represent universal browser support.
+ *
+ * The figures produced here are build-artifact gzip estimates based on static inspection
+ * of the generated HTML script tags. Actual browser cold-cache network verification in
+ * real Safari/iOS Safari and Firefox targets remains open.
  */
 const htmlPath = path.resolve('.next/server/app/index.html');
 const CEILING_GZIP_KB = 170.0;
@@ -87,7 +90,7 @@ function printSection(title, list) {
 
   console.log('-'.repeat(74));
   console.log(
-    'SUBTOTAL'.padEnd(50) +
+    'SUBTOTAL (ESTIMATE)'.padEnd(50) +
     `${rawKb} KB`.padStart(12) +
     `${gzipKb} KB`.padStart(12)
   );
@@ -101,16 +104,18 @@ console.log('='.repeat(74));
 console.log(`Target Ceiling:              <= ${CEILING_GZIP_KB.toFixed(2)} KB (Gzip)`);
 console.log(`Generated HTML File:         ${htmlPath}`);
 console.log(`Total <script src="...">:    ${downloadedScripts.length + skippedNomoduleScripts.length}`);
+console.log('Target Baseline:             PROPOSED (Owner Confirmation Required)');
+console.log('Measurement Method:          Build-Artifact Gzip Static Analysis Estimate');
 
-// 1. Downloaded in Supported Browsers
+// 1. Downloaded in Proposed Modern Browsers
 const modernStats = printSection(
-  '1. ACTUAL DOWNLOADS IN SUPPORTED BROWSERS (Modern Browserslist Target)',
+  '1. DOWNLOADED SCRIPTS (Proposed Modern Target — Estimate)',
   downloadedScripts
 );
 
 // 2. Skipped by Supported Browsers (nomodule fallback)
 const legacyStats = printSection(
-  '2. SKIPPED IN SUPPORTED BROWSERS (nomodule Fallback for Legacy Browsers)',
+  '2. SKIPPED SCRIPTS (nomodule Legacy Fallback — Ignored by Modern Browsers)',
   skippedNomoduleScripts
 );
 
@@ -127,9 +132,11 @@ const combinedPassed = parseFloat(combinedGzipKb) <= CEILING_GZIP_KB;
 const combinedOverage = (parseFloat(combinedGzipKb) - CEILING_GZIP_KB).toFixed(2);
 
 console.log('\n' + '='.repeat(74));
-console.log('SUMMARY EVALUATION');
+console.log('AUDIT SUMMARY & VERIFICATION STATUS');
 console.log('='.repeat(74));
-console.log(`Supported Browsers Actual Transfer:  ${modernStats.gzipKb} KB Gzip (${modernHeadroom} KB headroom) -> ${modernPassed ? 'PASS' : 'FAIL'}`);
-console.log(`Legacy nomodule Skipped Fallback:   ${legacyStats.gzipKb} KB Gzip`);
-console.log(`Combined Total (All HTML Scripts):   ${combinedGzipKb} KB Gzip (${combinedPassed ? 'PASS' : combinedOverage + ' KB over ceiling'})`);
+console.log(`Modern Target Build Estimate:  ${modernStats.gzipKb} KB Gzip (${modernHeadroom} KB headroom)`);
+console.log(`Browserslist Baseline Status:  PROPOSED (Requires Owner Confirmation)`);
+console.log(`Legacy nomodule Skipped Size:  ${legacyStats.gzipKb} KB Gzip`);
+console.log(`Combined Unseparated Size:    ${combinedGzipKb} KB Gzip (${combinedPassed ? 'PASS' : combinedOverage + ' KB over ceiling'})`);
+console.log(`Live Network Verification:     Chrome verified; Safari/Firefox cross-browser open`);
 console.log('='.repeat(74));

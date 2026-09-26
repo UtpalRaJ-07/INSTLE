@@ -26,9 +26,9 @@ export default function AreasPage() {
           marginBottom: 'var(--space-6)',
         }}
       >
-        Tell {CANONICAL_BRAND} which localities in Bengaluru you are considering. Our brokerage
-        team assists clients in clarifying location priorities and discussing relevant trade-offs.
-        To discuss specific areas with our team, connect with us directly by telephone.
+        Clients can call {CANONICAL_BRAND} directly at {PRIMARY_PHONE} to discuss preferred
+        Bengaluru localities. Our brokerage team assists clients by telephone in clarifying
+        location priorities and evaluating relevant trade-offs.
       </p>
       <a
         href={PRIMARY_PHONE_TEL}
@@ -44,7 +44,7 @@ export default function AreasPage() {
           fontWeight: 600,
         }}
       >
-        <span aria-hidden="true">☎</span> Speak with Our Team: {PRIMARY_PHONE}
+        <span aria-hidden="true">☎</span> Call Our Team: {PRIMARY_PHONE}
       </a>
     </div>
   );

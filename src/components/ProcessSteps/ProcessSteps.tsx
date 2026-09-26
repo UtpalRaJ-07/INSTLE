@@ -10,15 +10,15 @@ interface Step {
 const STEPS: Step[] = [
   {
     number: '01',
-    title: 'State Your Requirement',
+    title: 'Telephone Consultation',
     description:
-      'Share your property parameters, preferred localities, and timing through our service pathways or directly by telephone.',
+      'Call our team at 9353096264 to discuss your property parameters, preferred localities, and timeline.',
   },
   {
     number: '02',
-    title: 'Direct Conversation',
+    title: 'Clarify Priorities',
     description:
-      'Discuss your priorities, local trade-offs, and requirements directly with the brokerage team.',
+      'Discuss your priorities, local trade-offs, and requirement details directly with the brokerage team.',
   },
   {
     number: '03',
