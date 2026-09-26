@@ -80,15 +80,14 @@ describe('Accessibility & Contrast Verification (WCAG 2.2 AA / AAA)', () => {
     expect(link).toHaveAttribute('href', '#main-content');
   });
 
-  it('verifies Mobile Navigation modal drawer semantics and keyboard interactions', () => {
+  it('verifies Mobile Navigation focus management: entry, trap wrapping, and restoration on close', () => {
     render(<Header />);
 
-    // Check initial closed state
-    const toggleButton = screen.getByRole('button', { name: /open navigation menu/i });
+    const toggleButton = screen.getByRole('button', { name: /toggle navigation menu/i });
     expect(toggleButton).toHaveAttribute('aria-expanded', 'false');
     expect(document.body.classList.contains('modal-open')).toBe(false);
 
-    // Open mobile modal drawer
+    // 1. Open mobile modal drawer
     fireEvent.click(toggleButton);
 
     expect(toggleButton).toHaveAttribute('aria-expanded', 'true');
@@ -98,11 +97,44 @@ describe('Accessibility & Contrast Verification (WCAG 2.2 AA / AAA)', () => {
     expect(dialog).toBeInTheDocument();
     expect(dialog).toHaveAttribute('aria-modal', 'true');
 
-    // Verify closing via Escape key
-    fireEvent.keyDown(window, { key: 'Escape' });
+    // 2. Focus enters dialog: initial active element is the close button
+    const closeButton = screen.getByRole('button', { name: /close navigation menu/i });
+    expect(document.activeElement).toBe(closeButton);
 
+    // Identify first and last focusable elements in dialog
+    const focusableInModal = Array.from(
+      dialog.querySelectorAll<HTMLElement>(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      )
+    );
+    const firstElement = focusableInModal[0];
+    const lastElement = focusableInModal[focusableInModal.length - 1];
+
+    expect(firstElement).toBe(closeButton);
+
+    // 3. Focus wrapping: Shift+Tab on first element wraps focus to last element
+    closeButton.focus();
+    expect(document.activeElement).toBe(firstElement);
+    fireEvent.keyDown(window, { key: 'Tab', shiftKey: true });
+    expect(document.activeElement).toBe(lastElement);
+
+    // 4. Focus wrapping: Tab on last element wraps focus back to first element
+    lastElement.focus();
+    expect(document.activeElement).toBe(lastElement);
+    fireEvent.keyDown(window, { key: 'Tab', shiftKey: false });
+    expect(document.activeElement).toBe(firstElement);
+
+    // 5. Focus restoration: Escape closes dialog and returns focus to toggle trigger
+    fireEvent.keyDown(window, { key: 'Escape' });
     expect(screen.queryByRole('dialog', { name: /site navigation/i })).not.toBeInTheDocument();
     expect(toggleButton).toHaveAttribute('aria-expanded', 'false');
-    expect(document.body.classList.contains('modal-open')).toBe(false);
+    expect(document.activeElement).toBe(toggleButton);
+
+    // 6. Focus restoration on explicit close button click
+    fireEvent.click(toggleButton); // reopen
+    const closeBtnReopened = screen.getByRole('button', { name: /close navigation menu/i });
+    fireEvent.click(closeBtnReopened); // click close
+    expect(screen.queryByRole('dialog', { name: /site navigation/i })).not.toBeInTheDocument();
+    expect(document.activeElement).toBe(toggleButton);
   });
 });

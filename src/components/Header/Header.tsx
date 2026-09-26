@@ -12,14 +12,12 @@ export const Header: React.FC = () => {
   const modalRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
-  // Manage body scroll and focus when modal opens/closes
+  // Manage body scroll and initial focus shift when modal opens/closes
   useEffect(() => {
     if (isMenuOpen) {
       document.body.classList.add('modal-open');
-      // Shift focus to close button when opened
-      setTimeout(() => {
-        closeButtonRef.current?.focus();
-      }, 50);
+      // Direct focus shift to initial focusable control inside dialog
+      closeButtonRef.current?.focus();
     } else {
       document.body.classList.remove('modal-open');
     }
@@ -42,8 +40,10 @@ export const Header: React.FC = () => {
       }
 
       if (e.key === 'Tab' && modalRef.current) {
-        const focusableElements = modalRef.current.querySelectorAll<HTMLElement>(
-          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        const focusableElements = Array.from(
+          modalRef.current.querySelectorAll<HTMLElement>(
+            'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+          )
         );
 
         if (focusableElements.length === 0) return;
@@ -52,12 +52,12 @@ export const Header: React.FC = () => {
         const lastElement = focusableElements[focusableElements.length - 1];
 
         if (e.shiftKey) {
-          if (document.activeElement === firstElement) {
+          if (document.activeElement === firstElement || !modalRef.current.contains(document.activeElement)) {
             e.preventDefault();
             lastElement.focus();
           }
         } else {
-          if (document.activeElement === lastElement) {
+          if (document.activeElement === lastElement || !modalRef.current.contains(document.activeElement)) {
             e.preventDefault();
             firstElement.focus();
           }
@@ -113,7 +113,7 @@ export const Header: React.FC = () => {
             onClick={() => setIsMenuOpen((prev) => !prev)}
             aria-expanded={isMenuOpen}
             aria-controls="mobile-nav-modal"
-            aria-label={isMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+            aria-label="Toggle navigation menu"
           >
             <span className={styles.menuBar} />
             <span className={styles.menuBar} />
