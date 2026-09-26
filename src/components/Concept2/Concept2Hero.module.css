@@ -1,0 +1,272 @@
+.heroSection {
+  position: relative;
+  width: 100%;
+  min-height: 85vh;
+  display: flex;
+  align-items: center;
+  background: var(--c2-bg);
+  overflow: hidden;
+  padding: clamp(48px, 6vw, 96px) 0 clamp(40px, 5vw, 64px);
+  border-bottom: 1px solid var(--c2-border);
+}
+
+.canvasContainer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.canvasImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: brightness(0.45) contrast(1.1);
+}
+
+.canvasScrim {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 75% 30%, rgba(11, 14, 20, 0.4), var(--c2-bg) 90%),
+              linear-gradient(to top, var(--c2-bg) 0%, transparent 60%);
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: var(--max-content-width);
+  margin: 0 auto;
+  padding: 0 var(--edge-padding);
+  display: flex;
+  flex-direction: column;
+}
+
+.hudBadgeRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.hudTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(18, 24, 36, 0.85);
+  border: 1px solid var(--c2-border-strong);
+  padding: 5px 12px;
+  border-radius: 2px;
+  font-family: var(--c2-font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  color: #38BDF8;
+  backdrop-filter: blur(4px);
+}
+
+.hudDot {
+  width: 6px;
+  height: 6px;
+  background: #38BDF8;
+  box-shadow: 0 0 6px #38BDF8;
+}
+
+.hudMetric {
+  font-family: var(--c2-font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  color: var(--c2-text-muted);
+}
+
+.headlineBlock {
+  max-width: 900px;
+  margin-bottom: clamp(32px, 4vw, 48px);
+}
+
+.displayHeading {
+  font-family: var(--c2-font-display);
+  font-size: clamp(2.25rem, 4.2vw, 3.875rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: #FFFFFF;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+
+.leadParagraph {
+  font-family: var(--c2-font-body);
+  font-size: clamp(1rem, 1.25vw, 1.1875rem);
+  line-height: 1.6;
+  color: #CBD5E1;
+  max-width: 720px;
+}
+
+/* Console Card */
+.consoleCard {
+  background: rgba(18, 24, 36, 0.9);
+  border: 1px solid var(--c2-border-strong);
+  border-radius: 4px;
+  max-width: 820px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+}
+
+.consoleHeader {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--c2-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.consoleLabel {
+  font-family: var(--c2-font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  color: var(--c2-text-muted);
+}
+
+.consoleTabs {
+  display: flex;
+  gap: 8px;
+}
+
+.tabBtn {
+  font-family: var(--c2-font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  padding: 6px 12px;
+  border-radius: 2px;
+  color: var(--c2-text-muted);
+  background: transparent;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+
+.tabBtn:hover {
+  color: #FFFFFF;
+  border-color: var(--c2-border-strong);
+}
+
+.tabActive {
+  background: var(--c2-surface-elevated);
+  border-color: var(--c2-blue);
+  color: #FFFFFF;
+  font-weight: 600;
+}
+
+.consoleBody {
+  padding: clamp(20px, 3vw, 28px);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.intentPanel {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 24px;
+  align-items: center;
+}
+
+.panelText {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.panelTitle {
+  font-family: var(--c2-font-display);
+  font-size: 1.125rem;
+  color: #FFFFFF;
+  font-weight: 600;
+}
+
+.panelDesc {
+  font-family: var(--c2-font-body);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--c2-text-muted);
+}
+
+.launchBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--c2-blue);
+  color: #FFFFFF;
+  padding: 12px 20px;
+  font-family: var(--c2-font-display);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  border-radius: 2px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 150ms ease;
+  box-shadow: 0 0 16px var(--c2-blue-glow);
+}
+
+.launchBtn:hover {
+  background: #1D4ED8;
+  text-decoration: none;
+}
+
+.consoleFooter {
+  padding-top: 18px;
+  border-top: 1px solid var(--c2-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.phoneGroup {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.phoneLabel {
+  font-family: var(--c2-font-mono);
+  font-size: 0.6875rem;
+  color: var(--c2-text-muted);
+}
+
+.phoneVal {
+  font-family: var(--c2-font-mono);
+  font-size: 1rem;
+  font-weight: 700;
+  color: #38BDF8;
+  text-decoration: none;
+}
+
+.phoneVal:hover {
+  text-decoration: underline;
+}
+
+.hoursNotice {
+  font-family: var(--c2-font-mono);
+  font-size: 0.6875rem;
+  color: var(--c2-text-muted);
+}
+
+.assetCaption {
+  margin-top: 24px;
+  font-family: var(--c2-font-mono);
+  font-size: 0.625rem;
+  color: var(--c2-text-muted);
+  letter-spacing: 0.04em;
+}
+
+@media (max-width: 768px) {
+  .intentPanel {
+    grid-template-columns: 1fr;
+  }
+}

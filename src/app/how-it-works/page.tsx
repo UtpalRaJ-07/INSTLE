@@ -1,56 +1,83 @@
 import React from 'react';
+import type { Metadata } from 'next';
+import Link from 'next/link';
 import { CANONICAL_BRAND, PRIMARY_PHONE, PRIMARY_PHONE_TEL } from '@/config/constants';
-import { ProcessSteps } from '@/components/ProcessSteps/ProcessSteps';
+import { Concept1Methodology } from '@/components/Concept1/Concept1Methodology';
+import styles from './how-it-works.module.css';
+
+export const metadata: Metadata = {
+  title: `How ${CANONICAL_BRAND} Operates — Advisory Methodology`,
+  description:
+    'Our human-led brokerage methodology in Bengaluru. Learn how requirement intake, off-market research, and DPDP-compliant representation work.',
+};
 
 export default function HowItWorksPage() {
   return (
-    <div className="container" style={{ padding: 'var(--section-rhythm) 0' }}>
-      <span
-        style={{
-          fontSize: 'var(--font-size-label)',
-          fontWeight: 700,
-          letterSpacing: '0.15em',
-          textTransform: 'uppercase',
-          color: 'var(--color-forest)',
-        }}
-      >
-        Advisory Methodology
-      </span>
-      <h1 style={{ fontSize: 'var(--font-size-h1)', margin: 'var(--space-4) 0' }}>
-        How {CANONICAL_BRAND} Operates
-      </h1>
-      <p
-        style={{
-          fontSize: 'var(--font-size-body-large)',
-          color: 'var(--color-text-muted)',
-          maxWidth: 'var(--reading-measure)',
-          marginBottom: 'var(--space-8)',
-        }}
-      >
-        We connect seekers and property owners with a considered, human brokerage process.
-        Here is how requirement intake and advisory discussions work.
-      </p>
+    <div className={styles.methodologyWrapper}>
+      {/* Intro Hero */}
+      <section className={styles.introSection} aria-labelledby="methodology-heading">
+        <div className={styles.container}>
+          <span className={styles.kicker}>ADVISORY METHODOLOGY</span>
+          <h1 id="methodology-heading" className={styles.heading}>
+            How {CANONICAL_BRAND} Operates
+          </h1>
+          <p className={styles.lead}>
+            A structured human brokerage model designed for discerning clients. We eliminate public inventory scrapers, lead resale, and unvetted property feeds in favor of accountable advisory representation.
+          </p>
+        </div>
+      </section>
 
-      <ProcessSteps />
+      {/* 4-Stage Methodology Breakdown */}
+      <Concept1Methodology />
 
-      <div style={{ marginTop: 'var(--space-12)' }}>
-        <a
-          href={PRIMARY_PHONE_TEL}
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: 'var(--space-2)',
-            backgroundColor: 'var(--color-forest)',
-            color: 'var(--color-paper)',
-            padding: 'var(--space-3) var(--space-6)',
-            borderRadius: 'var(--radius-control)',
-            textDecoration: 'none',
-            fontWeight: 600,
-          }}
-        >
-          <span aria-hidden="true">☎</span> Direct Consultation: {PRIMARY_PHONE}
-        </a>
-      </div>
+      {/* The Non-Portal Difference */}
+      <section className={styles.differenceSection} aria-labelledby="diff-heading">
+        <div className={styles.container}>
+          <h2 id="diff-heading" className={styles.diffTitle}>
+            Why a Service-Led Model Over a Public Listing Portal?
+          </h2>
+
+          <div className={styles.diffGrid}>
+            <div className={styles.diffCard}>
+              <h3 className={styles.cardHeading}>Zero Speculative Inventory</h3>
+              <p className={styles.cardText}>
+                Traditional portals monetize clicks and fake inventory cards. We maintain no public inventory feed. We source verified properties specifically matched to your defined brief.
+              </p>
+            </div>
+
+            <div className={styles.diffCard}>
+              <h3 className={styles.cardHeading}>Data Minimization &amp; Privacy</h3>
+              <p className={styles.cardText}>
+                We do not sell client contact data to call centers or broadcast details to multi-broker networks. All personal data is governed under strict India DPDP Act 2023 principles.
+              </p>
+            </div>
+
+            <div className={styles.diffCard}>
+              <h3 className={styles.cardHeading}>Accountable Human Ownership</h3>
+              <p className={styles.cardText}>
+                From initial intake through accompanied property walkthroughs, you work with an assigned senior advisor responsible for physical verification and transaction guidance.
+              </p>
+            </div>
+          </div>
+
+          <div className={styles.ctaBanner}>
+            <div className={styles.bannerContent}>
+              <h3 className={styles.bannerTitle}>Ready to discuss your Bengaluru property requirement?</h3>
+              <p className={styles.bannerText}>
+                Call our advisory desk directly or commission an acquisition brief online.
+              </p>
+            </div>
+            <div className={styles.bannerActions}>
+              <a href={PRIMARY_PHONE_TEL} className={styles.phoneActionBtn}>
+                ☎ Call {PRIMARY_PHONE}
+              </a>
+              <Link href="/buy" className={styles.briefActionBtn}>
+                Commission a Brief →
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

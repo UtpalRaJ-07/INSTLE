@@ -3,6 +3,8 @@
  * Source: Blueprint Section 10 (Foundations)
  */
 
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
 :root {
   /* Color Palette */
   --color-paper: #F6F4EF;
@@ -12,6 +14,39 @@
   --color-city-blue: #557C86;
   --color-accent: #B9573E;
   --color-white: #FFFFFF;
+
+  /* Concept 1 Tokens: Architectural Dossier & Garden City Modernism */
+  --c1-bg: #F9F7F2;
+  --c1-surface: #FFFFFF;
+  --c1-surface-tint: #F2EFE8;
+  --c1-surface-dark: #192722;
+  --c1-text-main: #1A2420;
+  --c1-text-muted: #536259;
+  --c1-forest: #1E3A31;
+  --c1-forest-deep: #132720;
+  --c1-brass: #B68A4C;
+  --c1-brass-light: #DFC69A;
+  --c1-border: #E2DCD2;
+  --c1-border-dark: #2C3C35;
+  --c1-font-serif: 'Cormorant Garamond', 'Newsreader', Georgia, serif;
+  --c1-font-sans: 'Plus Jakarta Sans', -apple-system, sans-serif;
+
+  /* Concept 2 Tokens: Bengaluru Metropolitan Monolith & Precision Console */
+  --c2-bg: #0B0E14;
+  --c2-surface: #121824;
+  --c2-surface-elevated: #1B2332;
+  --c2-surface-light: #FFFFFF;
+  --c2-text-main: #F1F5F9;
+  --c2-text-muted: #94A3B8;
+  --c2-text-dark: #0B0E14;
+  --c2-blue: #2563EB;
+  --c2-blue-glow: rgba(37, 99, 235, 0.25);
+  --c2-cyan: #06B6D4;
+  --c2-border: #1E293B;
+  --c2-border-strong: #334155;
+  --c2-font-display: 'Space Grotesk', -apple-system, sans-serif;
+  --c2-font-body: 'Plus Jakarta Sans', -apple-system, sans-serif;
+  --c2-font-mono: 'JetBrains Mono', monospace;
 
   /* Semantic UI Colors */
   --color-text-primary: var(--color-ink);

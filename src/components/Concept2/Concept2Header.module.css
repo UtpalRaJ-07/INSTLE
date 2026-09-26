@@ -1,0 +1,342 @@
+.header {
+  width: 100%;
+  background: var(--c2-bg);
+  border-bottom: 1px solid var(--c2-border);
+  color: var(--c2-text-main);
+  position: relative;
+  z-index: 100;
+  font-family: var(--c2-font-body);
+}
+
+.hudBar {
+  background: #06080B;
+  border-bottom: 1px solid var(--c2-border);
+  font-family: var(--c2-font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  color: var(--c2-text-muted);
+  padding: 8px 0;
+}
+
+.hudInner {
+  max-width: var(--max-content-width);
+  margin: 0 auto;
+  padding: 0 var(--edge-padding);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.statusLive {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #38BDF8;
+}
+
+.pulseSquare {
+  width: 6px;
+  height: 6px;
+  background: #38BDF8;
+  box-shadow: 0 0 8px #38BDF8;
+}
+
+.hudRight {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hudDivider {
+  color: var(--c2-border-strong);
+}
+
+.hudPhone {
+  color: #FFFFFF;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.hudPhone:hover {
+  color: var(--c2-blue);
+  text-decoration: underline;
+}
+
+.mainNav {
+  max-width: var(--max-content-width);
+  margin: 0 auto;
+  padding: 18px var(--edge-padding);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.brandContainer {
+  display: flex;
+  align-items: center;
+}
+
+.brandLink {
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.brandWordmark {
+  font-family: var(--c2-font-display);
+  font-size: clamp(1.4rem, 2.2vw, 1.85rem);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #FFFFFF;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.brandTag {
+  font-family: var(--c2-font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.16em;
+  color: var(--c2-text-muted);
+  margin-top: 4px;
+}
+
+.desktopNav {
+  display: block;
+}
+
+.navList {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.link {
+  font-family: var(--c2-font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: var(--c2-text-muted);
+  text-decoration: none;
+  transition: color 150ms ease;
+  padding: 6px 0;
+}
+
+.link:hover {
+  color: #FFFFFF;
+  text-decoration: none;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.phoneAction {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--c2-font-mono);
+  font-size: 0.75rem;
+  color: #CBD5E1;
+  padding: 8px 12px;
+  border: 1px solid var(--c2-border-strong);
+  border-radius: 2px;
+  background: var(--c2-surface);
+  text-decoration: none;
+  transition: all 160ms ease;
+}
+
+.phoneAction:hover {
+  border-color: var(--c2-blue);
+  color: #FFFFFF;
+  text-decoration: none;
+}
+
+.phonePrefix {
+  color: var(--c2-text-muted);
+}
+
+.phoneDigits {
+  font-weight: 600;
+}
+
+.consoleBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--c2-font-display);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: #FFFFFF;
+  background: var(--c2-blue);
+  padding: 9px 18px;
+  border-radius: 2px;
+  text-decoration: none;
+  transition: all 160ms ease;
+  box-shadow: 0 0 16px var(--c2-blue-glow);
+}
+
+.consoleBtn:hover {
+  background: #1D4ED8;
+  text-decoration: none;
+}
+
+.btnIcon {
+  font-size: 0.9375rem;
+}
+
+.mobileToggle {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 28px;
+  height: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.toggleLine {
+  width: 100%;
+  height: 2px;
+  background: #FFFFFF;
+  border-radius: 1px;
+}
+
+/* Mobile Drawer Modal */
+.mobileDrawer {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.drawerBackdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(6px);
+}
+
+.drawerContent {
+  position: relative;
+  width: 85%;
+  max-width: 380px;
+  height: 100%;
+  background: var(--c2-surface);
+  border-left: 1px solid var(--c2-border-strong);
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  overflow-y: auto;
+}
+
+.drawerHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--c2-border);
+}
+
+.drawerBrand {
+  font-family: var(--c2-font-display);
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #FFFFFF;
+}
+
+.closeButton {
+  font-size: 1.25rem;
+  color: #FFFFFF;
+  cursor: pointer;
+}
+
+.drawerNav {
+  margin: 32px 0;
+}
+
+.drawerList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.drawerLink {
+  font-family: var(--c2-font-mono);
+  font-size: 1.125rem;
+  letter-spacing: 0.08em;
+  color: var(--c2-text-muted);
+  text-decoration: none;
+  transition: color 150ms ease;
+}
+
+.drawerLink:hover {
+  color: #FFFFFF;
+  text-decoration: none;
+}
+
+.drawerFooter {
+  margin-top: auto;
+  padding-top: 24px;
+  border-top: 1px solid var(--c2-border);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.drawerPhoneBox {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.drawerPhoneLabel {
+  font-family: var(--c2-font-mono);
+  font-size: 0.625rem;
+  color: var(--c2-text-muted);
+}
+
+.drawerPhoneLink {
+  font-family: var(--c2-font-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  text-decoration: none;
+}
+
+.drawerCta {
+  text-align: center;
+  padding: 12px;
+  background: var(--c2-blue);
+  color: #FFFFFF;
+  font-family: var(--c2-font-display);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  border-radius: 2px;
+  text-decoration: none;
+}
+
+@media (max-width: 960px) {
+  .hudBar {
+    display: none;
+  }
+  .desktopNav {
+    display: none;
+  }
+  .actions .consoleBtn {
+    display: none;
+  }
+  .mobileToggle {
+    display: flex;
+  }
+}

@@ -1,0 +1,326 @@
+.header {
+  width: 100%;
+  background: var(--c1-bg);
+  border-bottom: 1px solid var(--c1-border);
+  position: relative;
+  z-index: 100;
+}
+
+.topDatum {
+  background: var(--c1-surface-tint);
+  border-bottom: 1px solid var(--c1-border);
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  color: var(--c1-text-muted);
+  text-transform: uppercase;
+  padding: 6px 0;
+}
+
+.topDatumInner {
+  max-width: var(--max-content-width);
+  margin: 0 auto;
+  padding: 0 var(--edge-padding);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.datumPhone {
+  color: var(--c1-forest);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.datumPhone:hover {
+  text-decoration: underline;
+}
+
+.mainNav {
+  max-width: var(--max-content-width);
+  margin: 0 auto;
+  padding: 20px var(--edge-padding);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.brandGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.brandLink {
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.brandTitle {
+  font-family: var(--c1-font-serif);
+  font-size: clamp(1.35rem, 2.2vw, 1.85rem);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: var(--c1-forest);
+  text-transform: uppercase;
+  line-height: 1.1;
+}
+
+.brandSubtitle {
+  font-family: var(--font-sans);
+  font-size: 0.625rem;
+  letter-spacing: 0.22em;
+  color: var(--c1-text-muted);
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+.desktopNav {
+  display: block;
+}
+
+.navList {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.navItem {
+  display: inline-block;
+}
+
+.link {
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  color: var(--c1-text-main);
+  text-decoration: none;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  transition: color 180ms ease;
+  position: relative;
+  padding: 4px 0;
+}
+
+.link:hover {
+  color: var(--c1-forest);
+  text-decoration: none;
+}
+
+.link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--c1-brass);
+  transition: width 200ms ease;
+}
+
+.link:hover::after {
+  width: 100%;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.phoneButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--c1-forest);
+  padding: 8px 14px;
+  border: 1px solid var(--c1-border);
+  border-radius: 2px;
+  background: var(--c1-surface);
+  text-decoration: none;
+  transition: all 180ms ease;
+}
+
+.phoneButton:hover {
+  border-color: var(--c1-forest);
+  background: var(--c1-surface-tint);
+  text-decoration: none;
+}
+
+.phoneIcon {
+  font-size: 0.75rem;
+  color: var(--c1-brass);
+}
+
+.ctaButton {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-white);
+  background: var(--c1-forest);
+  padding: 8px 18px;
+  border-radius: 2px;
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  transition: background 180ms ease;
+}
+
+.ctaButton:hover {
+  background: var(--c1-forest-deep);
+  text-decoration: none;
+}
+
+.mobileToggle {
+  display: none;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.toggleBar {
+  width: 100%;
+  height: 2px;
+  background: var(--c1-forest);
+  border-radius: 1px;
+  transition: all 200ms ease;
+}
+
+/* Mobile Drawer Modal */
+.mobileDrawer {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.drawerBackdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(26, 36, 32, 0.6);
+  backdrop-filter: blur(4px);
+}
+
+.drawerContent {
+  position: relative;
+  width: 85%;
+  max-width: 380px;
+  height: 100%;
+  background: var(--c1-bg);
+  box-shadow: -8px 0 24px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  overflow-y: auto;
+}
+
+.drawerHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--c1-border);
+}
+
+.drawerBrand {
+  font-family: var(--c1-font-serif);
+  font-size: 1.125rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--c1-forest);
+}
+
+.closeButton {
+  font-size: 1.25rem;
+  color: var(--c1-text-main);
+  padding: 8px;
+  cursor: pointer;
+}
+
+.drawerNav {
+  margin: 32px 0;
+}
+
+.drawerList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.drawerLink {
+  font-family: var(--c1-font-serif);
+  font-size: 1.5rem;
+  color: var(--c1-text-main);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  transition: color 150ms ease;
+}
+
+.drawerLink:hover {
+  color: var(--c1-forest);
+  text-decoration: none;
+}
+
+.drawerFooter {
+  margin-top: auto;
+  padding-top: 24px;
+  border-top: 1px solid var(--c1-border);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.drawerMeta {
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  color: var(--c1-text-muted);
+}
+
+.drawerPhoneLink {
+  font-weight: 600;
+  font-size: 0.9375rem;
+  color: var(--c1-forest);
+  text-decoration: none;
+}
+
+.drawerCta {
+  display: inline-block;
+  text-align: center;
+  padding: 12px 18px;
+  background: var(--c1-forest);
+  color: var(--color-white);
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: 2px;
+  margin-top: 8px;
+}
+
+@media (max-width: 900px) {
+  .topDatum {
+    display: none;
+  }
+  .desktopNav {
+    display: none;
+  }
+  .actions .ctaButton {
+    display: none;
+  }
+  .mobileToggle {
+    display: flex;
+  }
+}

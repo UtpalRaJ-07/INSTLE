@@ -1,0 +1,133 @@
+.switcherBar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+  background: #111827;
+  color: #F9FAFB;
+  border-bottom: 1px solid #374151;
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.inner {
+  max-width: 1380px;
+  margin: 0 auto;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.metaBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  font-size: 0.6875rem;
+  color: #9CA3AF;
+  text-transform: uppercase;
+}
+
+.pulseDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #10B981;
+  box-shadow: 0 0 6px #10B981;
+}
+
+.navGroup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tabLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border-radius: 4px;
+  color: #D1D5DB;
+  text-decoration: none;
+  background: #1F2937;
+  transition: all 160ms ease;
+  font-size: 0.75rem;
+}
+
+.tabLink:hover {
+  background: #374151;
+  color: #FFFFFF;
+  text-decoration: none;
+}
+
+.tabLink.active {
+  background: #2563EB;
+  color: #FFFFFF;
+  font-weight: 600;
+}
+
+.conceptNum {
+  font-family: var(--c2-font-mono, monospace);
+  font-size: 0.6875rem;
+  opacity: 0.8;
+}
+
+.conceptTitle {
+  font-weight: 500;
+}
+
+.subBadge {
+  font-size: 0.6875rem;
+  color: #93C5FD;
+}
+
+.divider {
+  width: 1px;
+  height: 16px;
+  background: #4B5563;
+  margin: 0 2px;
+}
+
+.reviewLink {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 12px;
+  border-radius: 4px;
+  background: #312E81;
+  color: #E0E7FF;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.75rem;
+  border: 1px solid #4338CA;
+  transition: all 160ms ease;
+}
+
+.reviewLink:hover {
+  background: #3730A3;
+  color: #FFFFFF;
+  text-decoration: none;
+}
+
+.activeReview {
+  background: #4F46E5;
+  color: #FFFFFF;
+}
+
+@media (max-width: 768px) {
+  .inner {
+    padding: 6px 12px;
+  }
+  .conceptTitle {
+    display: none;
+  }
+  .metaLabel {
+    display: none;
+  }
+}

@@ -1,0 +1,120 @@
+.rentPageWrapper {
+  width: 100%;
+  background: var(--c1-bg);
+  color: var(--c1-text-main);
+}
+
+.container {
+  max-width: var(--max-content-width);
+  margin: 0 auto;
+  padding: 0 var(--edge-padding);
+}
+
+.introSection {
+  background: var(--c1-surface-tint);
+  border-bottom: 1px solid var(--c1-border);
+  padding: clamp(40px, 5vw, 64px) 0;
+}
+
+.badgeRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.kicker {
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  letter-spacing: 0.16em;
+  color: var(--c1-brass);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.phoneQuick {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: var(--c1-text-muted);
+}
+
+.phoneLink {
+  font-weight: 700;
+  color: var(--c1-forest);
+  text-decoration: none;
+}
+
+.phoneLink:hover {
+  text-decoration: underline;
+}
+
+.heading {
+  font-family: var(--c1-font-serif);
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 500;
+  color: var(--c1-forest);
+  line-height: 1.15;
+  margin-bottom: 16px;
+  letter-spacing: -0.01em;
+}
+
+.lead {
+  font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  color: var(--c1-text-muted);
+  max-width: 760px;
+}
+
+.serviceSection {
+  background: var(--c1-surface);
+  border-top: 1px solid var(--c1-border);
+  padding: clamp(56px, 7vw, 88px) 0;
+}
+
+.standardsTitle {
+  font-family: var(--c1-font-serif);
+  font-size: clamp(1.75rem, 2.8vw, 2.375rem);
+  font-weight: 500;
+  color: var(--c1-forest);
+  margin-bottom: 36px;
+  text-align: center;
+}
+
+.standardsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.standardCard {
+  background: var(--c1-bg);
+  border: 1px solid var(--c1-border);
+  padding: clamp(24px, 3vw, 32px);
+  border-radius: 2px;
+  display: flex;
+  flex-direction: column;
+}
+
+.cardHeading {
+  font-family: var(--c1-font-serif);
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: var(--c1-forest);
+  margin-bottom: 12px;
+}
+
+.cardText {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--c1-text-muted);
+}
+
+@media (max-width: 860px) {
+  .standardsGrid {
+    grid-template-columns: 1fr;
+  }
+}

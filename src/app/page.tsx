@@ -1,77 +1,25 @@
 import React from 'react';
-import Link from 'next/link';
-import { CANONICAL_BRAND, PRIMARY_PHONE, PRIMARY_PHONE_TEL } from '@/config/constants';
-import { ArchitecturalGraphic } from '@/components/ArchitecturalGraphic/ArchitecturalGraphic';
-import { IntentRail } from '@/components/IntentRail/IntentRail';
-import { ProcessSteps } from '@/components/ProcessSteps/ProcessSteps';
-import { OwnerSection } from '@/components/OwnerSection/OwnerSection';
-import { ContactBand } from '@/components/ContactBand/ContactBand';
+import type { Metadata } from 'next';
+import { CANONICAL_BRAND } from '@/config/constants';
+import { Concept1Hero } from '@/components/Concept1/Concept1Hero';
+import { Concept1Pillars } from '@/components/Concept1/Concept1Pillars';
+import { Concept1Gazetteer } from '@/components/Concept1/Concept1Gazetteer';
+import { Concept1Methodology } from '@/components/Concept1/Concept1Methodology';
 import styles from './page.module.css';
+
+export const metadata: Metadata = {
+  title: `${CANONICAL_BRAND} — Bengaluru Real Estate Brokerage & Property Advisory Platform`,
+  description:
+    'Human-led real estate brokerage and property advisory service for buyers, tenants, sellers, and landlords in Bengaluru. Grounded in local micro-market intelligence.',
+};
 
 export default function HomePage() {
   return (
-    <div className={`container ${styles.homeContainer}`}>
-      {/* Editorial Hero Section */}
-      <section className={styles.heroSection} aria-labelledby="hero-title">
-        <div className={styles.heroContent}>
-          <span className={styles.eyebrow}>
-            Bengaluru Real Estate Brokerage &amp; Property Advisory
-          </span>
-          <h1 id="hero-title" className={styles.title}>
-            A considered approach to Bengaluru property decisions.
-          </h1>
-          <p className={styles.lead}>
-            Call {CANONICAL_BRAND} at {PRIMARY_PHONE} to discuss what you are looking for in a
-            Bengaluru property. Our brokerage team assists clients by telephone in clarifying
-            priorities, evaluating local trade-offs, and discussing relevant next steps.
-          </p>
-
-          <div className={styles.actions}>
-            <a href={PRIMARY_PHONE_TEL} className={styles.primaryCta}>
-              <span aria-hidden="true">☎</span> Call {PRIMARY_PHONE}
-            </a>
-            <Link href="/contact" className={styles.secondaryCta}>
-              Advisory Contact Details
-            </Link>
-          </div>
-        </div>
-
-        <div className={styles.heroMedia}>
-          <ArchitecturalGraphic />
-        </div>
-      </section>
-
-      {/* Primary Intent Pathways */}
-      <IntentRail />
-
-      {/* Advisory Process: 3 Steps */}
-      <ProcessSteps />
-
-      {/* Bengaluru Urban Geographic Context */}
-      <section className={styles.geographySection} aria-labelledby="geo-title">
-        <div className={styles.geoContent}>
-          <span className={styles.eyebrow}>Local Context</span>
-          <h2 id="geo-title" className={styles.geoTitle}>
-            Navigating Bengaluru Property Decisions
-          </h2>
-          <p className={styles.geoDescription}>
-            Tell {CANONICAL_BRAND} which parts of Bengaluru you are considering. Our brokerage
-            team assists clients in discussing location preferences, clarifying priorities,
-            and understanding relevant next steps.
-          </p>
-          <div className={styles.geoActions}>
-            <Link href="/contact" className={styles.geoLink}>
-              Discuss Your Preferred Areas with the Team →
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Owner & Representation Section */}
-      <OwnerSection />
-
-      {/* Direct Inquiries Contact Band */}
-      <ContactBand />
+    <div className={styles.homeWrapper}>
+      <Concept1Hero />
+      <Concept1Pillars />
+      <Concept1Gazetteer />
+      <Concept1Methodology />
     </div>
   );
 }

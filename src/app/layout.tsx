@@ -1,8 +1,7 @@
 import type { Metadata } from 'next';
 import { CANONICAL_BRAND } from '@/config/constants';
 import { SkipLink } from '@/components/SkipLink/SkipLink';
-import { Header } from '@/components/Header/Header';
-import { Footer } from '@/components/Footer/Footer';
+import { LayoutShell } from '@/components/LayoutShell/LayoutShell';
 import '@/styles/globals.css';
 
 export const metadata: Metadata = {
@@ -21,11 +20,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <SkipLink targetId="main-content" />
-        <Header />
-        <main id="main-content" tabIndex={-1}>
-          {children}
-        </main>
-        <Footer />
+        <LayoutShell>{children}</LayoutShell>
       </body>
     </html>
   );

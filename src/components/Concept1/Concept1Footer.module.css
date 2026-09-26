@@ -1,0 +1,148 @@
+.footer {
+  width: 100%;
+  background: var(--c1-forest-deep);
+  color: #EDE8DE;
+  padding: clamp(48px, 6vw, 80px) 0 32px;
+  font-family: var(--font-sans);
+}
+
+.container {
+  max-width: var(--max-content-width);
+  margin: 0 auto;
+  padding: 0 var(--edge-padding);
+}
+
+.topSection {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: clamp(32px, 5vw, 64px);
+  padding-bottom: 48px;
+  border-bottom: 1px solid rgba(226, 220, 210, 0.15);
+}
+
+.brandBlock {
+  display: flex;
+  flex-direction: column;
+}
+
+.brandTitle {
+  font-family: var(--c1-font-serif);
+  font-size: clamp(1.5rem, 2vw, 2rem);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: #FFFFFF;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.brandMission {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: #C0CDC6;
+  max-width: 440px;
+  margin-bottom: 24px;
+}
+
+.phoneGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.phoneLabel {
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  color: var(--c1-brass);
+  text-transform: uppercase;
+}
+
+.phoneLink {
+  font-family: var(--c1-font-serif);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #FFFFFF;
+  text-decoration: none;
+}
+
+.phoneLink:hover {
+  color: var(--c1-brass-light);
+  text-decoration: underline;
+}
+
+.linksGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.linkCol {
+  display: flex;
+  flex-direction: column;
+}
+
+.colTitle {
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  color: var(--c1-brass);
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.linkList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.link {
+  font-size: 0.875rem;
+  color: #D1DDD6;
+  text-decoration: none;
+  transition: color 150ms ease;
+}
+
+.link:hover {
+  color: #FFFFFF;
+  text-decoration: underline;
+}
+
+.statusMuted {
+  font-size: 0.75rem;
+  color: #8C9F95;
+  line-height: 1.4;
+  display: block;
+}
+
+.bottomBar {
+  padding-top: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-size: 0.75rem;
+  color: #8C9F95;
+}
+
+.legalLinks {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+@media (max-width: 860px) {
+  .topSection {
+    grid-template-columns: 1fr;
+  }
+  .linksGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 540px) {
+  .linksGrid {
+    grid-template-columns: 1fr;
+  }
+}

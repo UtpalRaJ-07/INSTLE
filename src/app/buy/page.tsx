@@ -1,51 +1,67 @@
 import React from 'react';
+import type { Metadata } from 'next';
 import { CANONICAL_BRAND, PRIMARY_PHONE, PRIMARY_PHONE_TEL } from '@/config/constants';
+import { Concept1Intake } from '@/components/Concept1/Concept1Intake';
+import styles from './buy.module.css';
+
+export const metadata: Metadata = {
+  title: `Residential Acquisition Advisory — ${CANONICAL_BRAND}`,
+  description:
+    'Private residential acquisition representation in Bengaluru. Define your parameters or call 9353096264 to discuss independent homes, luxury apartments, and land parcels.',
+};
 
 export default function BuyPage() {
   return (
-    <div className="container" style={{ padding: 'var(--section-rhythm) 0' }}>
-      <span
-        style={{
-          fontSize: 'var(--font-size-label)',
-          fontWeight: 700,
-          letterSpacing: '0.15em',
-          textTransform: 'uppercase',
-          color: 'var(--color-forest)',
-        }}
-      >
-        Buyer Advisory
-      </span>
-      <h1 style={{ fontSize: 'var(--font-size-h1)', margin: 'var(--space-4) 0' }}>
-        Buy Property in Bengaluru
-      </h1>
-      <p
-        style={{
-          fontSize: 'var(--font-size-body-large)',
-          color: 'var(--color-text-muted)',
-          maxWidth: 'var(--reading-measure)',
-          marginBottom: 'var(--space-6)',
-        }}
-      >
-        Buyers can call {CANONICAL_BRAND} directly at {PRIMARY_PHONE} to discuss property
-        requirements in Bengaluru. Our brokerage team assists buyers by phone in clarifying
-        priorities, evaluating local trade-offs, and discussing relevant next steps.
-      </p>
-      <a
-        href={PRIMARY_PHONE_TEL}
-        style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: 'var(--space-2)',
-          backgroundColor: 'var(--color-forest)',
-          color: 'var(--color-paper)',
-          padding: 'var(--space-3) var(--space-6)',
-          borderRadius: 'var(--radius-control)',
-          textDecoration: 'none',
-          fontWeight: 600,
-        }}
-      >
-        <span aria-hidden="true">☎</span> Call Our Team: {PRIMARY_PHONE}
-      </a>
+    <div className={styles.buyPageWrapper}>
+      {/* Editorial Introduction */}
+      <section className={styles.introSection} aria-labelledby="buy-heading">
+        <div className={styles.container}>
+          <div className={styles.badgeRow}>
+            <span className={styles.kicker}>ACQUISITION REPRESENTATION</span>
+            <span className={styles.phoneQuick}>
+              CALL DESK: <a href={PRIMARY_PHONE_TEL} className={styles.phoneLink}>{PRIMARY_PHONE}</a>
+            </span>
+          </div>
+          <h1 id="buy-heading" className={styles.heading}>
+            Bespoke Residential Acquisitions in Bengaluru
+          </h1>
+          <p className={styles.lead}>
+            We represent private buyers acquiring independent homes, luxury apartments, and land parcels across Bengaluru’s established residential enclaves. No public listings; purely dedicated human representation.
+          </p>
+        </div>
+      </section>
+
+      {/* Stepped Acquisition Brief */}
+      <Concept1Intake />
+
+      {/* Direct Advisory Guidance */}
+      <section className={styles.guidanceSection} aria-labelledby="advisory-focus-title">
+        <div className={styles.container}>
+          <h2 id="advisory-focus-title" className={styles.focusTitle}>
+            Our Acquisition Advisory Focus
+          </h2>
+          <div className={styles.focusGrid}>
+            <div className={styles.focusCard}>
+              <h3 className={styles.cardHeading}>Independent Villas &amp; Plots</h3>
+              <p className={styles.cardText}>
+                We research municipal sanctions, title deed histories, and layout approvals for standalone properties in prime residential sectors.
+              </p>
+            </div>
+            <div className={styles.focusCard}>
+              <h3 className={styles.cardHeading}>Prime Apartments &amp; Penthouses</h3>
+              <p className={styles.cardText}>
+                Curated selection of high-specification low-density residential developments in Indiranagar, Koramangala, Sadashivanagar, and Outer Ring Road.
+              </p>
+            </div>
+            <div className={styles.focusCard}>
+              <h3 className={styles.cardHeading}>Direct Fiduciary Representation</h3>
+              <p className={styles.cardText}>
+                We act exclusively on your behalf, coordinating physical inspections and counterparty negotiations with total confidentiality.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

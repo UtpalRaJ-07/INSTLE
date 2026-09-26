@@ -1,0 +1,224 @@
+.areasWrapper {
+  width: 100%;
+  background: var(--c1-bg);
+  color: var(--c1-text-main);
+}
+
+.container {
+  max-width: var(--max-content-width);
+  margin: 0 auto;
+  padding: 0 var(--edge-padding);
+}
+
+.introSection {
+  background: var(--c1-surface-tint);
+  border-bottom: 1px solid var(--c1-border);
+  padding: clamp(40px, 5vw, 64px) 0;
+}
+
+.metaRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.kicker {
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  letter-spacing: 0.16em;
+  color: var(--c1-forest);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.gateBadge {
+  font-family: var(--font-sans);
+  font-size: 0.625rem;
+  letter-spacing: 0.08em;
+  background: var(--c1-surface);
+  border: 1px solid var(--c1-border);
+  color: var(--c1-brass);
+  padding: 3px 8px;
+  border-radius: 2px;
+  font-weight: 600;
+}
+
+.heading {
+  font-family: var(--c1-font-serif);
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 500;
+  color: var(--c1-forest);
+  line-height: 1.15;
+  margin-bottom: 16px;
+  letter-spacing: -0.01em;
+}
+
+.lead {
+  font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  color: var(--c1-text-muted);
+  max-width: 780px;
+}
+
+/* List Section */
+.listSection {
+  padding: clamp(48px, 6vw, 88px) 0;
+}
+
+.localityGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
+  margin-bottom: 48px;
+}
+
+.localityCard {
+  background: var(--c1-surface);
+  border: 1px solid var(--c1-border);
+  padding: clamp(24px, 3.5vw, 36px);
+  border-radius: 2px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 16px rgba(26, 36, 32, 0.03);
+}
+
+.cardTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.quadrantTag {
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  color: var(--c1-brass);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.zoneText {
+  font-family: var(--c2-font-mono, monospace);
+  font-size: 0.625rem;
+  color: var(--c1-text-muted);
+}
+
+.cardTitle {
+  font-family: var(--c1-font-serif);
+  font-size: clamp(1.4rem, 2vw, 1.75rem);
+  font-weight: 500;
+  color: var(--c1-forest);
+  margin-bottom: 12px;
+  line-height: 1.25;
+}
+
+.titleLink {
+  color: inherit;
+  text-decoration: none;
+}
+
+.titleLink:hover {
+  text-decoration: underline;
+}
+
+.cardDesc {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--c1-text-muted);
+  margin-bottom: 24px;
+}
+
+.infraBlock {
+  background: var(--c1-surface-tint);
+  border: 1px solid var(--c1-border);
+  padding: 16px;
+  border-radius: 2px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 24px;
+  font-size: 0.8125rem;
+}
+
+.infraRow {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.infraKey {
+  color: var(--c1-forest);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.cardAction {
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid var(--c1-border);
+}
+
+.viewLink {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--c1-forest);
+  text-decoration: none;
+}
+
+.viewLink:hover {
+  color: var(--c1-brass);
+  text-decoration: underline;
+}
+
+/* Callout Card */
+.calloutCard {
+  background: var(--c1-surface-tint);
+  border: 1px solid var(--c1-border);
+  padding: 32px;
+  border-radius: 2px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: center;
+  align-items: center;
+}
+
+.calloutLabel {
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  color: var(--c1-forest);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.calloutText {
+  font-size: 0.9375rem;
+  color: var(--c1-text-muted);
+  max-width: 600px;
+  line-height: 1.55;
+  margin-bottom: 8px;
+}
+
+.calloutPhone {
+  font-family: var(--c1-font-serif);
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--c1-forest);
+  text-decoration: none;
+}
+
+.calloutPhone:hover {
+  color: var(--c1-brass);
+  text-decoration: underline;
+}
+
+@media (max-width: 860px) {
+  .localityGrid {
+    grid-template-columns: 1fr;
+  }
+}

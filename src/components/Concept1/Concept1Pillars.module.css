@@ -1,0 +1,203 @@
+.section {
+  width: 100%;
+  background: var(--c1-surface-tint);
+  padding: clamp(48px, 6vw, 88px) 0;
+  border-bottom: 1px solid var(--c1-border);
+}
+
+.container {
+  max-width: var(--max-content-width);
+  margin: 0 auto;
+  padding: 0 var(--edge-padding);
+}
+
+.sectionHeader {
+  max-width: 780px;
+  margin-bottom: clamp(36px, 5vw, 64px);
+}
+
+.eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  letter-spacing: 0.16em;
+  color: var(--c1-brass);
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.sectionTitle {
+  font-family: var(--c1-font-serif);
+  font-size: clamp(1.875rem, 3vw, 2.75rem);
+  font-weight: 500;
+  line-height: 1.2;
+  color: var(--c1-forest);
+  margin-bottom: 16px;
+  letter-spacing: -0.01em;
+}
+
+.sectionLead {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--c1-text-muted);
+}
+
+/* Asymmetric Grid */
+.dossierGrid {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 24px;
+}
+
+.dossierFeatured {
+  grid-row: 1 / span 2;
+  background: var(--c1-surface);
+  border: 1px solid var(--c1-border);
+  border-radius: 2px;
+  padding: clamp(28px, 4vw, 44px);
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 8px 24px rgba(26, 36, 32, 0.04);
+}
+
+.dossierCard {
+  background: var(--c1-surface);
+  border: 1px solid var(--c1-border);
+  border-radius: 2px;
+  padding: clamp(24px, 3vw, 36px);
+  display: flex;
+  flex-direction: column;
+}
+
+.dossierMeta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.dossierTag {
+  font-weight: 700;
+  color: var(--c1-brass);
+}
+
+.dossierScope {
+  color: var(--c1-text-muted);
+  font-weight: 500;
+}
+
+.dossierTitle {
+  font-family: var(--c1-font-serif);
+  font-size: clamp(1.5rem, 2vw, 1.875rem);
+  font-weight: 500;
+  color: var(--c1-forest);
+  margin-bottom: 14px;
+  line-height: 1.25;
+}
+
+.dossierText {
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--c1-text-main);
+  margin-bottom: 24px;
+}
+
+.serviceList {
+  list-style: none;
+  margin-bottom: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.serviceItem {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  color: var(--c1-text-muted);
+  line-height: 1.5;
+}
+
+.bullet {
+  color: var(--c1-brass);
+  font-weight: 700;
+}
+
+.cardFeatures {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.featureBadge {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  padding: 4px 10px;
+  border-radius: 2px;
+  background: var(--c1-surface-tint);
+  border: 1px solid var(--c1-border);
+  color: var(--c1-forest);
+  font-weight: 500;
+}
+
+.dossierAction {
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid var(--c1-border);
+}
+
+.dossierLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--c1-forest);
+  text-decoration: none;
+  transition: all 160ms ease;
+}
+
+.dossierLink:hover {
+  color: var(--c1-brass);
+  text-decoration: none;
+}
+
+.arrow {
+  transition: transform 160ms ease;
+}
+
+.dossierLink:hover .arrow {
+  transform: translateX(4px);
+}
+
+.secondaryLink {
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--c1-forest);
+  text-decoration: none;
+}
+
+.secondaryLink:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 900px) {
+  .dossierGrid {
+    grid-template-columns: 1fr;
+  }
+  .dossierFeatured {
+    grid-row: auto;
+  }
+}

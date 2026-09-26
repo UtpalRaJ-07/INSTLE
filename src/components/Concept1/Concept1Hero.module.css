@@ -1,0 +1,256 @@
+.heroSection {
+  width: 100%;
+  background: var(--c1-bg);
+  padding: clamp(24px, 4vw, 56px) 0;
+  border-bottom: 1px solid var(--c1-border);
+}
+
+.container {
+  max-width: var(--max-content-width);
+  margin: 0 auto;
+  padding: 0 var(--edge-padding);
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: clamp(24px, 4vw, 64px);
+  align-items: center;
+}
+
+/* Media Column */
+.mediaColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.imageFrame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border-radius: 2px;
+  overflow: hidden;
+  box-shadow: 0 12px 32px rgba(26, 36, 32, 0.08);
+  border: 1px solid var(--c1-border);
+  background: var(--c1-surface-tint);
+}
+
+.heroImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.imageFrame:hover .heroImage {
+  transform: scale(1.02);
+}
+
+.imageOverlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 16px 20px;
+  background: linear-gradient(to top, rgba(19, 39, 32, 0.85), transparent);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #FFFFFF;
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+}
+
+.imageTag {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+}
+
+.tagDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--c1-brass);
+}
+
+.imageCoordinate {
+  opacity: 0.8;
+  font-family: var(--c2-font-mono, monospace);
+  font-size: 0.625rem;
+}
+
+.mediaCaption {
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  color: var(--c1-text-muted);
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+}
+
+/* Content Column */
+.contentColumn {
+  display: flex;
+  flex-direction: column;
+}
+
+.dossierBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  letter-spacing: 0.16em;
+  color: var(--c1-forest);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.dossierNum {
+  font-weight: 700;
+}
+
+.dossierDivider {
+  width: 24px;
+  height: 1px;
+  background: var(--c1-brass);
+}
+
+.dossierType {
+  font-weight: 500;
+  color: var(--c1-text-muted);
+}
+
+.heroTitle {
+  font-family: var(--c1-font-serif);
+  font-size: clamp(2rem, 3.2vw, 3.125rem);
+  font-weight: 500;
+  line-height: 1.15;
+  color: var(--c1-forest);
+  margin-bottom: 20px;
+  letter-spacing: -0.01em;
+}
+
+.heroSummary {
+  font-family: var(--font-sans);
+  font-size: clamp(0.9375rem, 1.1vw, 1.0625rem);
+  line-height: 1.6;
+  color: var(--c1-text-main);
+  margin-bottom: 32px;
+}
+
+.actionGroup {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 36px;
+}
+
+.primaryAction {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--c1-forest);
+  color: var(--color-white);
+  padding: 14px 24px;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: 2px;
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  transition: all 180ms ease;
+  box-shadow: 0 4px 14px rgba(30, 58, 49, 0.18);
+}
+
+.primaryAction:hover {
+  background: var(--c1-forest-deep);
+  transform: translateY(-1px);
+  text-decoration: none;
+}
+
+.arrow {
+  transition: transform 180ms ease;
+}
+
+.primaryAction:hover .arrow {
+  transform: translateX(4px);
+}
+
+.secondaryAction {
+  display: inline-flex;
+  align-items: center;
+  padding: 14px 22px;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--c1-forest);
+  border: 1px solid var(--c1-border);
+  border-radius: 2px;
+  background: var(--c1-surface);
+  text-decoration: none;
+  transition: all 180ms ease;
+}
+
+.secondaryAction:hover {
+  border-color: var(--c1-forest);
+  background: var(--c1-surface-tint);
+  text-decoration: none;
+}
+
+/* Direct Phone Line */
+.phoneTouchpoint {
+  border-top: 1px solid var(--c1-border);
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.phoneMeta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  color: var(--c1-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.phoneIcon {
+  color: var(--c1-brass);
+}
+
+.phoneLabel {
+  font-weight: 500;
+}
+
+.phoneLink {
+  font-family: var(--c1-font-serif);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--c1-forest);
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  display: inline-block;
+  margin-top: 2px;
+}
+
+.phoneLink:hover {
+  color: var(--c1-brass);
+  text-decoration: underline;
+}
+
+.phoneSubtext {
+  font-size: 0.75rem;
+  color: var(--c1-text-muted);
+}
+
+@media (max-width: 960px) {
+  .container {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
