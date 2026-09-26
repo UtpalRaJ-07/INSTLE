@@ -6,9 +6,9 @@ export interface ArchitecturalGraphicProps {
 }
 
 /**
- * ArchitecturalGraphic: An intentional visual composition serving as an architectural
- * image fallback per blueprint specifications (lines 157, 220).
- * Avoids unverified photography while providing a distinct, premium editorial texture.
+ * ArchitecturalGraphic: A temporary architectural elevation study composition serving
+ * as a design placeholder until the homepage's visual direction is reviewed.
+ * Avoids unverified photography while providing a restrained, architectural texture.
  */
 export const ArchitecturalGraphic: React.FC<ArchitecturalGraphicProps> = ({ className = '' }) => {
   return (
@@ -101,7 +101,7 @@ export const ArchitecturalGraphic: React.FC<ArchitecturalGraphicProps> = ({ clas
           fill="var(--color-text-muted)"
           style={{ textTransform: 'uppercase' }}
         >
-          INSTLE REAL ESTATE — BENGALURU URBAN STUDY
+          INSTLE REAL ESTATE — ARCHITECTURAL ELEVATION STUDY
         </text>
       </svg>
     </div>

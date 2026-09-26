@@ -12,6 +12,16 @@ import { BrandLockup } from '@/components/BrandLockup/BrandLockup';
 import { Header } from '@/components/Header/Header';
 import { Footer } from '@/components/Footer/Footer';
 import HomePage from '@/app/page';
+import BuyPage from '@/app/buy/page';
+import RentPage from '@/app/rent/page';
+import SellPage from '@/app/sell/page';
+import AreasPage from '@/app/areas/page';
+import HowItWorksPage from '@/app/how-it-works/page';
+import ContactPage from '@/app/contact/page';
+import { IntentRail } from '@/components/IntentRail/IntentRail';
+import { ProcessSteps } from '@/components/ProcessSteps/ProcessSteps';
+import { OwnerSection } from '@/components/OwnerSection/OwnerSection';
+import { ContactBand } from '@/components/ContactBand/ContactBand';
 
 describe('Brand & Contact Invariants (Strict Enforcement)', () => {
   it('enforces exact canonical brand spelling and all-caps casing', () => {
@@ -72,5 +82,40 @@ describe('Brand & Contact Invariants (Strict Enforcement)', () => {
     // Ensure zero references to WhatsApp
     expect(allRenderedHtml.toLowerCase()).not.toContain('whatsapp');
     expect(allRenderedHtml.toLowerCase()).not.toContain('wa.me');
+  });
+
+  it('ensures no internal status phrases or unapproved claims appear across any route or component', () => {
+    const renderedRoutes = [
+      render(<HomePage />).container.innerHTML,
+      render(<BuyPage />).container.innerHTML,
+      render(<RentPage />).container.innerHTML,
+      render(<SellPage />).container.innerHTML,
+      render(<AreasPage />).container.innerHTML,
+      render(<HowItWorksPage />).container.innerHTML,
+      render(<ContactPage />).container.innerHTML,
+      render(<IntentRail />).container.innerHTML,
+      render(<ProcessSteps />).container.innerHTML,
+      render(<OwnerSection />).container.innerHTML,
+      render(<ContactBand />).container.innerHTML,
+    ].join(' ');
+
+    const forbiddenPhrases = [
+      'under preparation',
+      'milestone',
+      'verified access',
+      'verified options',
+      'verified residential leasing',
+      'confidential brokerage',
+      'qualified market matching',
+      'process boundary',
+      'boundarynote',
+      'across the city',
+      'viewing coordination',
+      'accountable brokers',
+    ];
+
+    for (const phrase of forbiddenPhrases) {
+      expect(renderedRoutes.toLowerCase()).not.toContain(phrase);
+    }
   });
 });

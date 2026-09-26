@@ -27,9 +27,8 @@ export default function HowItWorksPage() {
           marginBottom: 'var(--space-8)',
         }}
       >
-        We connect people with a considered, human brokerage process rather than an unverified
-        property catalogue. Here is how our requirement engagement works from initial contact to
-        coordinated discussions.
+        We connect seekers and property owners with a considered, human brokerage process.
+        Here is how requirement intake and advisory discussions work.
       </p>
 
       <ProcessSteps />

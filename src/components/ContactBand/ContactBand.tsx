@@ -12,8 +12,8 @@ export const ContactBand: React.FC = () => {
             Ready to discuss your property requirement?
           </h2>
           <p className={styles.text}>
-            Connect directly with {CANONICAL_BRAND}. We are available to answer questions, discuss
-            neighbourhood parameters, and guide your next steps.
+            Connect directly with {CANONICAL_BRAND} by telephone to discuss your property
+            requirement and explore relevant next steps.
           </p>
         </div>
 
@@ -27,7 +27,7 @@ export const ContactBand: React.FC = () => {
               ☎
             </span>
             <div className={styles.phoneDetails}>
-              <span className={styles.phoneLabel}>Call Advisory Team</span>
+              <span className={styles.phoneLabel}>Call Brokerage Team</span>
               <span className={styles.phoneDigits}>{PRIMARY_PHONE}</span>
             </div>
           </a>

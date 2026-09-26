@@ -16,25 +16,25 @@ const INTENTS: IntentOption[] = [
     title: 'Buying Advisory',
     audience: 'Home & Site Seekers',
     description:
-      'Articulate your asset class, timeline, and parameters. We assist in clarifying priorities and evaluating options across Bengaluru.',
+      'Share your property parameters, timeline, and preferred areas to discuss purchasing options with the brokerage team.',
     href: '/buy',
-    ctaText: 'Explore Buying Process',
+    ctaText: 'Discuss Buying Requirements',
   },
   {
     title: 'Rental Guidance',
     audience: 'Tenants & Relocations',
     description:
-      'Specify your move-in window, preferred corridors, and furnishing requirements to discuss verified residential leasing opportunities.',
+      'Specify your move-in window, preferred localities, and furnishing requirements to discuss rental options directly with the team.',
     href: '/rent',
-    ctaText: 'Explore Rental Process',
+    ctaText: 'Discuss Rental Guidance',
   },
   {
     title: 'Owner Representation',
     audience: 'Sellers & Landlords',
     description:
-      'Present your property for confidential brokerage evaluation. We discuss mandates, representation terms, and qualified market matching.',
+      'Share property basics to request a direct conversation with the brokerage team regarding representation and next steps.',
     href: '/sell',
-    ctaText: 'Discuss Property Listing',
+    ctaText: 'Discuss Your Property',
   },
 ];
 

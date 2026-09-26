@@ -26,9 +26,10 @@ export default function BuyPage() {
           marginBottom: 'var(--space-6)',
         }}
       >
-        {CANONICAL_BRAND} assists residential buyers with evaluating properties, understanding
-        corridor trade-offs, and coordinating viewings. Online requirement intake is currently
-        under preparation. To share your requirement directly, please call our advisory team.
+        Tell {CANONICAL_BRAND} what you are looking for in a Bengaluru property. Our brokerage
+        team assists buyers in clarifying priorities, understanding local trade-offs, and
+        discussing realistic options. To share your requirement, connect with our team directly
+        by phone.
       </p>
       <a
         href={PRIMARY_PHONE_TEL}

@@ -16,7 +16,7 @@ export default function SellPage() {
         Owner Representation
       </span>
       <h1 style={{ fontSize: 'var(--font-size-h1)', margin: 'var(--space-4) 0' }}>
-        List Property with {CANONICAL_BRAND}
+        Property Representation with {CANONICAL_BRAND}
       </h1>
       <p
         style={{
@@ -26,9 +26,9 @@ export default function SellPage() {
           marginBottom: 'var(--space-6)',
         }}
       >
-        Property owners and authorized representatives can share property details for confidential
-        brokerage evaluation. Online listing intake is currently under preparation. To discuss a
-        potential mandate or representation, please speak directly with our brokerage team.
+        Property owners can share property basics to request a direct conversation with the
+        brokerage team. We discuss representation terms, property parameters, and realistic
+        next steps. To discuss your property, connect with our team by phone.
       </p>
       <a
         href={PRIMARY_PHONE_TEL}

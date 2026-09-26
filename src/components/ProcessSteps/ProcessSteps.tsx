@@ -12,19 +12,19 @@ const STEPS: Step[] = [
     number: '01',
     title: 'State Your Requirement',
     description:
-      'Describe your property parameters, timeline, and preferred corridors through our requirement pathways or directly by telephone.',
+      'Share your property parameters, preferred localities, and timing through our service pathways or directly by telephone.',
   },
   {
     number: '02',
-    title: 'Direct Consultation',
+    title: 'Direct Conversation',
     description:
-      'Speak directly with our brokerage team to clarify priorities, discuss local trade-offs, and align on realistic search criteria.',
+      'Discuss your priorities, local trade-offs, and requirements directly with the brokerage team.',
   },
   {
     number: '03',
-    title: 'Coordinated Next Steps',
+    title: 'Discuss Relevant Next Steps',
     description:
-      'Receive considered guidance, verified options, and viewing coordination handled directly by accountable brokers.',
+      'Review suitable pathways and discuss realistic next steps directly with the brokerage team.',
   },
 ];
 
@@ -37,8 +37,8 @@ export const ProcessSteps: React.FC = () => {
           How the Advisory Model Operates
         </h2>
         <p className={styles.subtitle}>
-          A transparent, human-led workflow designed to navigate Bengaluru real estate without
-          unverified catalogues or automated pressure.
+          A human-led brokerage process focused on understanding your requirement and discussing
+          relevant next steps.
         </p>
       </div>
 
@@ -52,14 +52,6 @@ export const ProcessSteps: React.FC = () => {
             <p className={styles.stepDescription}>{step.description}</p>
           </div>
         ))}
-      </div>
-
-      <div className={styles.limitNotice}>
-        <p>
-          <strong>Process Boundary:</strong> INSTLE REAL ESTATE provides curated advisory and
-          brokerage coordination. We do not publish speculative listings or promise immediate
-          transaction outcomes.
-        </p>
       </div>
     </section>
   );

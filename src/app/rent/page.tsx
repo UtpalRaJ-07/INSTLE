@@ -26,9 +26,9 @@ export default function RentPage() {
           marginBottom: 'var(--space-6)',
         }}
       >
-        {CANONICAL_BRAND} assists tenants with identifying suitable residential rental options
-        across Bengaluru without unverified catalog feeds. Online intake forms are under
-        preparation. For immediate assistance, please contact us by telephone.
+        Share your rental timeline, preferred localities, and space requirements with {CANONICAL_BRAND}.
+        Our brokerage team assists tenants in reviewing realistic rental options and discussing
+        relevant next steps. To discuss your requirement, connect with our team directly by phone.
       </p>
       <a
         href={PRIMARY_PHONE_TEL}

@@ -87,10 +87,3 @@
   text-decoration: underline;
   text-underline-offset: 3px;
 }
-
-.boundaryNote {
-  font-size: var(--font-size-label);
-  color: var(--color-text-muted);
-  line-height: var(--line-height-label);
-  margin-top: var(--space-2);
-}

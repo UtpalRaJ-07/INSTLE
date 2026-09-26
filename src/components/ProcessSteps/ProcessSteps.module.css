@@ -77,17 +77,3 @@
   color: var(--color-text-muted);
   line-height: var(--line-height-small);
 }
-
-.limitNotice {
-  padding: var(--space-4) var(--space-6);
-  background-color: var(--color-background-elevated);
-  border-left: 3px solid var(--color-forest);
-  border-radius: var(--radius-control);
-  font-size: var(--font-size-small);
-  color: var(--color-text-primary);
-  line-height: var(--line-height-small);
-}
-
-.limitNotice strong {
-  color: var(--color-forest);
-}

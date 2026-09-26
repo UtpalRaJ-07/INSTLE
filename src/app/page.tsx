@@ -21,10 +21,9 @@ export default function HomePage() {
             A considered approach to Bengaluru property decisions.
           </h1>
           <p className={styles.lead}>
-            {CANONICAL_BRAND} provides dedicated, human-led brokerage advisory for residential
-            buyers, tenants, and property owners across Bengaluru. We assist in clarifying
-            priorities, evaluating local trade-offs, and coordinating transactions without
-            unverified listings or automated pressure.
+            Tell {CANONICAL_BRAND} what you are looking for; the team will understand the
+            requirement and discuss relevant next steps. We assist in clarifying priorities,
+            evaluating local trade-offs, and discussing options directly with clients.
           </p>
 
           <div className={styles.actions}>
@@ -32,7 +31,7 @@ export default function HomePage() {
               State Your Requirement →
             </Link>
             <Link href="/sell" className={styles.secondaryCta}>
-              List Your Property
+              Discuss Your Property
             </Link>
           </div>
 
@@ -55,26 +54,24 @@ export default function HomePage() {
       {/* Advisory Process: 3 Steps */}
       <ProcessSteps />
 
-      {/* Bengaluru Urban Geographic Context (Broad Citywide Focus) */}
+      {/* Bengaluru Urban Geographic Context */}
       <section className={styles.geographySection} aria-labelledby="geo-title">
         <div className={styles.geoContent}>
-          <span className={styles.eyebrow}>Geographic Context</span>
+          <span className={styles.eyebrow}>Local Context</span>
           <h2 id="geo-title" className={styles.geoTitle}>
-            Navigating Bengaluru&apos;s Dynamic Corridors
+            Navigating Bengaluru Property Decisions
           </h2>
           <p className={styles.geoDescription}>
-            Bengaluru&apos;s property landscape spans established central precincts, tech
-            corridors, and emerging peripheral developments. Each geography presents distinct
-            infrastructure, commute parameters, and civic characteristics.
+            Property decisions in Bengaluru involve navigating local trade-offs across commute
+            patterns, infrastructure, and evolving neighbourhood environments.
           </p>
           <p className={styles.geoDescription}>
-            {CANONICAL_BRAND} evaluates requirements across the city based on verified access,
-            documentation transparency, and realistic commute realities. Specific neighbourhood
-            dossiers are prepared under rigorous two-source factual verification before publication.
+            Rather than browsing unverified listings, connect directly with our brokerage team to
+            discuss your preferred localities and understand realistic options.
           </p>
           <div className={styles.geoActions}>
             <Link href="/contact" className={styles.geoLink}>
-              Discuss Specific Corridors with our Team →
+              Discuss Your Preferred Areas with the Team →
             </Link>
           </div>
         </div>

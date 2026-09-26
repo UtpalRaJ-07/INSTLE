@@ -26,8 +26,8 @@ export default function ContactPage() {
           marginBottom: 'var(--space-8)',
         }}
       >
-        For inquiries regarding Bengaluru property requirements, brokerage representation, or
-        advisory consultations, connect directly with our advisory team by telephone.
+        To discuss property requirements or property representation in Bengaluru, connect
+        directly with {CANONICAL_BRAND} by telephone.
       </p>
 
       <div
@@ -78,7 +78,7 @@ export default function ContactPage() {
               marginTop: 'var(--space-2)',
             }}
           >
-            Direct telephone connection to our Bengaluru brokerage advisory team.
+            Direct telephone connection to the {CANONICAL_BRAND} brokerage team.
           </p>
         </div>
       </div>

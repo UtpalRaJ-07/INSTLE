@@ -16,7 +16,7 @@ export default function AreasPage() {
         Bengaluru Geography
       </span>
       <h1 style={{ fontSize: 'var(--font-size-h1)', margin: 'var(--space-4) 0' }}>
-        Curated Locality Guidance
+        Locality Context &amp; Guidance
       </h1>
       <p
         style={{
@@ -26,10 +26,10 @@ export default function AreasPage() {
           marginBottom: 'var(--space-6)',
         }}
       >
-        {CANONICAL_BRAND} does not publish automated, unverified locality catalogues. Specific
-        neighbourhood dossiers with verified citations, transit relationships, and practical
-        selection context are undergoing factual verification before public release. To discuss
-        specific corridors, please contact our team directly.
+        Navigating Bengaluru real estate involves understanding neighbourhood-specific trade-offs,
+        commute patterns, and local infrastructure. Rather than browsing unverified catalogues,
+        connect directly with our brokerage team to discuss your preferred localities and
+        explore suitable options.
       </p>
       <a
         href={PRIMARY_PHONE_TEL}

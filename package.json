@@ -5,10 +5,13 @@
   "type": "module",
   "scripts": {
     "dev": "next dev",
+    "prebuild": "node scripts/optimize-nomodule-polyfills.js",
     "build": "next build",
+    "measure:js": "node scripts/measure-homepage-js.js",
     "start": "next start",
     "lint": "eslint .",
-    "test": "vitest run"
+    "test": "vitest run",
+    "postinstall": "node scripts/optimize-nomodule-polyfills.js"
   },
   "dependencies": {
     "next": "^16.3.6",
@@ -27,5 +30,17 @@
     "jsdom": "^26.0.0",
     "typescript": "^5.7.0",
     "vitest": "^3.0.0"
+  },
+  "browserslist": {
+    "production": [
+      "chrome >= 100",
+      "firefox >= 100",
+      "safari >= 15",
+      "edge >= 100",
+      "ios_saf >= 15"
+    ],
+    "development": [
+      "last 1 chrome version"
+    ]
   }
 }
