@@ -23,23 +23,47 @@ export default function ContactPage() {
           fontSize: 'var(--font-size-body-large)',
           color: 'var(--color-text-muted)',
           maxWidth: 'var(--reading-measure)',
-          marginBottom: 'var(--space-6)',
+          marginBottom: 'var(--space-8)',
         }}
       >
-        For inquiries regarding Bengaluru property requirements or advisory services, contact our
-        team directly by telephone. Online enquiry routing will be introduced in subsequent
-        milestones.
+        For inquiries regarding Bengaluru property requirements, brokerage representation, or
+        advisory consultations, connect directly with our advisory team by telephone.
       </p>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)', maxWidth: '400px' }}>
-        <div style={{ padding: 'var(--space-4)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-control)', backgroundColor: 'var(--color-white)' }}>
-          <span style={{ fontSize: 'var(--font-size-label)', color: 'var(--color-text-muted)', display: 'block', marginBottom: 'var(--space-1)' }}>
-            Primary Contact Phone:
+
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 'var(--space-4)',
+          maxWidth: '440px',
+        }}
+      >
+        <div
+          style={{
+            padding: 'var(--space-6)',
+            border: '1px solid var(--color-border)',
+            borderRadius: 'var(--radius-control)',
+            backgroundColor: 'var(--color-white)',
+          }}
+        >
+          <span
+            style={{
+              fontSize: 'var(--font-size-label)',
+              fontWeight: 700,
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
+              color: 'var(--color-text-muted)',
+              display: 'block',
+              marginBottom: 'var(--space-2)',
+            }}
+          >
+            Primary Business Phone:
           </span>
           <a
             href={PRIMARY_PHONE_TEL}
             style={{
               fontSize: 'var(--font-size-h3)',
-              fontWeight: 600,
+              fontWeight: 700,
               color: 'var(--color-forest)',
               textDecoration: 'none',
               letterSpacing: '0.05em',
@@ -47,6 +71,15 @@ export default function ContactPage() {
           >
             {PRIMARY_PHONE}
           </a>
+          <p
+            style={{
+              fontSize: 'var(--font-size-small)',
+              color: 'var(--color-text-muted)',
+              marginTop: 'var(--space-2)',
+            }}
+          >
+            Direct telephone connection to our Bengaluru brokerage advisory team.
+          </p>
         </div>
       </div>
     </div>

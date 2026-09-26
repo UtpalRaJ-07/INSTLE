@@ -13,10 +13,10 @@ export default function SellPage() {
           color: 'var(--color-forest)',
         }}
       >
-        Owner Advisory
+        Owner Representation
       </span>
       <h1 style={{ fontSize: 'var(--font-size-h1)', margin: 'var(--space-4) 0' }}>
-        List Property with INSTLE REAL ESTATE
+        List Property with {CANONICAL_BRAND}
       </h1>
       <p
         style={{
@@ -26,9 +26,9 @@ export default function SellPage() {
           marginBottom: 'var(--space-6)',
         }}
       >
-        Property owners and authorized representatives can share property details for advisory
-        evaluation. Owner representation workflows will be published following business process
-        and fee disclosure approval (Milestone 3).
+        Property owners and authorized representatives can share property details for confidential
+        brokerage evaluation. Online listing intake is currently under preparation. To discuss a
+        potential mandate or representation, please speak directly with our brokerage team.
       </p>
       <a
         href={PRIMARY_PHONE_TEL}
@@ -44,7 +44,7 @@ export default function SellPage() {
           fontWeight: 600,
         }}
       >
-        <span aria-hidden="true">☎</span> Direct Inquiries: {PRIMARY_PHONE}
+        <span aria-hidden="true">☎</span> Contact Brokerage Team: {PRIMARY_PHONE}
       </a>
     </div>
   );

@@ -26,8 +26,9 @@ export default function RentPage() {
           marginBottom: 'var(--space-6)',
         }}
       >
-        {CANONICAL_BRAND} assists tenants with identifying suitable residential rental options.
-        Interactive requirement capture will be introduced in Milestone 3.
+        {CANONICAL_BRAND} assists tenants with identifying suitable residential rental options
+        across Bengaluru without unverified catalog feeds. Online intake forms are under
+        preparation. For immediate assistance, please contact us by telephone.
       </p>
       <a
         href={PRIMARY_PHONE_TEL}
@@ -43,7 +44,7 @@ export default function RentPage() {
           fontWeight: 600,
         }}
       >
-        <span aria-hidden="true">☎</span> Direct Inquiries: {PRIMARY_PHONE}
+        <span aria-hidden="true">☎</span> Speak with Our Team: {PRIMARY_PHONE}
       </a>
     </div>
   );

@@ -1,0 +1,104 @@
+.section {
+  background-color: var(--color-forest);
+  color: var(--color-paper);
+  border-radius: var(--radius-control);
+  padding: var(--space-12) var(--space-8);
+  margin-bottom: var(--space-16);
+}
+
+@media (min-width: 860px) {
+  .section {
+    padding: var(--space-16) var(--space-12);
+  }
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+@media (min-width: 860px) {
+  .inner {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.copy {
+  max-width: var(--reading-measure);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.eyebrow {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-label);
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-stone);
+}
+
+.title {
+  font-size: var(--font-size-h2);
+  line-height: var(--line-height-h2);
+  color: var(--color-paper);
+}
+
+.text {
+  font-size: var(--font-size-body);
+  color: var(--color-stone);
+  line-height: var(--line-height-body);
+}
+
+.action {
+  flex-shrink: 0;
+}
+
+.phoneCta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-4);
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  padding: var(--space-4) var(--space-8);
+  border-radius: var(--radius-control);
+  text-decoration: none;
+  transition: transform var(--transition-fast), background-color var(--transition-fast);
+}
+
+.phoneCta:hover {
+  background-color: var(--color-white);
+  transform: translateY(-1px);
+  text-decoration: none;
+}
+
+.phoneIcon {
+  font-size: 1.5rem;
+  color: var(--color-forest);
+}
+
+.phoneDetails {
+  display: flex;
+  flex-direction: column;
+}
+
+.phoneLabel {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-label);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.phoneDigits {
+  font-family: var(--font-sans);
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--color-ink);
+}

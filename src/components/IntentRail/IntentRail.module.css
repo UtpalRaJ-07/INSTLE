@@ -1,0 +1,136 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+  padding: var(--space-16) 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.header {
+  max-width: var(--reading-measure);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.eyebrow {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-label);
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-forest);
+}
+
+.title {
+  font-size: var(--font-size-h2);
+  line-height: var(--line-height-h2);
+  color: var(--color-ink);
+}
+
+.subtitle {
+  font-size: var(--font-size-body);
+  color: var(--color-text-muted);
+  line-height: var(--line-height-body);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-8);
+}
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.card {
+  background-color: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  padding: var(--space-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  transition: border-color var(--transition-fast);
+}
+
+.card:hover {
+  border-color: var(--color-forest);
+}
+
+.audience {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-label);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.cardTitle {
+  font-family: var(--font-serif);
+  font-size: var(--font-size-h3);
+  line-height: var(--line-height-h3);
+  color: var(--color-ink);
+}
+
+.cardDescription {
+  font-size: var(--font-size-small);
+  color: var(--color-text-muted);
+  line-height: var(--line-height-small);
+  flex: 1;
+}
+
+.cardFooter {
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border);
+}
+
+.cardLink {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-small);
+  font-weight: 600;
+  color: var(--color-forest);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+
+.cardLink:hover {
+  color: var(--color-ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.callout {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  padding: var(--space-6) var(--space-8);
+  background-color: var(--color-background-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  font-size: var(--font-size-body);
+  color: var(--color-text-primary);
+}
+
+.calloutPhone {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-weight: 600;
+  color: var(--color-forest);
+  text-decoration: none;
+  letter-spacing: 0.04em;
+}
+
+.calloutPhone:hover {
+  color: var(--color-ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}

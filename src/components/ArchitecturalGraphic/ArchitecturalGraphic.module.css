@@ -1,0 +1,15 @@
+.graphicContainer {
+  width: 100%;
+  max-width: 540px;
+  background-color: var(--color-background-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(32, 38, 35, 0.04);
+}
+
+.svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}

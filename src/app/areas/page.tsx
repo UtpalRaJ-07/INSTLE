@@ -16,7 +16,7 @@ export default function AreasPage() {
         Bengaluru Geography
       </span>
       <h1 style={{ fontSize: 'var(--font-size-h1)', margin: 'var(--space-4) 0' }}>
-        Curated Locality Discovery
+        Curated Locality Guidance
       </h1>
       <p
         style={{
@@ -26,9 +26,10 @@ export default function AreasPage() {
           marginBottom: 'var(--space-6)',
         }}
       >
-        {CANONICAL_BRAND} does not publish automated or unverified locality pages. Researched
-        neighbourhood guides with verified citations, transit relationships, and practical
-        selection context will be published upon passing the quality gate in Milestone 4.
+        {CANONICAL_BRAND} does not publish automated, unverified locality catalogues. Specific
+        neighbourhood dossiers with verified citations, transit relationships, and practical
+        selection context are undergoing factual verification before public release. To discuss
+        specific corridors, please contact our team directly.
       </p>
       <a
         href={PRIMARY_PHONE_TEL}
@@ -44,7 +45,7 @@ export default function AreasPage() {
           fontWeight: 600,
         }}
       >
-        <span aria-hidden="true">☎</span> Inquire About Specific Areas: {PRIMARY_PHONE}
+        <span aria-hidden="true">☎</span> Inquire About Bengaluru Corridors: {PRIMARY_PHONE}
       </a>
     </div>
   );

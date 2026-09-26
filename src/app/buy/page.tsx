@@ -26,9 +26,9 @@ export default function BuyPage() {
           marginBottom: 'var(--space-6)',
         }}
       >
-        {CANONICAL_BRAND} is preparing structured buyer requirement capture and advisory
-        workflows. This route shell is part of Milestone 1 scaffolding; detailed intake will be
-        introduced in Milestone 3.
+        {CANONICAL_BRAND} assists residential buyers with evaluating properties, understanding
+        corridor trade-offs, and coordinating viewings. Online requirement intake is currently
+        under preparation. To share your requirement directly, please call our advisory team.
       </p>
       <a
         href={PRIMARY_PHONE_TEL}
@@ -44,7 +44,7 @@ export default function BuyPage() {
           fontWeight: 600,
         }}
       >
-        <span aria-hidden="true">☎</span> Direct Inquiries: {PRIMARY_PHONE}
+        <span aria-hidden="true">☎</span> Speak with Our Team: {PRIMARY_PHONE}
       </a>
     </div>
   );
