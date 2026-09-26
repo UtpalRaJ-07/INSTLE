@@ -1,0 +1,117 @@
+.footer {
+  margin-top: auto;
+  background-color: var(--color-ink);
+  color: var(--color-paper);
+  border-top: 1px solid var(--color-border-dark);
+  padding: var(--space-16) 0 var(--space-8);
+}
+
+.footerInner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+}
+
+.footerTop {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-8);
+}
+
+@media (min-width: 768px) {
+  .footerTop {
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: var(--space-12);
+  }
+}
+
+.brandColumn {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* Ensure BrandLockup renders with light text on dark footer */
+.brandColumn :global(span) {
+  color: var(--color-paper) !important;
+}
+
+.descriptor {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-small);
+  color: var(--color-stone);
+  max-width: 38ch;
+  line-height: var(--line-height-small);
+}
+
+.columnTitle {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-label);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-stone);
+  margin-bottom: var(--space-4);
+}
+
+.linkList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.footerLink {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-small);
+  color: var(--color-paper);
+  text-decoration: none;
+}
+
+.footerLink:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.contactColumn {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.contactItem {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.contactLabel {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-label);
+  color: var(--color-stone);
+}
+
+.phoneLink {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-body);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--color-paper);
+  text-decoration: none;
+}
+
+.phoneLink:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.footerBottom {
+  padding-top: var(--space-6);
+  border-top: 1px solid rgba(201, 195, 183, 0.2);
+}
+
+.copyright {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-small);
+  color: var(--color-stone);
+}

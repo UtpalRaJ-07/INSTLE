@@ -1,0 +1,104 @@
+/**
+ * INSTLE REAL ESTATE — Design System Tokens
+ * Source: Blueprint Section 10 (Foundations)
+ */
+
+:root {
+  /* Color Palette */
+  --color-paper: #F6F4EF;
+  --color-ink: #202623;
+  --color-forest: #24443A;
+  --color-stone: #C9C3B7;
+  --color-city-blue: #557C86;
+  --color-accent: #B9573E;
+  --color-white: #FFFFFF;
+
+  /* Semantic UI Colors */
+  --color-text-primary: var(--color-ink);
+  --color-text-muted: #535A55;
+  --color-text-on-dark: var(--color-paper);
+  --color-background-primary: var(--color-paper);
+  --color-background-card: var(--color-white);
+  --color-background-elevated: #EDE8DE;
+  --color-border: #DCD6CA;
+  --color-border-dark: var(--color-ink);
+
+  /* Contrast-compliant Focus Rings (WCAG 2.2 AA) */
+  --focus-ring-color: var(--color-accent);
+  --focus-ring-width: 2px;
+  --focus-ring-offset: 2px;
+
+  /* Typography Scale */
+  --font-serif: "Newsreader", "Playfair Display", Georgia, "Times New Roman", serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+  --font-size-display: clamp(2.375rem, 5vw, 4rem);       /* 38px -> 64px */
+  --line-height-display: 1.1;
+
+  --font-size-h1: clamp(2.125rem, 4vw, 3.25rem);        /* 34px -> 52px */
+  --line-height-h1: 1.15;
+
+  --font-size-h2: clamp(1.75rem, 3.5vw, 2.5rem);        /* 28px -> 40px */
+  --line-height-h2: 1.2;
+
+  --font-size-h3: clamp(1.375rem, 2.5vw, 1.75rem);       /* 22px -> 28px */
+  --line-height-h3: 1.25;
+
+  --font-size-body-large: 1.125rem;                      /* 18px */
+  --line-height-body-large: 1.6;
+
+  --font-size-body: 1rem;                                /* 16px */
+  --line-height-body: 1.5;
+
+  --font-size-small: 0.875rem;                           /* 14px */
+  --line-height-small: 1.45;
+
+  --font-size-label: 0.75rem;                            /* 12px */
+  --line-height-label: 1.35;
+
+  /* Spacing Scale (4px base) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+  --space-32: 128px;
+
+  /* Layout Rhythm */
+  --max-content-width: 1280px;
+  --reading-measure: 68ch;
+  --gutter-desktop: 24px;
+  --gutter-tablet: 20px;
+  --gutter-mobile: 16px;
+  --edge-padding: clamp(1.25rem, 4vw, 4rem);             /* 20px -> 64px */
+  --section-rhythm: clamp(3rem, 6vw, 6rem);              /* 48px -> 96px */
+
+  /* Controls and Radius */
+  --min-touch-target: 44px;
+  --radius-control: 2px;
+  --radius-media: 4px;
+  --border-width: 1px;
+
+  /* Layering (Z-Index) */
+  --z-base: 0;
+  --z-sticky: 10;
+  --z-overlay: 30;
+  --z-modal: 50;
+  --z-toast: 60;
+
+  /* Transitions & Motion */
+  --transition-fast: 150ms cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-medium: 260ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --transition-fast: 0ms;
+    --transition-medium: 0ms;
+  }
+}
