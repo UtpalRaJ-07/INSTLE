@@ -1,140 +1,394 @@
-import { describe, it, expect } from 'vitest';
-import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
-import { SkipLink } from '@/components/SkipLink/SkipLink';
-import { Header } from '@/components/Header/Header';
+/**
+ * @vitest-environment jsdom
+ */
 
 /**
- * WCAG 2.2 Relative Luminance and Contrast Calculation
- * https://www.w3.org/WAI/GL/wiki/Relative_luminance
+ * Form accessibility and failure behaviour.
+ *
+ * This file previously combined contrast arithmetic with mobile-drawer focus
+ * assertions. Both moved to better homes: contrast is now computed from
+ * tokens.css in tests/design-tokens.test.ts, and the drawer has its own file in
+ * tests/ui/mobile-drawer.test.tsx.
+ *
+ * What is here instead is the enquiry form, which is where a customer can actually
+ * get stuck: labels, error association, the error summary, and what happens when
+ * the destination fails.
+ *
+ * All data used is synthetic.
  */
-function hexToRgb(hex: string): [number, number, number] {
-  const cleanHex = hex.replace('#', '');
-  const r = parseInt(cleanHex.substring(0, 2), 16);
-  const g = parseInt(cleanHex.substring(2, 4), 16);
-  const b = parseInt(cleanHex.substring(4, 6), 16);
-  return [r, g, b];
+
+import React from 'react';
+import { cleanup, render, screen, waitFor, within } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { PRIMARY_PHONE, PRIMARY_PHONE_TEL } from '@/config/constants';
+import { EnquiryForm } from '@/components/EnquiryForm/EnquiryForm';
+
+afterEach(() => {
+  cleanup();
+  vi.unstubAllGlobals();
+});
+
+function renderForm(intakeEnabled = true) {
+  return render(
+    <EnquiryForm intent="buy" intakeEnabled={intakeEnabled} consentNoticeText={null} />
+  );
 }
 
-function getLuminance(hex: string): number {
-  const [r, g, b] = hexToRgb(hex).map((val) => {
-    const sRGB = val / 255;
-    return sRGB <= 0.03928 ? sRGB / 12.92 : Math.pow((sRGB + 0.055) / 1.055, 2.4);
-  });
-  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+async function fillRequiredFields(user: ReturnType<typeof userEvent.setup>) {
+  await user.click(screen.getByRole('radio', { name: /flat \/ apartment/i }));
+  await user.type(screen.getByLabelText(/your name/i), 'Synthetic Test Person');
+  await user.type(screen.getByLabelText(/phone number/i), '9845012345');
+  await user.click(screen.getByRole('checkbox', { name: /happy for/i }));
 }
 
-function getContrastRatio(hex1: string, hex2: string): number {
-  const lum1 = getLuminance(hex1);
-  const lum2 = getLuminance(hex2);
-  const brightest = Math.max(lum1, lum2);
-  const darkest = Math.min(lum1, lum2);
-  return (brightest + 0.05) / (darkest + 0.05);
-}
-
-describe('Accessibility & Contrast Verification (WCAG 2.2 AA / AAA)', () => {
-  const PALETTE = {
-    paper: '#F6F4EF',
-    ink: '#202623',
-    forest: '#24443A',
-    stone: '#C9C3B7',
-    cityBlue: '#557C86',
-    accent: '#B9573E',
-    white: '#FFFFFF',
-  };
-
-  it('validates Ink (#202623) on Paper (#F6F4EF) exceeds WCAG AAA (7:1) for normal text', () => {
-    const ratio = getContrastRatio(PALETTE.ink, PALETTE.paper);
-    expect(ratio).toBeGreaterThanOrEqual(7.0);
-    // Calculated ratio is approx 14.5:1
+describe('call-only mode', () => {
+  it('collects nothing and leads with the phone number', () => {
+    const { container } = renderForm(false);
+    expect(container.querySelectorAll('input')).toHaveLength(0);
+    expect(container.querySelector(`a[href="${PRIMARY_PHONE_TEL}"]`)).not.toBeNull();
+    expect(container.textContent).toMatch(/not switched on yet/i);
   });
 
-  it('validates Forest (#24443A) on Paper (#F6F4EF) exceeds WCAG AA (4.5:1) for text', () => {
-    const ratio = getContrastRatio(PALETTE.forest, PALETTE.paper);
-    expect(ratio).toBeGreaterThanOrEqual(4.5);
-    // Calculated ratio is approx 8.0:1
+  it('still tells the customer what to have ready', () => {
+    const { container } = renderForm(false);
+    expect(container.textContent).toMatch(/useful to have ready/i);
+  });
+});
+
+describe('form structure', () => {
+  beforeEach(() => {
+    vi.stubGlobal('fetch', vi.fn());
   });
 
-  it('validates White (#FFFFFF) on Forest (#24443A) exceeds WCAG AA (4.5:1) for text/buttons', () => {
-    const ratio = getContrastRatio(PALETTE.white, PALETTE.forest);
-    expect(ratio).toBeGreaterThanOrEqual(4.5);
-    // Calculated ratio is approx 8.9:1
+  it('renders no h1, because the page already has one', () => {
+    const { container } = renderForm();
+    expect(container.querySelectorAll('h1')).toHaveLength(0);
   });
 
-  it('validates Paper (#F6F4EF) on Forest (#24443A) exceeds WCAG AA (4.5:1) for primary CTA buttons', () => {
-    const ratio = getContrastRatio(PALETTE.paper, PALETTE.forest);
-    expect(ratio).toBeGreaterThanOrEqual(4.5);
-    // Calculated ratio is approx 8.0:1
+  it('groups fields into named fieldsets', () => {
+    renderForm();
+    expect(screen.getByRole('group', { name: /what you need/i })).toBeTruthy();
+    expect(screen.getByRole('group', { name: /where and when/i })).toBeTruthy();
+    expect(screen.getByRole('group', { name: /how to reach you/i })).toBeTruthy();
   });
 
-  it('validates Accent Vermilion (#B9573E) on Paper (#F6F4EF) meets WCAG 2.2 (3:1) for UI components/large text', () => {
-    const ratio = getContrastRatio(PALETTE.accent, PALETTE.paper);
-    expect(ratio).toBeGreaterThanOrEqual(3.0);
-    // Calculated ratio is approx 4.0:1
-  });
-
-  it('verifies SkipLink renders with accessible target and label', () => {
-    render(<SkipLink targetId="main-content" />);
-    const link = screen.getByRole('link', { name: /skip to main content/i });
-    expect(link).toBeInTheDocument();
-    expect(link).toHaveAttribute('href', '#main-content');
-  });
-
-  it('verifies Mobile Navigation focus management: entry, trap wrapping, and restoration on close', () => {
-    render(<Header />);
-
-    const toggleButton = screen.getByRole('button', { name: /toggle navigation menu/i });
-    expect(toggleButton).toHaveAttribute('aria-expanded', 'false');
-    expect(document.body.classList.contains('modal-open')).toBe(false);
-
-    // 1. Open mobile modal drawer
-    fireEvent.click(toggleButton);
-
-    expect(toggleButton).toHaveAttribute('aria-expanded', 'true');
-    expect(document.body.classList.contains('modal-open')).toBe(true);
-
-    const dialog = screen.getByRole('dialog', { name: /site navigation/i });
-    expect(dialog).toBeInTheDocument();
-    expect(dialog).toHaveAttribute('aria-modal', 'true');
-
-    // 2. Focus enters dialog: initial active element is the close button
-    const closeButton = screen.getByRole('button', { name: /close navigation menu/i });
-    expect(document.activeElement).toBe(closeButton);
-
-    // Identify first and last focusable elements in dialog
-    const focusableInModal = Array.from(
-      dialog.querySelectorAll<HTMLElement>(
-        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+  it('gives every text input a programmatically associated label', () => {
+    const { container } = renderForm();
+    const inputs = Array.from(
+      container.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>(
+        'input[type="text"], input[type="tel"], textarea'
       )
     );
-    const firstElement = focusableInModal[0];
-    const lastElement = focusableInModal[focusableInModal.length - 1];
+    expect(inputs.length).toBeGreaterThan(0);
+    for (const input of inputs) {
+      expect(container.querySelector(`label[for="${input.id}"]`), input.id).not.toBeNull();
+    }
+  });
 
-    expect(firstElement).toBe(closeButton);
+  it('uses real radio groups so arrow keys and group semantics work', () => {
+    renderForm();
+    const group = screen.getByRole('group', { name: /what would you like to buy/i });
+    expect(within(group).getAllByRole('radio').length).toBeGreaterThan(3);
+  });
 
-    // 3. Focus wrapping: Shift+Tab on first element wraps focus to last element
-    closeButton.focus();
-    expect(document.activeElement).toBe(firstElement);
-    fireEvent.keyDown(window, { key: 'Tab', shiftKey: true });
-    expect(document.activeElement).toBe(lastElement);
+  it('leaves both consent checkboxes unticked', () => {
+    renderForm();
+    const checkboxes = screen.getAllByRole('checkbox');
+    expect(checkboxes).toHaveLength(2);
+    for (const checkbox of checkboxes) {
+      expect((checkbox as HTMLInputElement).checked).toBe(false);
+    }
+  });
 
-    // 4. Focus wrapping: Tab on last element wraps focus back to first element
-    lastElement.focus();
-    expect(document.activeElement).toBe(lastElement);
-    fireEvent.keyDown(window, { key: 'Tab', shiftKey: false });
-    expect(document.activeElement).toBe(firstElement);
+  it('keeps marketing permission separate from the service consent', () => {
+    renderForm();
+    expect(screen.getByRole('checkbox', { name: /optional/i })).toBeTruthy();
+  });
 
-    // 5. Focus restoration: Escape closes dialog and returns focus to toggle trigger
-    fireEvent.keyDown(window, { key: 'Escape' });
-    expect(screen.queryByRole('dialog', { name: /site navigation/i })).not.toBeInTheDocument();
-    expect(toggleButton).toHaveAttribute('aria-expanded', 'false');
-    expect(document.activeElement).toBe(toggleButton);
+  it('sets autocomplete hints on name and phone', () => {
+    renderForm();
+    expect(screen.getByLabelText(/your name/i).getAttribute('autocomplete')).toBe('name');
+    expect(screen.getByLabelText(/phone number/i).getAttribute('autocomplete')).toBe('tel');
+  });
 
-    // 6. Focus restoration on explicit close button click
-    fireEvent.click(toggleButton); // reopen
-    const closeBtnReopened = screen.getByRole('button', { name: /close navigation menu/i });
-    fireEvent.click(closeBtnReopened); // click close
-    expect(screen.queryByRole('dialog', { name: /site navigation/i })).not.toBeInTheDocument();
-    expect(document.activeElement).toBe(toggleButton);
+  it('offers a call alternative alongside the submit button', () => {
+    const { container } = renderForm();
+    expect(container.querySelector(`a[href="${PRIMARY_PHONE_TEL}"]`)).not.toBeNull();
+  });
+
+  it('states plainly that sending does not reserve a property', () => {
+    const { container } = renderForm();
+    expect(container.textContent).toMatch(/does not reserve/i);
+  });
+});
+
+describe('client-side validation', () => {
+  beforeEach(() => {
+    vi.stubGlobal('fetch', vi.fn());
+  });
+
+  it('shows an error summary and does not call the API on an empty submit', async () => {
+    const user = userEvent.setup();
+    renderForm();
+    await user.click(screen.getByRole('button', { name: /send my requirement/i }));
+
+    const summary = await screen.findByRole('alert');
+    expect(summary.textContent).toMatch(/please check/i);
+    expect(fetch).not.toHaveBeenCalled();
+  });
+
+  it('moves focus to the error summary so it is announced', async () => {
+    const user = userEvent.setup();
+    renderForm();
+    await user.click(screen.getByRole('button', { name: /send my requirement/i }));
+
+    const summary = await screen.findByRole('alert');
+    await waitFor(() => expect(document.activeElement).toBe(summary));
+  });
+
+  it('links each summary item to the field it refers to', async () => {
+    const user = userEvent.setup();
+    const { container } = renderForm();
+    await user.click(screen.getByRole('button', { name: /send my requirement/i }));
+
+    const summary = await screen.findByRole('alert');
+    const links = Array.from(summary.querySelectorAll('a'));
+    expect(links.length).toBeGreaterThan(0);
+    for (const link of links) {
+      const id = link.getAttribute('href')!.slice(1);
+      expect(document.getElementById(id), id).not.toBeNull();
+    }
+  });
+
+  it('marks an invalid field with aria-invalid and an associated message', async () => {
+    const user = userEvent.setup();
+    renderForm();
+    await user.click(screen.getByRole('radio', { name: /flat \/ apartment/i }));
+    await user.type(screen.getByLabelText(/your name/i), 'Synthetic Test Person');
+    await user.type(screen.getByLabelText(/phone number/i), '12345');
+    await user.click(screen.getByRole('checkbox', { name: /happy for/i }));
+    await user.click(screen.getByRole('button', { name: /send my requirement/i }));
+
+    const phone = screen.getByLabelText(/phone number/i);
+    await waitFor(() => expect(phone.getAttribute('aria-invalid')).toBe('true'));
+
+    const describedBy = phone.getAttribute('aria-describedby')!;
+    const ids = describedBy.split(/\s+/);
+    const messages = ids
+      .map((id) => document.getElementById(id)?.textContent ?? '')
+      .join(' ');
+    expect(messages).toMatch(/check the phone number/i);
+  });
+
+  it('requires consent before submitting', async () => {
+    const user = userEvent.setup();
+    renderForm();
+    await user.click(screen.getByRole('radio', { name: /flat \/ apartment/i }));
+    await user.type(screen.getByLabelText(/your name/i), 'Synthetic Test Person');
+    await user.type(screen.getByLabelText(/phone number/i), '9845012345');
+    await user.click(screen.getByRole('button', { name: /send my requirement/i }));
+
+    const summary = await screen.findByRole('alert');
+    expect(summary.textContent).toMatch(/tick the box/i);
+    expect(fetch).not.toHaveBeenCalled();
+  });
+
+  it('does not signal an error by colour alone', async () => {
+    const user = userEvent.setup();
+    const { container } = renderForm();
+    await user.click(screen.getByRole('button', { name: /send my requirement/i }));
+
+    // Each inline error carries a text message plus a non-colour mark.
+    const errors = container.querySelectorAll('[id$="-error"]');
+    expect(errors.length).toBeGreaterThan(0);
+    for (const error of Array.from(errors)) {
+      expect((error.textContent ?? '').replace(/[!\s]/g, '').length).toBeGreaterThan(5);
+    }
+  });
+});
+
+describe('submission outcomes', () => {
+  it('shows a reference on success and echoes no personal data back', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue({
+        ok: true,
+        json: async () => ({ success: true, reference: 'IRE-ABC123DEF456', isDuplicate: false }),
+      })
+    );
+
+    const user = userEvent.setup();
+    const { container } = renderForm();
+    await fillRequiredFields(user);
+    await user.click(screen.getByRole('button', { name: /send my requirement/i }));
+
+    await waitFor(() => {
+      expect(container.textContent).toContain('IRE-ABC123DEF456');
+    });
+
+    // The previous confirmation screen printed the name, phone and requirement.
+    expect(container.textContent).not.toContain('Synthetic Test Person');
+    expect(container.textContent).not.toContain('9845012345');
+  });
+
+  it('tells the customer plainly when the enquiry was not saved', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue({
+        ok: false,
+        json: async () => ({
+          success: false,
+          code: 'destination-rejected',
+          error: 'We could not save your enquiry.',
+          retriable: true,
+        }),
+      })
+    );
+
+    const user = userEvent.setup();
+    renderForm();
+    await fillRequiredFields(user);
+    await user.click(screen.getByRole('button', { name: /send my requirement/i }));
+
+    const alerts = await screen.findAllByRole('alert');
+    const text = alerts.map((alert) => alert.textContent).join(' ');
+    expect(text).toMatch(/could not save/i);
+  });
+
+  it('never reports success when the response body says otherwise', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue({
+        ok: true,
+        json: async () => ({ success: false, error: 'Destination unavailable.' }),
+      })
+    );
+
+    const user = userEvent.setup();
+    const { container } = renderForm();
+    await fillRequiredFields(user);
+    await user.click(screen.getByRole('button', { name: /send my requirement/i }));
+
+    await screen.findAllByRole('alert');
+    expect(container.textContent).not.toMatch(/we have your enquiry/i);
+  });
+
+  it('offers the phone number when submission fails', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('offline')));
+
+    const user = userEvent.setup();
+    const { container } = renderForm();
+    await fillRequiredFields(user);
+    await user.click(screen.getByRole('button', { name: /send my requirement/i }));
+
+    await screen.findAllByRole('alert');
+    expect(container.textContent).toContain(PRIMARY_PHONE);
+    expect(container.querySelector(`a[href="${PRIMARY_PHONE_TEL}"]`)).not.toBeNull();
+  });
+
+  it('keeps entered values in the form after a failure so nothing is retyped', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('offline')));
+
+    const user = userEvent.setup();
+    renderForm();
+    await fillRequiredFields(user);
+    await user.click(screen.getByRole('button', { name: /send my requirement/i }));
+
+    await screen.findAllByRole('alert');
+    expect((screen.getByLabelText(/your name/i) as HTMLInputElement).value).toBe(
+      'Synthetic Test Person'
+    );
+  });
+
+  it('writes nothing to localStorage or sessionStorage', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('offline')));
+
+    const user = userEvent.setup();
+    renderForm();
+    await fillRequiredFields(user);
+    await user.click(screen.getByRole('button', { name: /send my requirement/i }));
+    await screen.findAllByRole('alert');
+
+    expect(window.localStorage.length).toBe(0);
+    expect(window.sessionStorage.length).toBe(0);
+  });
+
+  it('sends one request and disables the button while in flight', async () => {
+    let resolveFetch: ((value: unknown) => void) | undefined;
+    const fetchMock = vi.fn().mockImplementation(
+      () =>
+        new Promise((resolve) => {
+          resolveFetch = resolve;
+        })
+    );
+    vi.stubGlobal('fetch', fetchMock);
+
+    const user = userEvent.setup();
+    renderForm();
+    await fillRequiredFields(user);
+
+    const submit = screen.getByRole('button', { name: /send my requirement/i });
+    await user.click(submit);
+
+    await waitFor(() => {
+      expect((screen.getByRole('button', { name: /sending/i }) as HTMLButtonElement).disabled).toBe(
+        true
+      );
+    });
+
+    resolveFetch?.({
+      ok: true,
+      json: async () => ({ success: true, reference: 'IRE-XYZ', isDuplicate: false }),
+    });
+
+    await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1));
+  });
+
+  it('sends enum values rather than free text', async () => {
+    const fetchMock = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({ success: true, reference: 'IRE-XYZ', isDuplicate: false }),
+    });
+    vi.stubGlobal('fetch', fetchMock);
+
+    const user = userEvent.setup();
+    renderForm();
+    await fillRequiredFields(user);
+    await user.click(screen.getByRole('radio', { name: /₹50 lakh to ₹1 crore/i }));
+    await user.click(screen.getByRole('button', { name: /send my requirement/i }));
+
+    await waitFor(() => expect(fetchMock).toHaveBeenCalled());
+    const body = JSON.parse(fetchMock.mock.calls[0]![1].body);
+    expect(body.assetType).toBe('flat');
+    expect(body.budgetBand).toBe('50-lakh-to-1-crore');
+    expect(body.consent).toBe(true);
+    expect(body.marketingConsent).toBe(false);
+    expect(typeof body.idempotencyKey).toBe('string');
+  });
+});
+
+describe('conditional fields', () => {
+  beforeEach(() => {
+    vi.stubGlobal('fetch', vi.fn());
+  });
+
+  it('asks about bedrooms for a home but not for a site', async () => {
+    const user = userEvent.setup();
+    renderForm();
+
+    expect(screen.queryByRole('group', { name: /how many bedrooms/i })).toBeNull();
+
+    await user.click(screen.getByRole('radio', { name: /flat \/ apartment/i }));
+    expect(screen.getByRole('group', { name: /how many bedrooms/i })).toBeTruthy();
+
+    await user.click(screen.getByRole('radio', { name: /site \/ plot/i }));
+    expect(screen.queryByRole('group', { name: /how many bedrooms/i })).toBeNull();
+  });
+
+  it('does not ask a buyer about furnishing or ownership role', () => {
+    renderForm();
+    expect(screen.queryByRole('group', { name: /furnishing/i })).toBeNull();
+    expect(screen.queryByRole('group', { name: /relationship to the property/i })).toBeNull();
   });
 });

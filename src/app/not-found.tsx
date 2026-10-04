@@ -1,42 +1,74 @@
 import React from 'react';
-import Link from 'next/link';
-import { PRIMARY_PHONE, PRIMARY_PHONE_TEL } from '@/config/constants';
+import type { Metadata } from 'next';
+import { CUSTOMER_INTENTS, PRIMARY_PHONE } from '@/config/constants';
+import { buildPageMetadata } from '@/lib/metadata';
+import {
+  ActionRow,
+  CallButton,
+  IntentCards,
+  LinkCard,
+  LinkCardGrid,
+  PageIntro,
+  Section,
+  SectionHeader,
+  SecondaryLink,
+} from '@/components/ui';
 
+export const metadata: Metadata = buildPageMetadata({
+  title: 'Page not found',
+  description: 'This page does not exist. Here are the main things you can do from here.',
+  path: '/404',
+  noindex: true,
+});
+
+/**
+ * 404.
+ *
+ * Returns a real 404 status (Next.js handles that for this convention) and offers
+ * the routes a lost visitor most likely wanted. It does not redirect to the
+ * homepage, which would turn a missing page into a soft 404.
+ */
 export default function NotFound() {
   return (
-    <div className="container" style={{ padding: 'var(--section-rhythm) 0', textAlign: 'center' }}>
-      <h1 style={{ fontSize: 'var(--font-size-display)', marginBottom: 'var(--space-4)' }}>404</h1>
-      <p style={{ fontSize: 'var(--font-size-body-large)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-8)' }}>
-        The requested page does not exist or has been moved.
-      </p>
-      <div style={{ display: 'flex', gap: 'var(--space-4)', justifyContent: 'center', flexWrap: 'wrap' }}>
-        <Link
-          href="/"
-          style={{
-            padding: 'var(--space-3) var(--space-6)',
-            backgroundColor: 'var(--color-forest)',
-            color: 'var(--color-paper)',
-            borderRadius: 'var(--radius-control)',
-            textDecoration: 'none',
-            fontWeight: 600,
-          }}
-        >
-          Return to Overview
-        </Link>
-        <a
-          href={PRIMARY_PHONE_TEL}
-          style={{
-            padding: 'var(--space-3) var(--space-6)',
-            border: '1px solid var(--color-ink)',
-            color: 'var(--color-ink)',
-            borderRadius: 'var(--radius-control)',
-            textDecoration: 'none',
-            fontWeight: 600,
-          }}
-        >
-          Call {PRIMARY_PHONE}
-        </a>
-      </div>
-    </div>
+    <>
+      <PageIntro
+        eyebrow="404"
+        titleId="not-found-heading"
+        title="We could not find that page"
+        lead="It may have moved, or the address may have a typo in it. Here is what you can do from here."
+      >
+        <ActionRow>
+          <CallButton />
+          <SecondaryLink href="/">Go to the home page</SecondaryLink>
+        </ActionRow>
+      </PageIntro>
+
+      <Section labelledBy="not-found-intents-heading">
+        <SectionHeader
+          titleId="not-found-intents-heading"
+          eyebrow="Start here"
+          title="What would you like to do?"
+        />
+        <IntentCards intents={CUSTOMER_INTENTS} />
+      </Section>
+
+      <Section tone="raised" labelledBy="not-found-links-heading">
+        <SectionHeader titleId="not-found-links-heading" eyebrow="Other pages" title="You may want" />
+        <LinkCardGrid>
+          <LinkCard href="/areas" title="Areas we work in">
+            Where we work across Bengaluru, and how our area guides are researched.
+          </LinkCard>
+          <LinkCard href="/guides" title="Guides">
+            Straight answers to questions people ask us.
+          </LinkCard>
+          <LinkCard href="/how-it-works" title="How we work">
+            What happens at each stage, and what we do not promise.
+          </LinkCard>
+          <LinkCard href="/contact" title="Contact">
+            Call {PRIMARY_PHONE} and speak to our team.
+          </LinkCard>
+        </LinkCardGrid>
+      </Section>
+    </>
   );
 }

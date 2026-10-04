@@ -1,0 +1,1359 @@
+{
+  "generatedAt": "2026-09-29T14:17:46.598Z",
+  "baseUrl": "http://127.0.0.1:3217",
+  "runCompleted": true,
+  "routeSource": "getPublicRoutes() plus one unregistered path for the 404 layout",
+  "widthsTested": [
+    320,
+    360,
+    390,
+    768,
+    1280,
+    1440
+  ],
+  "textZoomWidthsTested": [
+    320,
+    1280
+  ],
+  "textZoomMethod": "html { font-size: 150% !important; }",
+  "pagesTested": [
+    "home",
+    "buy",
+    "sell",
+    "rent",
+    "rent-out",
+    "commercial",
+    "areas",
+    "guides",
+    "how-it-works",
+    "about",
+    "owner-utpal-raj-kb",
+    "contact",
+    "guides-what-to-tell-us-when-you-want-to-sell-your-property",
+    "guide-30-days",
+    "guides-decisions-to-make-before-you-rent-out-your-property",
+    "not-found"
+  ],
+  "routesTested": [
+    "/",
+    "/buy",
+    "/sell",
+    "/rent",
+    "/rent-out",
+    "/commercial",
+    "/areas",
+    "/guides",
+    "/how-it-works",
+    "/about",
+    "/about/utpal-raj-kb",
+    "/contact",
+    "/guides/what-to-tell-us-when-you-want-to-sell-your-property",
+    "/guides/can-a-broker-guarantee-a-property-sale-in-30-days",
+    "/guides/decisions-to-make-before-you-rent-out-your-property",
+    "/this-page-does-not-exist"
+  ],
+  "routesRequiringABengaluruElement": [
+    "/",
+    "/buy",
+    "/sell",
+    "/rent",
+    "/rent-out",
+    "/commercial",
+    "/areas"
+  ],
+  "notExercised": [
+    "asset TEX-LAYOUT-GRID-001 (LayoutGridMotif) was not measured as layout: no audited route that answers 200 renders it",
+    "the locality page template was not audited: no locality passes the publication gate, so no /areas/<slug> route answers 200",
+    "the <details> overflow disclosure was not measured: it renders only for a group of more than 25 published localities, and none is published, so no served page contains one",
+    "the enquiry form error state was not captured: no submit control on /buy: this build renders the call-only panel, so there is no form state to capture"
+  ],
+  "coverage": {
+    "bengaluruElementsMeasured": 42,
+    "detailsFound": 0,
+    "detailsOpened": 0,
+    "textZoomMeasurements": 32,
+    "enquiryFormStatesCaptured": false,
+    "enquiryFormNotRunReason": "no submit control on /buy: this build renders the call-only panel, so there is no form state to capture",
+    "drawerStateCaptured": true,
+    "drawerOpenAttempts": 1,
+    "noScriptPassRan": true
+  },
+  "measurements": {
+    "textZoom": [
+      {
+        "page": "home",
+        "width": 320,
+        "baselineRootFontSize": "16px",
+        "enlargedRootFontSize": "24px",
+        "appliedRatio": 1.5,
+        "viewport": 320,
+        "windowInnerWidth": 320,
+        "documentScrollWidth": 320,
+        "overflowPx": 0
+      },
+      {
+        "page": "buy",
+        "width": 320,
+        "baselineRootFontSize": "16px",
+        "enlargedRootFontSize": "24px",
+        "appliedRatio": 1.5,
+        "viewport": 320,
+        "windowInnerWidth": 320,
+        "documentScrollWidth": 320,
+        "overflowPx": 0
+      },
+      {
+        "page": "sell",
+        "width": 320,
+        "baselineRootFontSize": "16px",
+        "enlargedRootFontSize": "24px",
+        "appliedRatio": 1.5,
+        "viewport": 320,
+        "windowInnerWidth": 320,
+        "documentScrollWidth": 320,
+        "overflowPx": 0
+      },
+      {
+        "page": "rent",
+        "width": 320,
+        "baselineRootFontSize": "16px",
+        "enlargedRootFontSize": "24px",
+        "appliedRatio": 1.5,
+        "viewport": 320,
+        "windowInnerWidth": 320,
+        "documentScrollWidth": 320,
+        "overflowPx": 0
+      },
+      {
+        "page": "rent-out",
+        "width": 320,
+        "baselineRootFontSize": "16px",
+        "enlargedRootFontSize": "24px",
+        "appliedRatio": 1.5,
+        "viewport": 320,
+        "windowInnerWidth": 320,
+        "documentScrollWidth": 320,
+        "overflowPx": 0
+      },
+      {
+        "page": "commercial",
+        "width": 320,
+        "baselineRootFontSize": "16px",
+        "enlargedRootFontSize": "24px",
+        "appliedRatio": 1.5,
+        "viewport": 320,
+        "windowInnerWidth": 320,
+        "documentScrollWidth": 320,
+        "overflowPx": 0
+      },
+      {
+        "page": "areas",
+        "width": 320,
+        "baselineRootFontSize": "16px",
+        "enlargedRootFontSize": "24px",
+        "appliedRatio": 1.5,
+        "viewport": 320,
+        "windowInnerWidth": 320,
+        "documentScrollWidth": 320,
+        "overflowPx": 0
+      },
+      {
+        "page": "guides",
+        "width": 320,
+        "baselineRootFontSize": "16px",
+        "enlargedRootFontSize": "24px",
+        "appliedRatio": 1.5,
+        "viewport": 320,
+        "windowInnerWidth": 320,
+        "documentScrollWidth": 320,
+        "overflowPx": 0
+      },
+      {
+        "page": "how-it-works",
+        "width": 320,
+        "baselineRootFontSize": "16px",
+        "enlargedRootFontSize": "24px",
+        "appliedRatio": 1.5,
+        "viewport": 320,
+        "windowInnerWidth": 320,
+        "documentScrollWidth": 320,
+        "overflowPx": 0
+      },
+      {
+        "page": "about",
+        "width": 320,
+        "baselineRootFontSize": "16px",
+        "enlargedRootFontSize": "24px",
+        "appliedRatio": 1.5,
+        "viewport": 320,
+        "windowInnerWidth": 320,
+        "documentScrollWidth": 320,
+        "overflowPx": 0
+      },
+      {
+        "page": "owner-utpal-raj-kb",
+        "width": 320,
+        "baselineRootFontSize": "16px",
+        "enlargedRootFontSize": "24px",
+        "appliedRatio": 1.5,
+        "viewport": 320,
+        "windowInnerWidth": 320,
+        "documentScrollWidth": 320,
+        "overflowPx": 0
+      },
+      {
+        "page": "contact",
+        "width": 320,
+        "baselineRootFontSize": "16px",
+        "enlargedRootFontSize": "24px",
+        "appliedRatio": 1.5,
+        "viewport": 320,
+        "windowInnerWidth": 320,
+        "documentScrollWidth": 320,
+        "overflowPx": 0
+      },
+      {
+        "page": "guides-what-to-tell-us-when-you-want-to-sell-your-property",
+        "width": 320,
+        "baselineRootFontSize": "16px",
+        "enlargedRootFontSize": "24px",
+        "appliedRatio": 1.5,
+        "viewport": 320,
+        "windowInnerWidth": 320,
+        "documentScrollWidth": 320,
+        "overflowPx": 0
+      },
+      {
+        "page": "guide-30-days",
+        "width": 320,
+        "baselineRootFontSize": "16px",
+        "enlargedRootFontSize": "24px",
+        "appliedRatio": 1.5,
+        "viewport": 320,
+        "windowInnerWidth": 320,
+        "documentScrollWidth": 320,
+        "overflowPx": 0
+      },
+      {
+        "page": "guides-decisions-to-make-before-you-rent-out-your-property",
+        "width": 320,
+        "baselineRootFontSize": "16px",
+        "enlargedRootFontSize": "24px",
+        "appliedRatio": 1.5,
+        "viewport": 320,
+        "windowInnerWidth": 320,
+        "documentScrollWidth": 320,
+        "overflowPx": 0
+      },
+      {
+        "page": "not-found",
+        "width": 320,
+        "baselineRootFontSize": "16px",
+        "enlargedRootFontSize": "24px",
+        "appliedRatio": 1.5,
+        "viewport": 320,
+        "windowInnerWidth": 320,
+        "documentScrollWidth": 320,
+        "overflowPx": 0
+      },
+      {
+        "page": "home",
+        "width": 1280,
+        "baselineRootFontSize": "16px",
+        "enlargedRootFontSize": "24px",
+        "appliedRatio": 1.5,
+        "viewport": 1280,
+        "windowInnerWidth": 1280,
+        "documentScrollWidth": 1280,
+        "overflowPx": 0
+      },
+      {
+        "page": "buy",
+        "width": 1280,
+        "baselineRootFontSize": "16px",
+        "enlargedRootFontSize": "24px",
+        "appliedRatio": 1.5,
+        "viewport": 1280,
+        "windowInnerWidth": 1280,
+        "documentScrollWidth": 1280,
+        "overflowPx": 0
+      },
+      {
+        "page": "sell",
+        "width": 1280,
+        "baselineRootFontSize": "16px",
+        "enlargedRootFontSize": "24px",
+        "appliedRatio": 1.5,
+        "viewport": 1280,
+        "windowInnerWidth": 1280,
+        "documentScrollWidth": 1280,
+        "overflowPx": 0
+      },
+      {
+        "page": "rent",
+        "width": 1280,
+        "baselineRootFontSize": "16px",
+        "enlargedRootFontSize": "24px",
+        "appliedRatio": 1.5,
+        "viewport": 1280,
+        "windowInnerWidth": 1280,
+        "documentScrollWidth": 1280,
+        "overflowPx": 0
+      },
+      {
+        "page": "rent-out",
+        "width": 1280,
+        "baselineRootFontSize": "16px",
+        "enlargedRootFontSize": "24px",
+        "appliedRatio": 1.5,
+        "viewport": 1280,
+        "windowInnerWidth": 1280,
+        "documentScrollWidth": 1280,
+        "overflowPx": 0
+      },
+      {
+        "page": "commercial",
+        "width": 1280,
+        "baselineRootFontSize": "16px",
+        "enlargedRootFontSize": "24px",
+        "appliedRatio": 1.5,
+        "viewport": 1280,
+        "windowInnerWidth": 1280,
+        "documentScrollWidth": 1280,
+        "overflowPx": 0
+      },
+      {
+        "page": "areas",
+        "width": 1280,
+        "baselineRootFontSize": "16px",
+        "enlargedRootFontSize": "24px",
+        "appliedRatio": 1.5,
+        "viewport": 1280,
+        "windowInnerWidth": 1280,
+        "documentScrollWidth": 1280,
+        "overflowPx": 0
+      },
+      {
+        "page": "guides",
+        "width": 1280,
+        "baselineRootFontSize": "16px",
+        "enlargedRootFontSize": "24px",
+        "appliedRatio": 1.5,
+        "viewport": 1280,
+        "windowInnerWidth": 1280,
+        "documentScrollWidth": 1280,
+        "overflowPx": 0
+      },
+      {
+        "page": "how-it-works",
+        "width": 1280,
+        "baselineRootFontSize": "16px",
+        "enlargedRootFontSize": "24px",
+        "appliedRatio": 1.5,
+        "viewport": 1280,
+        "windowInnerWidth": 1280,
+        "documentScrollWidth": 1280,
+        "overflowPx": 0
+      },
+      {
+        "page": "about",
+        "width": 1280,
+        "baselineRootFontSize": "16px",
+        "enlargedRootFontSize": "24px",
+        "appliedRatio": 1.5,
+        "viewport": 1280,
+        "windowInnerWidth": 1280,
+        "documentScrollWidth": 1280,
+        "overflowPx": 0
+      },
+      {
+        "page": "owner-utpal-raj-kb",
+        "width": 1280,
+        "baselineRootFontSize": "16px",
+        "enlargedRootFontSize": "24px",
+        "appliedRatio": 1.5,
+        "viewport": 1280,
+        "windowInnerWidth": 1280,
+        "documentScrollWidth": 1280,
+        "overflowPx": 0
+      },
+      {
+        "page": "contact",
+        "width": 1280,
+        "baselineRootFontSize": "16px",
+        "enlargedRootFontSize": "24px",
+        "appliedRatio": 1.5,
+        "viewport": 1280,
+        "windowInnerWidth": 1280,
+        "documentScrollWidth": 1280,
+        "overflowPx": 0
+      },
+      {
+        "page": "guides-what-to-tell-us-when-you-want-to-sell-your-property",
+        "width": 1280,
+        "baselineRootFontSize": "16px",
+        "enlargedRootFontSize": "24px",
+        "appliedRatio": 1.5,
+        "viewport": 1280,
+        "windowInnerWidth": 1280,
+        "documentScrollWidth": 1280,
+        "overflowPx": 0
+      },
+      {
+        "page": "guide-30-days",
+        "width": 1280,
+        "baselineRootFontSize": "16px",
+        "enlargedRootFontSize": "24px",
+        "appliedRatio": 1.5,
+        "viewport": 1280,
+        "windowInnerWidth": 1280,
+        "documentScrollWidth": 1280,
+        "overflowPx": 0
+      },
+      {
+        "page": "guides-decisions-to-make-before-you-rent-out-your-property",
+        "width": 1280,
+        "baselineRootFontSize": "16px",
+        "enlargedRootFontSize": "24px",
+        "appliedRatio": 1.5,
+        "viewport": 1280,
+        "windowInnerWidth": 1280,
+        "documentScrollWidth": 1280,
+        "overflowPx": 0
+      },
+      {
+        "page": "not-found",
+        "width": 1280,
+        "baselineRootFontSize": "16px",
+        "enlargedRootFontSize": "24px",
+        "appliedRatio": 1.5,
+        "viewport": 1280,
+        "windowInnerWidth": 1280,
+        "documentScrollWidth": 1280,
+        "overflowPx": 0
+      }
+    ],
+    "assetIdsByRoute": {
+      "/": [
+        "ILL-STREETSCAPE-001"
+      ],
+      "/buy": [
+        "ILL-STREETSCAPE-002"
+      ],
+      "/sell": [
+        "ILL-STREETSCAPE-002"
+      ],
+      "/rent": [
+        "ILL-STREETSCAPE-002"
+      ],
+      "/rent-out": [
+        "ILL-STREETSCAPE-002"
+      ],
+      "/commercial": [
+        "ILL-STREETSCAPE-002"
+      ],
+      "/areas": [
+        "MAP-CORRIDOR-001"
+      ],
+      "/guides": [],
+      "/how-it-works": [],
+      "/about": [],
+      "/about/utpal-raj-kb": [],
+      "/contact": [],
+      "/guides/what-to-tell-us-when-you-want-to-sell-your-property": [],
+      "/guides/can-a-broker-guarantee-a-property-sale-in-30-days": [],
+      "/guides/decisions-to-make-before-you-rent-out-your-property": [],
+      "/this-page-does-not-exist": []
+    },
+    "tapTargets": [
+      {
+        "page": "home",
+        "width": 320,
+        "interactiveTargets": 35,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 14,
+        "smallestTextLinkDimension": 27
+      },
+      {
+        "page": "buy",
+        "width": 320,
+        "interactiveTargets": 23,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 14,
+        "smallestTextLinkDimension": 27
+      },
+      {
+        "page": "sell",
+        "width": 320,
+        "interactiveTargets": 26,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 15,
+        "smallestTextLinkDimension": 27
+      },
+      {
+        "page": "rent",
+        "width": 320,
+        "interactiveTargets": 23,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 14,
+        "smallestTextLinkDimension": 27
+      },
+      {
+        "page": "rent-out",
+        "width": 320,
+        "interactiveTargets": 25,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 15,
+        "smallestTextLinkDimension": 27
+      },
+      {
+        "page": "commercial",
+        "width": 320,
+        "interactiveTargets": 26,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 17,
+        "smallestTextLinkDimension": 27
+      },
+      {
+        "page": "areas",
+        "width": 320,
+        "interactiveTargets": 23,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 13,
+        "smallestTextLinkDimension": 27
+      },
+      {
+        "page": "guides",
+        "width": 320,
+        "interactiveTargets": 22,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 13,
+        "smallestTextLinkDimension": 27
+      },
+      {
+        "page": "how-it-works",
+        "width": 320,
+        "interactiveTargets": 26,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 14,
+        "smallestTextLinkDimension": 27
+      },
+      {
+        "page": "about",
+        "width": 320,
+        "interactiveTargets": 23,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 14,
+        "smallestTextLinkDimension": 27
+      },
+      {
+        "page": "owner-utpal-raj-kb",
+        "width": 320,
+        "interactiveTargets": 24,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 15,
+        "smallestTextLinkDimension": 24
+      },
+      {
+        "page": "contact",
+        "width": 320,
+        "interactiveTargets": 27,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 15,
+        "smallestTextLinkDimension": 26
+      },
+      {
+        "page": "guides-what-to-tell-us-when-you-want-to-sell-your-property",
+        "width": 320,
+        "interactiveTargets": 27,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 16,
+        "smallestTextLinkDimension": 24
+      },
+      {
+        "page": "guide-30-days",
+        "width": 320,
+        "interactiveTargets": 26,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 16,
+        "smallestTextLinkDimension": 24
+      },
+      {
+        "page": "guides-decisions-to-make-before-you-rent-out-your-property",
+        "width": 320,
+        "interactiveTargets": 26,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 16,
+        "smallestTextLinkDimension": 24
+      },
+      {
+        "page": "not-found",
+        "width": 320,
+        "interactiveTargets": 28,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 17,
+        "smallestTextLinkDimension": 26
+      },
+      {
+        "page": "home",
+        "width": 360,
+        "interactiveTargets": 35,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 13,
+        "smallestTextLinkDimension": 27
+      },
+      {
+        "page": "buy",
+        "width": 360,
+        "interactiveTargets": 23,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 13,
+        "smallestTextLinkDimension": 27
+      },
+      {
+        "page": "sell",
+        "width": 360,
+        "interactiveTargets": 26,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 14,
+        "smallestTextLinkDimension": 27
+      },
+      {
+        "page": "rent",
+        "width": 360,
+        "interactiveTargets": 23,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 13,
+        "smallestTextLinkDimension": 27
+      },
+      {
+        "page": "rent-out",
+        "width": 360,
+        "interactiveTargets": 25,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 14,
+        "smallestTextLinkDimension": 27
+      },
+      {
+        "page": "commercial",
+        "width": 360,
+        "interactiveTargets": 26,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 16,
+        "smallestTextLinkDimension": 27
+      },
+      {
+        "page": "areas",
+        "width": 360,
+        "interactiveTargets": 23,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 12,
+        "smallestTextLinkDimension": 27
+      },
+      {
+        "page": "guides",
+        "width": 360,
+        "interactiveTargets": 22,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 12,
+        "smallestTextLinkDimension": 27
+      },
+      {
+        "page": "how-it-works",
+        "width": 360,
+        "interactiveTargets": 26,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 13,
+        "smallestTextLinkDimension": 27
+      },
+      {
+        "page": "about",
+        "width": 360,
+        "interactiveTargets": 23,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 13,
+        "smallestTextLinkDimension": 27
+      },
+      {
+        "page": "owner-utpal-raj-kb",
+        "width": 360,
+        "interactiveTargets": 24,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 14,
+        "smallestTextLinkDimension": 24
+      },
+      {
+        "page": "contact",
+        "width": 360,
+        "interactiveTargets": 27,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 14,
+        "smallestTextLinkDimension": 27
+      },
+      {
+        "page": "guides-what-to-tell-us-when-you-want-to-sell-your-property",
+        "width": 360,
+        "interactiveTargets": 27,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 15,
+        "smallestTextLinkDimension": 24
+      },
+      {
+        "page": "guide-30-days",
+        "width": 360,
+        "interactiveTargets": 26,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 15,
+        "smallestTextLinkDimension": 24
+      },
+      {
+        "page": "guides-decisions-to-make-before-you-rent-out-your-property",
+        "width": 360,
+        "interactiveTargets": 26,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 15,
+        "smallestTextLinkDimension": 24
+      },
+      {
+        "page": "not-found",
+        "width": 360,
+        "interactiveTargets": 28,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 16,
+        "smallestTextLinkDimension": 27
+      },
+      {
+        "page": "home",
+        "width": 390,
+        "interactiveTargets": 35,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 14,
+        "smallestTextLinkDimension": 27
+      },
+      {
+        "page": "buy",
+        "width": 390,
+        "interactiveTargets": 23,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 14,
+        "smallestTextLinkDimension": 27
+      },
+      {
+        "page": "sell",
+        "width": 390,
+        "interactiveTargets": 26,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 15,
+        "smallestTextLinkDimension": 27
+      },
+      {
+        "page": "rent",
+        "width": 390,
+        "interactiveTargets": 23,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 14,
+        "smallestTextLinkDimension": 27
+      },
+      {
+        "page": "rent-out",
+        "width": 390,
+        "interactiveTargets": 25,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 14,
+        "smallestTextLinkDimension": 27
+      },
+      {
+        "page": "commercial",
+        "width": 390,
+        "interactiveTargets": 26,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 16,
+        "smallestTextLinkDimension": 27
+      },
+      {
+        "page": "areas",
+        "width": 390,
+        "interactiveTargets": 23,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 13,
+        "smallestTextLinkDimension": 27
+      },
+      {
+        "page": "guides",
+        "width": 390,
+        "interactiveTargets": 22,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 13,
+        "smallestTextLinkDimension": 27
+      },
+      {
+        "page": "how-it-works",
+        "width": 390,
+        "interactiveTargets": 26,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 14,
+        "smallestTextLinkDimension": 27
+      },
+      {
+        "page": "about",
+        "width": 390,
+        "interactiveTargets": 23,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 14,
+        "smallestTextLinkDimension": 27
+      },
+      {
+        "page": "owner-utpal-raj-kb",
+        "width": 390,
+        "interactiveTargets": 24,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 15,
+        "smallestTextLinkDimension": 24
+      },
+      {
+        "page": "contact",
+        "width": 390,
+        "interactiveTargets": 27,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 15,
+        "smallestTextLinkDimension": 27
+      },
+      {
+        "page": "guides-what-to-tell-us-when-you-want-to-sell-your-property",
+        "width": 390,
+        "interactiveTargets": 27,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 16,
+        "smallestTextLinkDimension": 24
+      },
+      {
+        "page": "guide-30-days",
+        "width": 390,
+        "interactiveTargets": 26,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 16,
+        "smallestTextLinkDimension": 24
+      },
+      {
+        "page": "guides-decisions-to-make-before-you-rent-out-your-property",
+        "width": 390,
+        "interactiveTargets": 26,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 16,
+        "smallestTextLinkDimension": 24
+      },
+      {
+        "page": "not-found",
+        "width": 390,
+        "interactiveTargets": 28,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 17,
+        "smallestTextLinkDimension": 27
+      },
+      {
+        "page": "home",
+        "width": 768,
+        "interactiveTargets": 33,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 14,
+        "smallestTextLinkDimension": 28
+      },
+      {
+        "page": "buy",
+        "width": 768,
+        "interactiveTargets": 21,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 14,
+        "smallestTextLinkDimension": 28
+      },
+      {
+        "page": "sell",
+        "width": 768,
+        "interactiveTargets": 24,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 15,
+        "smallestTextLinkDimension": 28
+      },
+      {
+        "page": "rent",
+        "width": 768,
+        "interactiveTargets": 21,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 14,
+        "smallestTextLinkDimension": 28
+      },
+      {
+        "page": "rent-out",
+        "width": 768,
+        "interactiveTargets": 23,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 15,
+        "smallestTextLinkDimension": 28
+      },
+      {
+        "page": "commercial",
+        "width": 768,
+        "interactiveTargets": 24,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 16,
+        "smallestTextLinkDimension": 28
+      },
+      {
+        "page": "areas",
+        "width": 768,
+        "interactiveTargets": 21,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 13,
+        "smallestTextLinkDimension": 28
+      },
+      {
+        "page": "guides",
+        "width": 768,
+        "interactiveTargets": 20,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 13,
+        "smallestTextLinkDimension": 28
+      },
+      {
+        "page": "how-it-works",
+        "width": 768,
+        "interactiveTargets": 24,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 14,
+        "smallestTextLinkDimension": 28
+      },
+      {
+        "page": "about",
+        "width": 768,
+        "interactiveTargets": 21,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 14,
+        "smallestTextLinkDimension": 28
+      },
+      {
+        "page": "owner-utpal-raj-kb",
+        "width": 768,
+        "interactiveTargets": 22,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 15,
+        "smallestTextLinkDimension": 24
+      },
+      {
+        "page": "contact",
+        "width": 768,
+        "interactiveTargets": 25,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 15,
+        "smallestTextLinkDimension": 28
+      },
+      {
+        "page": "guides-what-to-tell-us-when-you-want-to-sell-your-property",
+        "width": 768,
+        "interactiveTargets": 25,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 16,
+        "smallestTextLinkDimension": 24
+      },
+      {
+        "page": "guide-30-days",
+        "width": 768,
+        "interactiveTargets": 24,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 16,
+        "smallestTextLinkDimension": 24
+      },
+      {
+        "page": "guides-decisions-to-make-before-you-rent-out-your-property",
+        "width": 768,
+        "interactiveTargets": 24,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 16,
+        "smallestTextLinkDimension": 24
+      },
+      {
+        "page": "not-found",
+        "width": 768,
+        "interactiveTargets": 26,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 17,
+        "smallestTextLinkDimension": 28
+      },
+      {
+        "page": "home",
+        "width": 1280,
+        "interactiveTargets": 39,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 18,
+        "smallestTextLinkDimension": 27
+      },
+      {
+        "page": "buy",
+        "width": 1280,
+        "interactiveTargets": 27,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 18,
+        "smallestTextLinkDimension": 27
+      },
+      {
+        "page": "sell",
+        "width": 1280,
+        "interactiveTargets": 30,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 19,
+        "smallestTextLinkDimension": 27
+      },
+      {
+        "page": "rent",
+        "width": 1280,
+        "interactiveTargets": 27,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 18,
+        "smallestTextLinkDimension": 27
+      },
+      {
+        "page": "rent-out",
+        "width": 1280,
+        "interactiveTargets": 29,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 19,
+        "smallestTextLinkDimension": 27
+      },
+      {
+        "page": "commercial",
+        "width": 1280,
+        "interactiveTargets": 30,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 20,
+        "smallestTextLinkDimension": 27
+      },
+      {
+        "page": "areas",
+        "width": 1280,
+        "interactiveTargets": 27,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 17,
+        "smallestTextLinkDimension": 27
+      },
+      {
+        "page": "guides",
+        "width": 1280,
+        "interactiveTargets": 26,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 17,
+        "smallestTextLinkDimension": 27
+      },
+      {
+        "page": "how-it-works",
+        "width": 1280,
+        "interactiveTargets": 30,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 18,
+        "smallestTextLinkDimension": 27
+      },
+      {
+        "page": "about",
+        "width": 1280,
+        "interactiveTargets": 27,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 18,
+        "smallestTextLinkDimension": 27
+      },
+      {
+        "page": "owner-utpal-raj-kb",
+        "width": 1280,
+        "interactiveTargets": 28,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 19,
+        "smallestTextLinkDimension": 24
+      },
+      {
+        "page": "contact",
+        "width": 1280,
+        "interactiveTargets": 31,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 19,
+        "smallestTextLinkDimension": 27
+      },
+      {
+        "page": "guides-what-to-tell-us-when-you-want-to-sell-your-property",
+        "width": 1280,
+        "interactiveTargets": 31,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 20,
+        "smallestTextLinkDimension": 24
+      },
+      {
+        "page": "guide-30-days",
+        "width": 1280,
+        "interactiveTargets": 30,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 20,
+        "smallestTextLinkDimension": 24
+      },
+      {
+        "page": "guides-decisions-to-make-before-you-rent-out-your-property",
+        "width": 1280,
+        "interactiveTargets": 30,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 20,
+        "smallestTextLinkDimension": 24
+      },
+      {
+        "page": "not-found",
+        "width": 1280,
+        "interactiveTargets": 32,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 21,
+        "smallestTextLinkDimension": 27
+      },
+      {
+        "page": "home",
+        "width": 1440,
+        "interactiveTargets": 39,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 18,
+        "smallestTextLinkDimension": 27
+      },
+      {
+        "page": "buy",
+        "width": 1440,
+        "interactiveTargets": 27,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 18,
+        "smallestTextLinkDimension": 27
+      },
+      {
+        "page": "sell",
+        "width": 1440,
+        "interactiveTargets": 30,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 19,
+        "smallestTextLinkDimension": 27
+      },
+      {
+        "page": "rent",
+        "width": 1440,
+        "interactiveTargets": 27,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 18,
+        "smallestTextLinkDimension": 27
+      },
+      {
+        "page": "rent-out",
+        "width": 1440,
+        "interactiveTargets": 29,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 19,
+        "smallestTextLinkDimension": 27
+      },
+      {
+        "page": "commercial",
+        "width": 1440,
+        "interactiveTargets": 30,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 20,
+        "smallestTextLinkDimension": 27
+      },
+      {
+        "page": "areas",
+        "width": 1440,
+        "interactiveTargets": 27,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 17,
+        "smallestTextLinkDimension": 27
+      },
+      {
+        "page": "guides",
+        "width": 1440,
+        "interactiveTargets": 26,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 17,
+        "smallestTextLinkDimension": 27
+      },
+      {
+        "page": "how-it-works",
+        "width": 1440,
+        "interactiveTargets": 30,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 18,
+        "smallestTextLinkDimension": 27
+      },
+      {
+        "page": "about",
+        "width": 1440,
+        "interactiveTargets": 27,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 18,
+        "smallestTextLinkDimension": 27
+      },
+      {
+        "page": "owner-utpal-raj-kb",
+        "width": 1440,
+        "interactiveTargets": 28,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 19,
+        "smallestTextLinkDimension": 24
+      },
+      {
+        "page": "contact",
+        "width": 1440,
+        "interactiveTargets": 31,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 19,
+        "smallestTextLinkDimension": 27
+      },
+      {
+        "page": "guides-what-to-tell-us-when-you-want-to-sell-your-property",
+        "width": 1440,
+        "interactiveTargets": 31,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 20,
+        "smallestTextLinkDimension": 24
+      },
+      {
+        "page": "guide-30-days",
+        "width": 1440,
+        "interactiveTargets": 30,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 20,
+        "smallestTextLinkDimension": 24
+      },
+      {
+        "page": "guides-decisions-to-make-before-you-rent-out-your-property",
+        "width": 1440,
+        "interactiveTargets": 30,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 20,
+        "smallestTextLinkDimension": 24
+      },
+      {
+        "page": "not-found",
+        "width": 1440,
+        "interactiveTargets": 32,
+        "belowTwentyFour": 0,
+        "nonLinkBelowFortyFour": 0,
+        "textLinksRelyingOnThe24pxException": 21,
+        "smallestTextLinkDimension": 27
+      }
+    ],
+    "disclosures": [],
+    "noScript": {
+      "route": "/areas",
+      "width": 390,
+      "withJavaScript": {
+        "internalLinks": 21,
+        "areaLinks": 0,
+        "detailsCount": 0,
+        "headings": 8,
+        "docWidth": 390,
+        "viewport": 390
+      },
+      "withoutJavaScript": {
+        "internalLinks": 21,
+        "areaLinks": 0,
+        "detailsCount": 0,
+        "headings": 8,
+        "docWidth": 390,
+        "viewport": 390,
+        "styleSheets": 2,
+        "stylesheetLinks": 2
+      }
+    }
+  },
+  "findings": []
+}

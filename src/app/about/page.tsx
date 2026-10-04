@@ -1,81 +1,152 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { CANONICAL_BRAND, PRIMARY_PHONE, PRIMARY_PHONE_TEL } from '@/config/constants';
-import styles from './about.module.css';
+import { CANONICAL_BRAND, PRIMARY_PHONE } from '@/config/constants';
+import { OWNER_PROFILE } from '@/config/owner';
+import { GEOGRAPHIC_COVERAGE_STATEMENT } from '@/config/service-matrix';
+import { getReviewDisplayState } from '@/config/reviews';
+import { buildPageMetadata } from '@/lib/metadata';
+import {
+  ActionRow,
+  BulletList,
+  CallButton,
+  Callout,
+  CalloutText,
+  ContactBand,
+  PageIntro,
+  Prose,
+  Section,
+  SectionHeader,
+  SecondaryLink,
+} from '@/components/ui';
 
-export const metadata: Metadata = {
-  title: `About ${CANONICAL_BRAND} — Advisory Mandate`,
-  description:
-    'The advisory philosophy and operating principles of INSTLE REAL ESTATE in Bengaluru. Service-led brokerage, privacy governance, and human representation.',
-};
+export const metadata: Metadata = buildPageMetadata({
+  title: `About ${CANONICAL_BRAND}`,
+  description: `${CANONICAL_BRAND} is a real estate brokerage in Bengaluru working with buyers, sellers, tenants and landlords. Call ${PRIMARY_PHONE}.`,
+  path: '/about',
+});
 
 export default function AboutPage() {
+  const reviews = getReviewDisplayState();
+
   return (
-    <div className={styles.aboutWrapper}>
-      <section className={styles.introSection} aria-labelledby="about-heading">
-        <div className={styles.container}>
-          <span className={styles.kicker}>ORGANIZATIONAL PURPOSE</span>
-          <h1 id="about-heading" className={styles.heading}>
-            Service-Led Real Estate Brokerage in Bengaluru
-          </h1>
-          <p className={styles.lead}>
-            {CANONICAL_BRAND} is established as an advisory-first real estate brokerage platform. We represent buyers, tenants, and property owners through direct human engagement, rejecting the inflated listing scrapers and lead resale that characterize standard property portals.
+    <>
+      <PageIntro
+        eyebrow="About us"
+        titleId="about-heading"
+        title={`About ${CANONICAL_BRAND}`}
+        lead="A real estate brokerage in Bengaluru, working with people buying, selling, renting and renting out property."
+      />
+
+      <Section labelledBy="about-what-heading">
+        <SectionHeader
+          titleId="about-what-heading"
+          eyebrow="What we are"
+          title="A brokerage, not a portal"
+        />
+        <Prose>
+          <p>
+            {CANONICAL_BRAND} helps people buy, sell, rent and rent out residential property in
+            Bengaluru — flats, independent houses, villas and sites. You tell us what you need, we
+            talk it through, and we work on it with you.
           </p>
-        </div>
-      </section>
+          <p>
+            There is no catalogue on this website. That is deliberate. Property portals already exist
+            and they do that job. What they do not do is tell you which of those listings is worth
+            your time, or call the owner back for the fourth time.
+          </p>
+          <p>{GEOGRAPHIC_COVERAGE_STATEMENT}</p>
+        </Prose>
+      </Section>
 
-      <section className={styles.principlesSection} aria-labelledby="principles-heading">
-        <div className={styles.container}>
-          <h2 id="principles-heading" className={styles.subHeading}>
-            Our Operating Principles
-          </h2>
+      <Section tone="raised" labelledBy="about-how-heading">
+        <SectionHeader
+          titleId="about-how-heading"
+          eyebrow="How we work"
+          title="Three things we hold ourselves to"
+        />
+        <Prose>
+          <h3>We do not invent inventory</h3>
+          <p>
+            No sample listings, no placeholder prices, no &ldquo;buyers waiting&rdquo; counters. If we
+            do not have something that fits, we say so.
+          </p>
+          <h3>We say when we do not know</h3>
+          <p>
+            Local knowledge is genuinely useful, and it is also the easiest thing in this business to
+            fake. When we are not sure about a ward boundary, a road plan or a project status, we say
+            we are not sure rather than sound confident about it.
+          </p>
+          <h3>We do not pass your details on</h3>
+          <p>
+            Your phone number is used by our team to talk to you about your requirement. We do not
+            sell contact details, and we do not hand them to third parties for marketing.
+          </p>
+        </Prose>
+      </Section>
 
-          <div className={styles.principlesGrid}>
-            <div className={styles.principleCard}>
-              <span className={styles.pNum}>01</span>
-              <h3 className={styles.pTitle}>Client Representation Over Catalogue Volume</h3>
-              <p className={styles.pText}>
-                We do not manufacture sample listings or publish unverified inventory to simulate market scale. Every property reviewed by our brokerage is investigated specifically for an active client mandate.
-              </p>
-            </div>
+      <Section labelledBy="about-limits-heading">
+        <SectionHeader
+          titleId="about-limits-heading"
+          eyebrow="Being straight with you"
+          title="What we have not published"
+        />
+        <Prose>
+          <p>
+            There are things a brokerage website usually has that this one does not, and it is worth
+            saying why rather than leaving gaps.
+          </p>
+          <BulletList
+            items={[
+              'No customer count, transaction volume, or years-in-business figure. We have not published numbers we cannot evidence.',
+              'No awards, rankings, or “most trusted” claims.',
+              'No star rating or review count. We would rather show nothing than something invented.',
+              'No office address or business hours on the site yet.',
+              'No registration or certification claims.',
+              'No brokerage fee percentage, because the wording has not been settled.',
+            ]}
+          />
+          <p>
+            These will appear as they become real and checkable. Until then, the phone number and a
+            conversation are what we have to offer, and both are genuine.
+          </p>
+        </Prose>
+        {!reviews.hasApprovedReviews ? (
+          <Callout title="On reviews">
+            <CalloutText>
+              We have not published any customer reviews. When customers do leave them, we will show
+              the actual ones, with their permission, and the actual number of them.
+            </CalloutText>
+          </Callout>
+        ) : null}
+      </Section>
 
-            <div className={styles.principleCard}>
-              <span className={styles.pNum}>02</span>
-              <h3 className={styles.pTitle}>Ground-Level Bengaluru Diligence</h3>
-              <p className={styles.pText}>
-                Our advisory is rooted in the physical and legal realities of Bengaluru: cadastral boundaries, municipal sanctions, water source security, and operational vs. planned transit infrastructure.
-              </p>
-            </div>
+      <Section tone="raised" labelledBy="about-owner-heading">
+        <SectionHeader
+          titleId="about-owner-heading"
+          eyebrow="Who runs this"
+          title={`${OWNER_PROFILE.name}, ${'owner and CEO'}`}
+        />
+        <Prose>
+          <p>
+            {OWNER_PROFILE.name} is the owner and CEO of {CANONICAL_BRAND}.
+          </p>
+          <p>
+            <Link href={OWNER_PROFILE.route}>More about {OWNER_PROFILE.name}</Link>
+          </p>
+        </Prose>
+        <ActionRow>
+          <CallButton />
+          <SecondaryLink href="/contact">Contact us</SecondaryLink>
+        </ActionRow>
+      </Section>
 
-            <div className={styles.principleCard}>
-              <span className={styles.pNum}>03</span>
-              <h3 className={styles.pTitle}>Data Privacy &amp; Anti-Spam Governance</h3>
-              <p className={styles.pText}>
-                Your contact details and financial capacity are never monetized, traded, or shared with third-party telemarketers. We operate in strict alignment with India DPDP Act 2023 principles.
-              </p>
-            </div>
-          </div>
-
-          {/* Corporate Profile Note */}
-          <div className={styles.holdingNote}>
-            <span className={styles.noteTag}>CORPORATE GOVERNANCE</span>
-            <h4 className={styles.noteTitle}>Brokerage Mandate &amp; Professional Standards</h4>
-            <p className={styles.noteText}>
-              {CANONICAL_BRAND} operates as a human-led residential real estate brokerage and advisory practice in Bengaluru. Formal statutory disclosures and credentials are coordinated in accordance with applicable regulatory frameworks and are available upon formal client engagement. For all direct consultations, contact our central brokerage desk at {PRIMARY_PHONE}.
-            </p>
-          </div>
-
-          <div className={styles.actionRow}>
-            <a href={PRIMARY_PHONE_TEL} className={styles.primaryBtn}>
-              ☎ Speak with Advisory Lead: {PRIMARY_PHONE}
-            </a>
-            <Link href="/contact" className={styles.secondaryBtn}>
-              Advisory Contact Channels →
-            </Link>
-          </div>
-        </div>
-      </section>
-    </div>
+      <ContactBand
+        title="Want to talk to us?"
+        text={`Call ${PRIMARY_PHONE}. That reaches our team directly.`}
+        enquiryHref="/how-it-works"
+        enquiryLabel="How we work"
+      />
+    </>
   );
 }

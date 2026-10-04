@@ -30,11 +30,12 @@
 .heading {
   font-family: var(--c1-font-serif);
   font-size: clamp(2.25rem, 3.8vw, 3.25rem);
-  font-weight: 500;
+  font-weight: 700;
   color: var(--c1-forest);
   line-height: 1.15;
   margin-bottom: 16px;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.03em;
+  -webkit-font-smoothing: antialiased;
 }
 
 .lead {
@@ -55,10 +56,12 @@
 .diffTitle {
   font-family: var(--c1-font-serif);
   font-size: clamp(1.85rem, 3vw, 2.5rem);
-  font-weight: 500;
+  font-weight: 700;
   color: var(--c1-forest);
   text-align: center;
   margin-bottom: 48px;
+  letter-spacing: -0.025em;
+  -webkit-font-smoothing: antialiased;
 }
 
 .diffGrid {
@@ -80,9 +83,11 @@
 .cardHeading {
   font-family: var(--c1-font-serif);
   font-size: 1.35rem;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--c1-forest);
   margin-bottom: 12px;
+  letter-spacing: -0.015em;
+  -webkit-font-smoothing: antialiased;
 }
 
 .cardText {
@@ -111,8 +116,10 @@
 .bannerTitle {
   font-family: var(--c1-font-serif);
   font-size: clamp(1.35rem, 2vw, 1.75rem);
-  font-weight: 500;
+  font-weight: 700;
+  letter-spacing: -0.02em;
   margin-bottom: 8px;
+  -webkit-font-smoothing: antialiased;
 }
 
 .bannerText {

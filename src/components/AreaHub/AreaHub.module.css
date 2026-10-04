@@ -1,0 +1,81 @@
+/*
+ * Area hub directory and empty state.
+ *
+ * Tokens only, system fonts inherited. Every column track is capped at 100% of
+ * its container, and long names wrap anywhere, so nothing overflows at 320px.
+ */
+
+.groups {
+  display: grid;
+  gap: var(--space-10);
+  margin-top: var(--space-6);
+}
+
+.group {
+  min-width: 0;
+}
+
+.groupHeading {
+  font-size: var(--font-size-h3);
+  line-height: var(--line-height-h3);
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.groupNote {
+  margin: var(--space-2) 0 0;
+  max-width: var(--max-prose-width);
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+  color: var(--color-text-muted);
+}
+
+.linkList {
+  list-style: none;
+  margin: var(--space-4) 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0 var(--space-6);
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 14rem), 1fr));
+}
+
+.linkItem {
+  min-width: 0;
+}
+
+/* 44px targets, well above the 24px WCAG 2.2 AA minimum. */
+.link {
+  display: flex;
+  align-items: center;
+  min-height: var(--min-touch-target);
+  padding-block: var(--space-1);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+  overflow-wrap: anywhere;
+}
+
+.overflowGroup {
+  margin-top: var(--space-4);
+  padding-top: var(--space-2);
+  border-top: var(--border-width) solid var(--color-border);
+}
+
+/* The native disclosure marker is kept, so the control looks like what it is. */
+.overflowSummary {
+  cursor: pointer;
+  padding-block: var(--space-3);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+  font-weight: 600;
+  color: var(--color-forest);
+  overflow-wrap: anywhere;
+}
+
+.overflowSummary:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.conditions {
+  margin-block: var(--space-4);
+}

@@ -65,13 +65,13 @@ export function Concept2Matrix() {
         <div className={styles.header}>
           <div className={styles.headerMeta}>
             <span className={styles.tag}>CORRIDOR INTELLIGENCE MATRIX</span>
-            <span className={styles.gate}>CLAIM GATE: BDA / BBMP / BMRCL VERIFIED</span>
+            <span className={styles.gate}>PROTOTYPE CONTENT &mdash; NOT SOURCE-CHECKED</span>
           </div>
           <h2 id="c2-matrix-title" className={styles.heading}>
             BENGALURU CORRIDOR COVERAGE &amp; TRANSIT VECTORS.
           </h2>
           <p className={styles.lead}>
-            High-granularity analysis of mature and developmental micro-markets. Operational transit realities are verified against government engineering datasets—rejecting developer marketing exaggerations.
+            High-granularity analysis of mature and developmental micro-markets. Prototype layout only; the statements shown have not passed the project claim gate and are not published.
           </p>
         </div>
 

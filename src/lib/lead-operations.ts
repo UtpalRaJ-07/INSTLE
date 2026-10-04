@@ -1,323 +1,312 @@
 /**
- * Lead Operations & Advisory Enquiry Pipeline for INSTLE REAL ESTATE
- * Sourced from Blueprint M7 & Recovery Brief Section 3
- * 
- * Complies with India DPDP Act 2023 principles:
- * - Affirmative consent required (strictly boolean true)
- * - Data minimization: fields restricted to verified advisory requirements
- * - Memory-isolated staging store retaining full enquiry payload for desk review
- * - Zero PII in diagnostic telemetry or log streams
+ * Enquiry processing pipeline.
+ *
+ * Contract, stated plainly because the previous version broke it:
+ *   A customer sees success only after an approved, durable destination has
+ *   confirmed acceptance. A resolved promise is not acceptance. A memory store is
+ *   not durable. Notification delivery is a separate concern from durable receipt.
  */
 
+import { getDeployEnvironment } from '@/config/site';
 import { trackSafeEvent } from './telemetry';
+import {
+  resolveLeadDestination,
+  stagingLeadStore,
+  type DispatchResult,
+  type LeadDestinationAdapter,
+} from './lead-destination';
+import {
+  IDEMPOTENCY_WINDOW_MS,
+  computePayloadFingerprint,
+  deriveIdempotencyKey,
+  getIdempotencyStore,
+} from './idempotency';
+import type { LeadPayload, StoredLeadRecord } from './lead-types';
 
-export type LeadIntent = 'buy' | 'rent' | 'sell' | 'rent-out' | 'general';
+export const DISPATCH_TIMEOUT_MS = 8000;
 
-export interface LeadPayload {
-  intent: LeadIntent;
-  assetType?: string;
-  localities?: string[];
-  budgetBand?: string;
-  timeline?: string;
-  furnishing?: string;
-  leaseDuration?: string;
-  ownershipRole?: string;
-  propertyAddressOrNotes?: string;
-  contactPreference?: string;
-  name: string;
-  phone: string;
-  consent: boolean;
-  idempotencyKey?: string;
-}
+export type LeadFailureCode =
+  | 'no-destination'
+  | 'destination-rejected'
+  | 'destination-timeout'
+  | 'destination-error'
+  | 'not-durable'
+  | 'duplicate-in-flight'
+  | 'idempotency-conflict'
+  | 'retention-policy-missing'
+  | 'consent-notice-missing';
 
-export type LeadDisposition =
-  | 'new'
-  | 'assigned'
-  | 'contact_attempted'
-  | 'qualified'
-  | 'closed_lost'
-  | 'do_not_contact';
-
-export interface StoredLeadRecord {
-  id: string;
-  createdAt: string;
-  intent: LeadIntent;
-  customer: {
-    name: string;
-    phone: string;
-    contactPreference: string;
-  };
-  requirement: {
-    assetType: string;
-    localities: string[];
-    budgetBand: string;
-    timeline: string;
-    furnishing?: string;
-    leaseDuration?: string;
-    ownershipRole?: string;
-    notes?: string;
-  };
-  governance: {
-    dpdpConsentGiven: boolean;
-    consentTimestamp: string;
-    retentionExpiresAt: string;
-    assignedBrokerId: string;
-    status: LeadDisposition;
-  };
-}
-
-/**
- * Pluggable Lead Destination Adapter Contract
- * Prepares the platform for production CRM integration (Decision D-09)
- */
-export interface LeadDestinationAdapter {
-  name: string;
-  dispatch(record: StoredLeadRecord): Promise<{ success: boolean; externalId?: string; error?: string }>;
-}
-
-/**
- * In-Memory Staging Adapter for Local Development and Staging Verification
- * Retains complete records securely without writing unreviewed plaintext to disk
- */
-class MemoryStagingAdapter implements LeadDestinationAdapter {
-  name = 'Internal Memory Staging Adapter';
-  private records: Map<string, StoredLeadRecord> = new Map();
-
-  async dispatch(record: StoredLeadRecord) {
-    this.records.set(record.id, record);
-    return { success: true, externalId: record.id };
-  }
-
-  getRecord(id: string): StoredLeadRecord | undefined {
-    return this.records.get(id);
-  }
-
-  getAllRecords(): StoredLeadRecord[] {
-    return Array.from(this.records.values());
-  }
-
-  clear() {
-    this.records.clear();
-  }
-}
-
-export const stagingLeadStore = new MemoryStagingAdapter();
-
-// Sliding-window rate limiting store (IP or client identifier -> timestamps)
-const RATE_LIMIT_STORE = new Map<string, number[]>();
-const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000; // 10 minutes
-const RATE_LIMIT_MAX_REQUESTS = 5;
-
-// Idempotency store (dedupeKey -> { leadId, timestamp })
-const IDEMPOTENCY_STORE = new Map<string, { leadId: string; timestamp: number }>();
-const IDEMPOTENCY_WINDOW_MS = 15 * 60 * 1000; // 15 minutes
-
-export interface ValidationResult {
-  valid: boolean;
-  errors: Record<string, string>;
-  sanitizedPayload?: LeadPayload;
-}
-
-/**
- * Strict Runtime Schema Validation
- */
-export function validateLeadPayload(raw: unknown): ValidationResult {
-  const errors: Record<string, string> = {};
-
-  if (!raw || typeof raw !== 'object') {
-    return { valid: false, errors: { request: 'Request body must be a valid JSON object.' } };
-  }
-
-  const data = raw as Record<string, unknown>;
-
-  // 1. Mandatory DPDP Consent Check (strictly boolean true)
-  if (data.consent !== true) {
-    errors.consent = 'Affirmative DPDP consent acknowledgment is required.';
-  }
-
-  // 2. Intent validation
-  const validIntents: LeadIntent[] = ['buy', 'rent', 'sell', 'rent-out', 'general'];
-  const rawIntent = String(data.intent || '').trim() as LeadIntent;
-  if (!validIntents.includes(rawIntent)) {
-    errors.intent = 'Invalid enquiry intent. Must be buy, rent, sell, rent-out, or general.';
-  }
-
-  // 3. Name validation (2-100 characters, no dangerous scripts)
-  const rawName = String(data.name || '').trim();
-  if (!rawName || rawName.length < 2) {
-    errors.name = 'Please provide your full legal or representative name (at least 2 characters).';
-  } else if (rawName.length > 100) {
-    errors.name = 'Name cannot exceed 100 characters.';
-  } else if (/[<>{}]/.test(rawName)) {
-    errors.name = 'Name contains invalid characters.';
-  }
-
-  // 4. Phone validation: Indian 10-digit mobile or valid E.164 phone
-  const cleanPhone = String(data.phone || '').replace(/[^0-9]/g, '');
-  // Valid Indian mobile numbers start with 6, 7, 8, or 9 and are 10 digits (or 12 with 91 prefix)
-  const isIndian10Digit = /^[6-9]\d{9}$/.test(cleanPhone);
-  const isIndianWith91 = /^91[6-9]\d{9}$/.test(cleanPhone);
-  const isStandardValid = cleanPhone.length >= 10 && cleanPhone.length <= 15;
-
-  if (!cleanPhone) {
-    errors.phone = 'Telephone contact number is required.';
-  } else if (!isIndian10Digit && !isIndianWith91 && !isStandardValid) {
-    errors.phone = 'Please provide a valid telephone number (e.g. 10-digit Indian mobile number).';
-  }
-
-  // 5. Array and bounds checks
-  let localities: string[] = [];
-  if (Array.isArray(data.localities)) {
-    localities = data.localities
-      .map((loc) => String(loc).trim().slice(0, 100))
-      .filter(Boolean)
-      .slice(0, 10);
-  }
-
-  const assetType = String(data.assetType || 'Open to Guidance').trim().slice(0, 100);
-  const budgetBand = data.budgetBand ? String(data.budgetBand).trim().slice(0, 100) : 'Open to Discussion';
-  const timeline = data.timeline ? String(data.timeline).trim().slice(0, 100) : 'Flexible';
-  const furnishing = data.furnishing ? String(data.furnishing).trim().slice(0, 100) : undefined;
-  const leaseDuration = data.leaseDuration ? String(data.leaseDuration).trim().slice(0, 100) : undefined;
-  const ownershipRole = data.ownershipRole ? String(data.ownershipRole).trim().slice(0, 100) : undefined;
-  const propertyAddressOrNotes = data.propertyAddressOrNotes
-    ? String(data.propertyAddressOrNotes).trim().slice(0, 500)
-    : undefined;
-  const contactPreference = data.contactPreference
-    ? String(data.contactPreference).trim().slice(0, 50)
-    : 'Phone Call';
-  const idempotencyKey = data.idempotencyKey ? String(data.idempotencyKey).trim().slice(0, 128) : undefined;
-
-  if (Object.keys(errors).length > 0) {
-    return { valid: false, errors };
-  }
-
-  const normalizedPhone = isIndianWith91 ? cleanPhone.slice(2) : cleanPhone;
-
-  return {
-    valid: true,
-    errors: {},
-    sanitizedPayload: {
-      intent: rawIntent,
-      assetType,
-      localities,
-      budgetBand,
-      timeline,
-      furnishing,
-      leaseDuration,
-      ownershipRole,
-      propertyAddressOrNotes,
-      contactPreference,
-      name: rawName,
-      phone: normalizedPhone,
-      consent: true,
-      idempotencyKey,
-    },
-  };
-}
-
-/**
- * Check and record client rate limiting
- */
-export function checkRateLimit(clientId: string): { allowed: boolean; remaining: number } {
-  const now = Date.now();
-  const timestamps = (RATE_LIMIT_STORE.get(clientId) || []).filter(
-    (ts) => now - ts < RATE_LIMIT_WINDOW_MS
-  );
-
-  if (timestamps.length >= RATE_LIMIT_MAX_REQUESTS) {
-    return { allowed: false, remaining: 0 };
-  }
-
-  timestamps.push(now);
-  RATE_LIMIT_STORE.set(clientId, timestamps);
-  return { allowed: true, remaining: RATE_LIMIT_MAX_REQUESTS - timestamps.length };
-}
-
-/**
- * Process and persist an advisory enquiry safely into the staging queue
- */
-export async function processLeadEnquiry(
-  payload: LeadPayload,
-  adapter: LeadDestinationAdapter = stagingLeadStore
-): Promise<{
-  success: boolean;
-  leadId?: string;
-  isDuplicate?: boolean;
-  error?: string;
-  record?: StoredLeadRecord;
-}> {
-  // 1. Check idempotency / deduplication
-  const dedupeKey =
-    payload.idempotencyKey ||
-    `${payload.phone}-${payload.intent}-${(payload.localities || []).sort().join(',')}-${payload.budgetBand || ''}`;
-  const now = Date.now();
-  const existing = IDEMPOTENCY_STORE.get(dedupeKey);
-
-  if (existing && now - existing.timestamp < IDEMPOTENCY_WINDOW_MS) {
-    const existingRecord = stagingLeadStore.getRecord(existing.leadId);
-    return {
-      success: true,
-      leadId: existing.leadId,
-      isDuplicate: true,
-      record: existingRecord,
+export type ProcessLeadResult =
+  | {
+      success: true;
+      leadId: string;
+      isDuplicate: boolean;
+      /** Whether the assigned queue was actually notified. */
+      notificationDelivered: boolean;
+    }
+  | {
+      success: false;
+      failureCode: LeadFailureCode;
+      /** Whether the customer can usefully retry. */
+      retriable: boolean;
     };
-  }
 
-  // 2. Generate formal reference ID
-  const leadId = `IRE-${payload.intent.toUpperCase()}-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).substring(2, 6).toUpperCase()}`;
+function readTrimmedEnv(key: string): string | undefined {
+  const value = process.env[key];
+  if (typeof value !== 'string') return undefined;
+  const trimmed = value.trim();
+  return trimmed.length > 0 ? trimmed : undefined;
+}
 
-  // 3. Assemble complete stored lead record
-  const record: StoredLeadRecord = {
+/** Retention period in days, only when an operator has configured one. */
+function getConfiguredRetentionDays(): number | null {
+  const raw = Number(readTrimmedEnv('INSTLE_LEAD_RETENTION_DAYS'));
+  if (!Number.isInteger(raw) || raw <= 0 || raw > 3650) return null;
+  return raw;
+}
+
+/** Version identifier of the approved notice the customer was shown. */
+function getConsentNoticeVersion(): string | null {
+  return readTrimmedEnv('INSTLE_CONSENT_NOTICE_VERSION') ?? null;
+}
+
+function getAssignedQueue(): string | null {
+  return readTrimmedEnv('INSTLE_LEAD_QUEUE') ?? null;
+}
+
+/**
+ * Reference identifier. Random, and carries no customer data — the previous
+ * format embedded the intent and a timestamp, which is harmless, but a reference
+ * should not be guessable or enumerable either.
+ */
+function generateLeadId(): string {
+  const bytes = new Uint8Array(9);
+  crypto.getRandomValues(bytes);
+  const token = Array.from(bytes)
+    .map((byte) => byte.toString(36).padStart(2, '0'))
+    .join('')
+    .toUpperCase()
+    .slice(0, 12);
+  return `IRE-${token}`;
+}
+
+function buildRecord(
+  payload: LeadPayload,
+  leadId: string,
+  consentNoticeVersion: string,
+  retentionDays: number | null,
+  now: Date
+): StoredLeadRecord {
+  const timestamp = now.toISOString();
+  return {
     id: leadId,
-    createdAt: new Date().toISOString(),
+    createdAt: timestamp,
     intent: payload.intent,
     customer: {
       name: payload.name,
       phone: payload.phone,
-      contactPreference: payload.contactPreference || 'Phone Call',
+      contactPreference: payload.contactPreference,
     },
     requirement: {
-      assetType: payload.assetType || 'Open to Guidance',
-      localities: payload.localities || [],
-      budgetBand: payload.budgetBand || 'Open to Discussion',
-      timeline: payload.timeline || 'Flexible',
+      assetType: payload.assetType,
+      preferredAreas: payload.preferredAreas,
+      budgetBand: payload.budgetBand,
+      rentBand: payload.rentBand,
+      timeline: payload.timeline,
       furnishing: payload.furnishing,
-      leaseDuration: payload.leaseDuration,
       ownershipRole: payload.ownershipRole,
-      notes: payload.propertyAddressOrNotes,
+      configuration: payload.configuration,
+      notes: payload.notes,
     },
     governance: {
-      dpdpConsentGiven: true,
-      consentTimestamp: new Date().toISOString(),
-      retentionExpiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString(),
-      assignedBrokerId: 'IRE-DESK-BENGALURU-CORE',
+      serviceConsentGiven: true,
+      consentTimestamp: timestamp,
+      consentNoticeVersion,
+      marketingConsentGiven: payload.marketingConsent,
+      proposedRetentionUntil:
+        retentionDays === null
+          ? null
+          : new Date(now.getTime() + retentionDays * 24 * 60 * 60 * 1000).toISOString(),
+      retentionPolicyConfigured: retentionDays !== null,
       status: 'new',
+      assignedQueue: getAssignedQueue(),
     },
   };
+}
 
-  // 4. Dispatch to adapter (memory staging store)
-  await adapter.dispatch(record);
+async function dispatchWithTimeout(
+  adapter: LeadDestinationAdapter,
+  record: StoredLeadRecord,
+  timeoutMs: number
+): Promise<DispatchResult> {
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  const timeout = new Promise<DispatchResult>((resolve) => {
+    timer = setTimeout(
+      () => resolve({ success: false, failureReason: 'timeout', retriable: true }),
+      timeoutMs
+    );
+  });
 
-  // 5. Record idempotency
-  IDEMPOTENCY_STORE.set(dedupeKey, { leadId, timestamp: now });
+  try {
+    const result = await Promise.race([
+      adapter.dispatch(record).catch(
+        (): DispatchResult => ({
+          success: false,
+          failureReason: 'adapter-threw',
+          retriable: true,
+        })
+      ),
+      timeout,
+    ]);
+    // Defend against an adapter resolving with something that is not a result.
+    if (!result || typeof result !== 'object' || typeof result.success !== 'boolean') {
+      return { success: false, failureReason: 'adapter-invalid-result', retriable: true };
+    }
+    return result;
+  } finally {
+    if (timer) clearTimeout(timer);
+  }
+}
 
-  // 6. Emit zero-PII safe telemetry
+/**
+ * Notify the assigned queue. Deliberately separate from durable acceptance:
+ * if this fails, the enquiry is still safely stored and the customer is still
+ * told it was received, but the failure is reported so an operator can act.
+ *
+ * No notification transport is configured because none is approved (OWN-07), so
+ * this currently reports "not delivered" rather than pretending otherwise.
+ */
+async function notifyAssignedQueue(record: StoredLeadRecord): Promise<boolean> {
+  if (!record.governance.assignedQueue) return false;
+  // Integration point. Intentionally unimplemented: sending to an unapproved
+  // destination would be an unreviewed disclosure of personal data.
+  return false;
+}
+
+export interface ProcessLeadOptions {
+  adapter?: LeadDestinationAdapter;
+  now?: Date;
+  timeoutMs?: number;
+}
+
+export async function processLeadEnquiry(
+  payload: LeadPayload,
+  options: ProcessLeadOptions = {}
+): Promise<ProcessLeadResult> {
+  const now = options.now ?? new Date();
+  const timeoutMs = options.timeoutMs ?? DISPATCH_TIMEOUT_MS;
+
+  let adapter = options.adapter;
+  if (!adapter) {
+    const resolution = resolveLeadDestination();
+    if (!resolution.available) {
+      return { success: false, failureCode: 'no-destination', retriable: true };
+    }
+    adapter = resolution.adapter;
+  }
+
+  /**
+   * A non-durable destination must never produce a customer success response in
+   * production. The check keys off the declared deploy environment rather than
+   * NODE_ENV, because `next start` sets NODE_ENV=production for every preview
+   * build too — and a preview needs the memory adapter to exercise this path
+   * end to end with synthetic data.
+   */
+  if (!adapter.isDurable && getDeployEnvironment() === 'production') {
+    return { success: false, failureCode: 'not-durable', retriable: true };
+  }
+
+  const consentNoticeVersion = getConsentNoticeVersion();
+  if (!consentNoticeVersion) {
+    // Storing personal data against an unidentified notice cannot be evidenced
+    // later, so refuse rather than record an unverifiable consent.
+    return { success: false, failureCode: 'consent-notice-missing', retriable: false };
+  }
+
+  const retentionDays = getConfiguredRetentionDays();
+  if (adapter.approvedForRealData && retentionDays === null) {
+    return { success: false, failureCode: 'retention-policy-missing', retriable: false };
+  }
+
+  const fingerprint = await computePayloadFingerprint([
+    payload.intent,
+    payload.assetType,
+    payload.phone,
+    payload.name,
+    payload.budgetBand,
+    payload.rentBand,
+    payload.timeline,
+    [...payload.preferredAreas].sort().join('|'),
+  ]);
+  const idempotencyKey = await deriveIdempotencyKey(payload.idempotencyKey, fingerprint);
+  const store = getIdempotencyStore();
+
+  const reservation = await store.reserve(
+    idempotencyKey,
+    fingerprint,
+    IDEMPOTENCY_WINDOW_MS,
+    now.getTime()
+  );
+
+  if (reservation.state === 'completed') {
+    return {
+      success: true,
+      leadId: reservation.leadId,
+      isDuplicate: true,
+      notificationDelivered: false,
+    };
+  }
+  if (reservation.state === 'in-flight') {
+    return { success: false, failureCode: 'duplicate-in-flight', retriable: true };
+  }
+  if (reservation.state === 'fingerprint-mismatch') {
+    // Same client key, different payload. Never hand back the other reference.
+    return { success: false, failureCode: 'idempotency-conflict', retriable: false };
+  }
+
+  const leadId = generateLeadId();
+  const record = buildRecord(payload, leadId, consentNoticeVersion, retentionDays, now);
+
+  const dispatchResult = await dispatchWithTimeout(adapter, record, timeoutMs);
+
+  if (!dispatchResult.success) {
+    // Release the reservation so a genuine retry is not blocked by a failure.
+    await store.release(idempotencyKey);
+    trackSafeEvent('form_submit_error', {
+      intent: payload.intent,
+      sourceComponent: 'enquiry-api',
+      statusCode: 503,
+    });
+
+    const failureCode: LeadFailureCode =
+      dispatchResult.failureReason === 'timeout'
+        ? 'destination-timeout'
+        : dispatchResult.failureReason === 'adapter-threw' ||
+            dispatchResult.failureReason === 'adapter-invalid-result'
+          ? 'destination-error'
+          : 'destination-rejected';
+
+    return { success: false, failureCode, retriable: dispatchResult.retriable ?? true };
+  }
+
+  // Durable acceptance confirmed. Only now is the dedupe entry recorded.
+  await store.complete(idempotencyKey, leadId, now.getTime());
+
+  const notificationDelivered = await notifyAssignedQueue(record);
+
   trackSafeEvent('form_submit_success', {
     intent: payload.intent,
+    sourceComponent: 'enquiry-api',
     statusCode: 200,
   });
 
-  return {
-    success: true,
-    leadId,
-    isDuplicate: false,
-    record,
-  };
+  return { success: true, leadId, isDuplicate: false, notificationDelivered };
 }
 
-export function resetLeadOperationsForTesting() {
+/** Test helper. Clears the development staging store only. */
+export function resetLeadOperationsForTesting(): void {
   stagingLeadStore.clear();
-  IDEMPOTENCY_STORE.clear();
-  RATE_LIMIT_STORE.clear();
 }
+
+export { stagingLeadStore };
+export type { LeadPayload, StoredLeadRecord } from './lead-types';

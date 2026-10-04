@@ -75,7 +75,7 @@ export function Concept2Header() {
             <span>ADVISORY DESK ACTIVE · BENGALURU METROPOLITAN AREA</span>
           </div>
           <div className={styles.hudRight}>
-            <span className={styles.hudItem}>ZERO UNVERIFIED LISTINGS</span>
+            <span className={styles.hudItem}>NO PUBLIC LISTINGS</span>
             <span className={styles.hudDivider}>/</span>
             <span className={styles.hudItem}>TELEPHONE: <a href={PRIMARY_PHONE_TEL} className={styles.hudPhone}>{PRIMARY_PHONE}</a></span>
           </div>

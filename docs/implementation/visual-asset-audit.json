@@ -1,0 +1,94 @@
+{
+  "generatedAt": "2026-09-29T03:07:47.252Z",
+  "budgets": {
+    "perAssetCompressedBytes": 81920,
+    "perRouteCompressedBytes": 153600
+  },
+  "routes": [
+    {
+      "route": "/",
+      "assets": [
+        {
+          "assetId": "ILL-STREETSCAPE-001",
+          "rawBytes": 4775,
+          "compressedBytes": 1275
+        }
+      ],
+      "routeCompressedBytes": 1275
+    },
+    {
+      "route": "/buy",
+      "assets": [
+        {
+          "assetId": "ILL-STREETSCAPE-002",
+          "rawBytes": 4763,
+          "compressedBytes": 1272
+        }
+      ],
+      "routeCompressedBytes": 1272
+    },
+    {
+      "route": "/sell",
+      "assets": [
+        {
+          "assetId": "ILL-STREETSCAPE-002",
+          "rawBytes": 4763,
+          "compressedBytes": 1272
+        }
+      ],
+      "routeCompressedBytes": 1272
+    },
+    {
+      "route": "/rent",
+      "assets": [
+        {
+          "assetId": "ILL-STREETSCAPE-002",
+          "rawBytes": 4763,
+          "compressedBytes": 1272
+        }
+      ],
+      "routeCompressedBytes": 1272
+    },
+    {
+      "route": "/rent-out",
+      "assets": [
+        {
+          "assetId": "ILL-STREETSCAPE-002",
+          "rawBytes": 4763,
+          "compressedBytes": 1272
+        }
+      ],
+      "routeCompressedBytes": 1272
+    },
+    {
+      "route": "/commercial",
+      "assets": [
+        {
+          "assetId": "ILL-STREETSCAPE-002",
+          "rawBytes": 4763,
+          "compressedBytes": 1272
+        }
+      ],
+      "routeCompressedBytes": 1272
+    },
+    {
+      "route": "/areas",
+      "assets": [
+        {
+          "assetId": "MAP-CORRIDOR-001",
+          "rawBytes": 1947,
+          "compressedBytes": 625
+        }
+      ],
+      "routeCompressedBytes": 625
+    }
+  ],
+  "assetsNotRenderedOnAnyBuiltRoute": [
+    {
+      "assetId": "TEX-LAYOUT-GRID-001",
+      "recordedBytes": 424,
+      "reason": "no built route requests this asset; weight is measured in the test suite instead"
+    }
+  ],
+  "findings": []
+}

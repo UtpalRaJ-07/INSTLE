@@ -1,0 +1,867 @@
+/*
+ * Shared building blocks for the public site. Server-rendered, no client JS.
+ *
+ * The visual language follows the opening film: night surfaces with warm light
+ * for the moments that frame a page (intro, contact band), and a quiet gallery
+ * paper for reading in between. Depth comes from soft layered shadows and fine
+ * hairlines rather than heavy borders. Everything that moves collapses to no
+ * motion under prefers-reduced-motion (tokens.css).
+ */
+
+/* ---------- Sections ---------- */
+
+.section {
+  position: relative;
+  padding-block: var(--section-rhythm);
+}
+
+.sectionTight {
+  position: relative;
+  padding-block: calc(var(--section-rhythm) * 0.6);
+}
+
+.sectionPaper {
+  background-color: var(--color-paper);
+}
+
+.sectionRaised {
+  background:
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.55), transparent 240px),
+    var(--color-paper-raised);
+  border-block: var(--border-width) solid var(--color-border);
+}
+
+/* The forest tone predates the night surfaces; it now renders as one. */
+.sectionForest {
+  background:
+    radial-gradient(ellipse 60% 80% at 85% 0%, rgba(226, 193, 144, 0.1), transparent 70%),
+    var(--night);
+}
+
+.sectionHeader {
+  max-width: var(--max-prose-width);
+  margin-bottom: var(--space-10);
+}
+
+/* A short line of light before every eyebrow: the film's opening gesture. */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: var(--font-size-label);
+  line-height: var(--line-height-label);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 650;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-4);
+}
+
+.eyebrow::before {
+  content: '';
+  flex: none;
+  width: 28px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, currentColor);
+}
+
+.lead {
+  font-size: var(--font-size-body-large);
+  line-height: var(--line-height-body-large);
+  color: var(--color-text-muted);
+  margin-top: var(--space-5);
+  max-width: var(--max-prose-width);
+}
+
+/* ---------- Page intro ----------
+ * A night band with architectural drafting behind the heading: a measured grid
+ * that fades into the dark, a warm light low on the right, and one line of
+ * light that crosses once when the page opens.
+ */
+
+.pageIntro {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  padding-top: clamp(3.5rem, 2rem + 6vw, 7rem);
+  padding-bottom: clamp(3rem, 1.75rem + 5vw, 6rem);
+  background:
+    radial-gradient(ellipse 55% 70% at 88% 100%, rgba(226, 193, 144, 0.16), transparent 70%),
+    radial-gradient(ellipse 70% 60% at 10% 0%, rgba(61, 101, 112, 0.22), transparent 70%),
+    var(--night);
+}
+
+.pageIntro::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    repeating-linear-gradient(to right, rgba(236, 232, 224, 0.05) 0 1px, transparent 1px 96px),
+    repeating-linear-gradient(to bottom, rgba(236, 232, 224, 0.05) 0 1px, transparent 1px 96px);
+  mask-image: radial-gradient(ellipse 80% 90% at 75% 60%, #000 10%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 90% at 75% 60%, #000 10%, transparent 75%);
+}
+
+.pageIntro::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, rgba(255, 244, 226, 0.7) 45%, transparent);
+  box-shadow: 0 0 40px 8px rgba(255, 226, 190, 0.12);
+  opacity: 0;
+  animation: introLine 1600ms var(--ease-settle) 120ms both;
+}
+
+@keyframes introLine {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0);
+  }
+  15% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(100vw, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pageIntro::after {
+    animation: none;
+  }
+}
+
+.pageIntroInner {
+  max-width: var(--max-prose-width);
+  animation: introRise 900ms var(--ease-settle) both;
+}
+
+.pageIntro h1 {
+  max-width: 20ch;
+}
+
+@keyframes introRise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pageIntroInner {
+    animation: none;
+  }
+}
+
+/* ---------- Prose ---------- */
+
+.prose {
+  max-width: var(--max-prose-width);
+}
+
+.prose > * + * {
+  margin-top: var(--space-4);
+}
+
+.prose p {
+  font-size: var(--font-size-body-large);
+  line-height: var(--line-height-body-large);
+  color: var(--color-text-primary);
+}
+
+/*
+ * Vertical padding on an inline link grows its hit area without changing line
+ * layout, which keeps long link text wrapping normally at 320px.
+ */
+.prose a {
+  padding-block: 4px;
+  text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
+}
+
+.prose a:hover {
+  text-decoration-color: currentColor;
+}
+
+.prose h2 {
+  margin-top: var(--space-12);
+}
+
+.prose h3 {
+  margin-top: var(--space-8);
+}
+
+.bulletList {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: var(--space-3);
+}
+
+.bulletItem {
+  position: relative;
+  padding-left: var(--space-8);
+  font-size: var(--font-size-body-large);
+  line-height: var(--line-height-body-large);
+}
+
+/* A short drafted line rather than a dot. */
+.bulletItem::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.8em;
+  width: 16px;
+  height: 2px;
+  border-radius: 1px;
+  background-color: var(--color-forest);
+}
+
+/* ---------- Cards ---------- */
+
+.cardGrid {
+  display: grid;
+  gap: var(--space-5);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+  .cardGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .cardGridThree {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.card {
+  position: relative;
+  counter-increment: card;
+  background-color: var(--color-background-card);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-card);
+  padding: clamp(1.5rem, 1.1rem + 1.2vw, 2.25rem);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  box-shadow: var(--shadow-card);
+  transition:
+    transform var(--transition-lift),
+    box-shadow var(--transition-lift);
+}
+
+.cardGrid {
+  counter-reset: card;
+}
+
+/* A drafted index and a warm hairline across the top edge. */
+.card::before {
+  content: counter(card, decimal-leading-zero);
+  /* Decorative: empty alternative text keeps it out of the accessibility tree. */
+  content: counter(card, decimal-leading-zero) / '';
+  font-size: var(--font-size-label);
+  font-weight: 650;
+  letter-spacing: 0.14em;
+  color: var(--color-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.card::after {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 24px;
+  right: 24px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(155, 116, 60, 0.55), transparent);
+  opacity: 0.6;
+  transition: opacity var(--transition-lift);
+}
+
+.card:hover {
+  transform: translate3d(0, -4px, 0);
+  box-shadow: var(--shadow-card-hover);
+}
+
+.card:hover::after {
+  opacity: 1;
+}
+
+.cardTitle {
+  font-size: var(--font-size-h3);
+  line-height: var(--line-height-h3);
+}
+
+.cardText {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body-large);
+}
+
+/* ---------- Intent cards ----------
+ * Four night tiles: the first step of the property journey. Each carries a
+ * faint facade of lit rooms, and a light passes across it on hover.
+ */
+
+.intentGrid {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 560px) {
+  .intentGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .intentGrid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.intentCard {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-height: 176px;
+  padding: var(--space-6);
+  background:
+    linear-gradient(160deg, rgba(255, 255, 255, 0.06), transparent 45%),
+    var(--night-card);
+  color: var(--night-text);
+  border: var(--border-width) solid rgba(236, 232, 224, 0.14);
+  border-radius: var(--radius-card);
+  text-decoration: none;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.05) inset, 0 20px 40px -26px rgba(0, 0, 0, 0.85);
+  transition:
+    transform var(--transition-lift),
+    border-color var(--transition-lift),
+    box-shadow var(--transition-lift);
+}
+
+/* Lit rooms, very faint, in the lower right of each tile. */
+.intentCard::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  right: -8px;
+  bottom: -8px;
+  width: 58%;
+  height: 72%;
+  background:
+    repeating-linear-gradient(to right, transparent 0 14px, rgba(10, 17, 16, 0.9) 14px 17px),
+    repeating-linear-gradient(to bottom, transparent 0 13px, rgba(10, 17, 16, 0.9) 13px 17px),
+    linear-gradient(135deg, rgba(242, 196, 140, 0.05), rgba(242, 196, 140, 0.22));
+  mask-image: linear-gradient(to top left, #000 20%, transparent 80%);
+  -webkit-mask-image: linear-gradient(to top left, #000 20%, transparent 80%);
+  transition: opacity var(--transition-lift);
+  opacity: 0.55;
+}
+
+/* The light that passes on hover. */
+.intentCard::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 35%, rgba(255, 244, 226, 0.12) 50%, transparent 65%);
+  transform: translate3d(-100%, 0, 0);
+  transition: transform 900ms var(--ease-settle);
+}
+
+.intentCard:hover,
+.intentCard:focus-visible {
+  transform: translate3d(0, -4px, 0);
+  border-color: rgba(226, 193, 144, 0.55);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.08) inset, 0 28px 56px -28px rgba(0, 0, 0, 0.95);
+  text-decoration: none;
+}
+
+.intentCard:hover::before,
+.intentCard:focus-visible::before {
+  opacity: 1;
+}
+
+.intentCard:hover::after,
+.intentCard:focus-visible::after {
+  transform: translate3d(100%, 0, 0);
+}
+
+.intentCard:focus-visible {
+  outline-color: var(--night-focus);
+}
+
+.intentCardLabel {
+  font-size: var(--font-size-h3);
+  line-height: var(--line-height-h3);
+  font-weight: 650;
+  letter-spacing: -0.015em;
+}
+
+.intentCardAudience {
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+  color: var(--night-muted);
+  max-width: 28ch;
+}
+
+.intentCardArrow {
+  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: var(--border-width) solid rgba(236, 232, 224, 0.22);
+  font-size: var(--font-size-body-large);
+  color: var(--night-accent);
+  transition:
+    transform var(--transition-lift),
+    background-color var(--transition-lift),
+    color var(--transition-lift);
+}
+
+.intentCard:hover .intentCardArrow,
+.intentCard:focus-visible .intentCardArrow {
+  transform: translate3d(4px, 0, 0);
+  background-color: var(--night-accent);
+  color: var(--night-accent-ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intentCard::after {
+    display: none;
+  }
+}
+
+/* ---------- Actions ---------- */
+
+.actionRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-8);
+}
+
+.buttonBase {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 48px;
+  padding: var(--space-3) var(--space-6);
+  border-radius: var(--radius-pill);
+  font-size: var(--font-size-body);
+  font-weight: 600;
+  letter-spacing: 0.005em;
+  text-decoration: none;
+  border: var(--border-width) solid transparent;
+  transition:
+    background-color var(--transition-fast),
+    border-color var(--transition-fast),
+    color var(--transition-fast),
+    transform var(--transition-lift),
+    box-shadow var(--transition-lift);
+}
+
+.buttonBase:hover {
+  transform: translate3d(0, -1px, 0);
+}
+
+.buttonPrimary {
+  composes: buttonBase;
+  background-color: var(--color-forest);
+  color: var(--color-white);
+  border-color: var(--color-forest);
+  box-shadow: 0 10px 24px -14px rgba(23, 48, 42, 0.75);
+}
+
+.buttonPrimary:hover,
+.buttonPrimary:focus-visible {
+  background-color: var(--color-forest-dark);
+  border-color: var(--color-forest-dark);
+  text-decoration: none;
+  box-shadow: 0 14px 30px -14px rgba(23, 48, 42, 0.85);
+}
+
+.buttonSecondary {
+  composes: buttonBase;
+  background-color: transparent;
+  color: var(--color-ink);
+  border-color: var(--color-border-strong);
+}
+
+.buttonSecondary:hover,
+.buttonSecondary:focus-visible {
+  border-color: var(--color-ink);
+  background-color: color-mix(in srgb, var(--color-ink) 6%, transparent);
+  text-decoration: none;
+}
+
+.buttonOnDark {
+  composes: buttonBase;
+  background-color: var(--night-accent);
+  color: var(--night-accent-ink);
+  border-color: var(--night-accent);
+  box-shadow: 0 12px 30px -16px rgba(226, 193, 144, 0.7);
+}
+
+.buttonOnDark:hover,
+.buttonOnDark:focus-visible {
+  background-color: var(--night-accent-hover);
+  border-color: var(--night-accent-hover);
+  text-decoration: none;
+}
+
+/* ---------- Callouts ---------- */
+
+.callout {
+  position: relative;
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-card);
+  background:
+    linear-gradient(to right, var(--color-forest) 0 3px, transparent 3px),
+    var(--color-background-card);
+  box-shadow: var(--shadow-card);
+  padding: clamp(1.5rem, 1.1rem + 1.2vw, 2.25rem) clamp(1.5rem, 1.1rem + 1.6vw, 2.5rem);
+  max-width: var(--max-prose-width);
+}
+
+.calloutTitle {
+  font-size: var(--font-size-h3);
+  line-height: var(--line-height-h3);
+  margin-bottom: var(--space-3);
+}
+
+.calloutText {
+  color: var(--color-text-primary);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body-large);
+}
+
+.calloutText a {
+  padding-block: 4px;
+}
+
+.calloutText + .calloutText {
+  margin-top: var(--space-3);
+}
+
+/* ---------- Breadcrumbs ---------- */
+
+.breadcrumbs {
+  margin-bottom: var(--space-5);
+  font-size: var(--font-size-small);
+  color: var(--color-text-muted);
+}
+
+.breadcrumbList {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  list-style: none;
+  padding: 0;
+}
+
+/*
+ * Breadcrumb links are a list of links, not links inside a sentence, so the
+ * WCAG 2.5.8 inline exception does not apply to them. They are sized to clear the
+ * 24x24 minimum.
+ */
+.breadcrumbList a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding-inline: 2px;
+  text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
+}
+
+.breadcrumbSeparator {
+  color: var(--color-border-strong);
+}
+
+.breadcrumbCurrent {
+  color: var(--color-text-primary);
+  font-weight: 600;
+}
+
+/* ---------- Contact band ----------
+ * The close of every page: night again, with the warm light of lit rooms low
+ * behind the call to action.
+ */
+
+.contactBand {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  padding-block: clamp(4rem, 2.5rem + 6vw, 7.5rem);
+  background:
+    radial-gradient(ellipse 50% 90% at 92% 110%, rgba(226, 193, 144, 0.22), transparent 70%),
+    radial-gradient(ellipse 60% 70% at 0% 0%, rgba(61, 101, 112, 0.2), transparent 70%),
+    var(--night);
+  border-top: var(--border-width) solid var(--night-line);
+}
+
+/* A distant row of lit windows along the bottom edge. */
+.contactBand::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 42%;
+  background:
+    repeating-linear-gradient(to right, transparent 0 22px, rgba(10, 17, 16, 0.92) 22px 26px),
+    repeating-linear-gradient(to bottom, transparent 0 16px, rgba(10, 17, 16, 0.92) 16px 22px),
+    linear-gradient(to right, rgba(242, 196, 140, 0.02), rgba(242, 196, 140, 0.16) 70%, rgba(242, 196, 140, 0.06));
+  mask-image: linear-gradient(to top, #000, transparent);
+  -webkit-mask-image: linear-gradient(to top, #000, transparent);
+  opacity: 0.7;
+}
+
+.contactBandInner {
+  display: grid;
+  gap: var(--space-8);
+  align-items: center;
+}
+
+@media (min-width: 900px) {
+  .contactBandInner {
+    grid-template-columns: minmax(0, 1.6fr) auto;
+  }
+}
+
+.contactBandTitle {
+  font-size: var(--font-size-h1);
+  line-height: var(--line-height-h1);
+  letter-spacing: -0.03em;
+  color: var(--night-text);
+  max-width: 18ch;
+}
+
+.contactBandText {
+  margin-top: var(--space-4);
+  color: var(--night-muted);
+  font-size: var(--font-size-body-large);
+  line-height: var(--line-height-body-large);
+  max-width: 52ch;
+}
+
+.contactBandActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+/* ---------- Phone link ---------- */
+
+.phoneInline {
+  font-weight: 600;
+  white-space: nowrap;
+  padding-block: 4px;
+}
+
+/* ---------- Definition rows ---------- */
+
+.detailList {
+  display: grid;
+  gap: var(--space-4);
+  margin: 0;
+  max-width: var(--max-prose-width);
+}
+
+.detailRow {
+  display: grid;
+  gap: var(--space-1);
+  padding-bottom: var(--space-4);
+  border-bottom: var(--border-width) solid var(--color-border);
+}
+
+@media (min-width: 720px) {
+  .detailRow {
+    grid-template-columns: minmax(10rem, 0.4fr) 1fr;
+    gap: var(--space-6);
+    align-items: baseline;
+  }
+}
+
+.detailKey {
+  font-size: var(--font-size-label);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 650;
+  color: var(--color-text-muted);
+}
+
+.detailValue {
+  font-size: var(--font-size-body-large);
+  line-height: var(--line-height-body-large);
+  margin: 0;
+}
+
+/* ---------- Empty state ---------- */
+
+.emptyState {
+  position: relative;
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-card);
+  padding: clamp(1.75rem, 1.2rem + 2vw, 3rem);
+  background:
+    repeating-linear-gradient(to right, rgba(32, 38, 35, 0.035) 0 1px, transparent 1px 48px),
+    repeating-linear-gradient(to bottom, rgba(32, 38, 35, 0.035) 0 1px, transparent 1px 48px),
+    var(--color-background-card);
+  box-shadow: var(--shadow-card);
+  max-width: var(--max-prose-width);
+}
+
+.emptyStateTitle {
+  font-size: var(--font-size-h3);
+  line-height: var(--line-height-h3);
+  margin-bottom: var(--space-3);
+}
+
+.emptyStateText {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-body-large);
+  line-height: var(--line-height-body-large);
+}
+
+.emptyStateText a {
+  padding-block: 4px;
+}
+
+.emptyStateText + .emptyStateText {
+  margin-top: var(--space-3);
+}
+
+/* ---------- Link list ---------- */
+
+.linkCardGrid {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: 1fr;
+  margin: var(--space-6) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 720px) {
+  .linkCardGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/*
+  The card is a list item holding the link and, beside it, the context. Only the
+  title is link text; the anchor's ::after stretches over the card so the whole
+  card stays one click target, as it was when the card itself was the anchor.
+*/
+.linkCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+  padding: var(--space-6) calc(var(--space-6) + 40px) var(--space-6) var(--space-6);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-card);
+  background-color: var(--color-background-card);
+  box-shadow: var(--shadow-card);
+  transition:
+    border-color var(--transition-fast),
+    transform var(--transition-lift),
+    box-shadow var(--transition-lift);
+}
+
+/* An arrow in a circle, top right, that steps forward on hover. */
+.linkCard::after {
+  content: '→';
+  content: '→' / '';
+  position: absolute;
+  top: var(--space-5);
+  right: var(--space-5);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: var(--border-width) solid var(--color-border);
+  color: var(--color-forest);
+  font-size: var(--font-size-body);
+  transition:
+    transform var(--transition-lift),
+    background-color var(--transition-lift),
+    color var(--transition-lift),
+    border-color var(--transition-lift);
+  pointer-events: none;
+}
+
+.linkCard:hover,
+.linkCard:focus-within {
+  border-color: color-mix(in srgb, var(--color-forest) 45%, var(--color-border));
+  transform: translate3d(0, -3px, 0);
+  box-shadow: var(--shadow-card-hover);
+}
+
+.linkCard:hover::after,
+.linkCard:focus-within::after {
+  transform: translate3d(3px, 0, 0);
+  background-color: var(--color-forest);
+  border-color: var(--color-forest);
+  color: var(--color-white);
+}
+
+.linkCardLink {
+  text-decoration: none;
+}
+
+.linkCardLink::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+.linkCardLink:hover,
+.linkCardLink:focus-visible {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+
+.linkCardTitle {
+  font-size: var(--font-size-h3);
+  line-height: var(--line-height-h3);
+  font-weight: 650;
+  letter-spacing: -0.015em;
+  overflow-wrap: anywhere;
+}
+
+.linkCardText {
+  margin: 0;
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+  color: var(--color-text-muted);
+  overflow-wrap: anywhere;
+}

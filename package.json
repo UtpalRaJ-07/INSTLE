@@ -5,12 +5,19 @@
   "type": "module",
   "scripts": {
     "dev": "next dev",
+    "prebuild": "vitest run --reporter=dot",
     "build": "next build",
     "measure:js": "node scripts/measure-homepage-js.js",
+    "measure:visuals": "node scripts/measure-visual-assets.mjs",
+    "report:progress": "node scripts/generate-progress-report.mjs",
+    "sync:publication": "node scripts/sync-publication-status.mjs",
     "start": "next start",
     "lint": "eslint .",
-    "test": "vitest run"
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "verify": "npm run lint && npm run typecheck && npm run test && npm run build"
   },
+  "// prebuild": "The content policy suite runs ahead of the build. npm invokes `prebuild` automatically before `build`, so a failing assertion exits non-zero and `next build` never starts — no deployable output is produced. `dev` is deliberately untouched so the development loop stays fast. `verify` remains the fuller release gate.",
   "dependencies": {
     "next": "^16.3.6",
     "react": "^19.3.0",
@@ -20,12 +27,15 @@
     "@eslint/eslintrc": "^3.3.7",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
+    "@testing-library/user-event": "14.6.1",
     "@types/node": "^22.13.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "eslint": "^9.39.5",
     "eslint-config-next": "^16.3.6",
+    "fast-check": "4.10.2",
     "jsdom": "^26.0.0",
+    "playwright-core": "1.57.0",
     "typescript": "^5.7.0",
     "vitest": "^3.0.0"
   },

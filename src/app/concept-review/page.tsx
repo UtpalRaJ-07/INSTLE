@@ -9,6 +9,7 @@ import {
   DOMAIN_STATUS,
 } from '@/config/constants';
 import styles from './page.module.css';
+import { assertPrototypeAccessAllowed } from '@/lib/prototype-guard';
 
 export const metadata: Metadata = {
   title: `[INTERNAL PREVIEW] Design Review & Selection Lab — ${CANONICAL_BRAND}`,
@@ -20,7 +21,14 @@ export const metadata: Metadata = {
   },
 };
 
+// Rendered per request so the production 404 guard cannot be frozen into a
+// prerendered page by a build that ran with a different environment.
+export const dynamic = 'force-dynamic';
+
 export default function ConceptReviewPage() {
+  // Private design material: 404 in a production deployment.
+  assertPrototypeAccessAllowed();
+
   return (
     <div className={styles.reviewWrapper}>
       <header className={styles.reviewHeader}>
@@ -78,7 +86,7 @@ export default function ConceptReviewPage() {
                 <div className={styles.specList}>
                   <div className={styles.specItem}>
                     <strong>Typographic Hierarchy:</strong>
-                    <span>Cormorant Garamond (Editorial Serif Display) paired with Plus Jakarta Sans (Humanist Precision Body). High-contrast tracking on all-caps brand lockup.</span>
+                    <span>Apple Pro Neo-Grotesque Typography (SF Pro Display / Inter) paired with Plus Jakarta Sans (Humanist Precision Body). Crisp high-tech tracking on all-caps brand lockup.</span>
                   </div>
                   <div className={styles.specItem}>
                     <strong>Palette &amp; Atmosphere:</strong>

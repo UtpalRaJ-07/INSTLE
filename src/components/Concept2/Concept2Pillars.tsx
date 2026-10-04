@@ -9,7 +9,7 @@ const PILLARS = [
     code: 'MOD-01',
     metric: 'OFF-MARKET & CURATED',
     title: 'Acquisition & Sourcing Engine',
-    desc: 'Structured discovery across Bengaluru’s premier residential sectors. We bypass cluttered public aggregators, operating directly through registered owner networks and verified mandates.',
+    desc: 'Structured discovery across Bengaluru’s premier residential sectors. We bypass cluttered public aggregators, operating directly with owners and their representatives.',
     specs: [
       'Independent villas & prime apartments',
       'Cadastral & municipal zoning checks',
@@ -19,7 +19,7 @@ const PILLARS = [
   },
   {
     code: 'MOD-02',
-    metric: 'VERIFIED RESIDENCES',
+    metric: 'RESIDENTIAL TENANCY',
     title: 'Executive Tenancy Advisory',
     desc: 'Dedicated relocation and leasing representation for corporate leaders, founders, and expatriates. Sourced exclusively within established gated enclaves and premium low-density projects.',
     specs: [
@@ -33,7 +33,7 @@ const PILLARS = [
     code: 'MOD-03',
     metric: 'DISCREET EXECUTION',
     title: 'Asset & Owner Representation',
-    desc: 'Fiduciary representation for property owners and institutional landlords. Controlled private exposure connecting exclusively to qualified capital with verified liquidity.',
+    desc: 'Fiduciary representation for property owners and institutional landlords. Controlled private exposure, with buyer and tenant requirements discussed before any visit.',
     specs: [
       'No broadcast listings or signboards',
       'Pre-vetted counter-party credentials',
@@ -56,7 +56,7 @@ export function Concept2Pillars() {
             ENGINEERED FOR DISCRETION AND ACCURACY.
           </h2>
           <p className={styles.subtext}>
-            Standard property portals profit from lead resale and inflated catalogues. INSTLE operates strictly on client representation, aligning brokerage incentives with verified transaction outcomes.
+            Standard property portals profit from lead resale and inflated catalogues. INSTLE operates strictly on client representation, aligning brokerage incentives with the client&rsquo;s own objective.
           </p>
         </div>
 

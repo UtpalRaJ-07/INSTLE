@@ -7,13 +7,12 @@ export const ContactBand: React.FC = () => {
     <section className={styles.section} aria-labelledby="contact-band-title">
       <div className={styles.inner}>
         <div className={styles.copy}>
-          <span className={styles.eyebrow}>Direct Communications</span>
+          <span className={styles.eyebrow}>Direct Contact</span>
           <h2 id="contact-band-title" className={styles.title}>
-            Ready to discuss your property requirement?
+            Let’s discuss your property requirement
           </h2>
           <p className={styles.text}>
-            Connect directly with {CANONICAL_BRAND} by telephone to discuss your property
-            requirement and explore relevant next steps.
+            Looking for a flat, house, villa or plot in Bengaluru? Speak directly with our team to discuss your budget, preferred area and timeline.
           </p>
         </div>
 
@@ -27,7 +26,7 @@ export const ContactBand: React.FC = () => {
               ☎
             </span>
             <div className={styles.phoneDetails}>
-              <span className={styles.phoneLabel}>Call Brokerage Team</span>
+              <span className={styles.phoneLabel}>Call Our Team</span>
               <span className={styles.phoneDigits}>{PRIMARY_PHONE}</span>
             </div>
           </a>

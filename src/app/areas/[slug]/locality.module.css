@@ -76,10 +76,12 @@
 .heading {
   font-family: var(--c1-font-serif);
   font-size: clamp(2.25rem, 3.8vw, 3.25rem);
-  font-weight: 500;
+  font-weight: 700;
   color: var(--c1-forest);
   line-height: 1.15;
+  letter-spacing: -0.03em;
   margin-bottom: 16px;
+  -webkit-font-smoothing: antialiased;
 }
 
 .characterLead {
@@ -112,8 +114,10 @@
 .subHeading {
   font-family: var(--c1-font-serif);
   font-size: 1.5rem;
-  font-weight: 500;
+  font-weight: 700;
   color: var(--c1-forest);
+  letter-spacing: -0.02em;
+  -webkit-font-smoothing: antialiased;
 }
 
 .bodyText {

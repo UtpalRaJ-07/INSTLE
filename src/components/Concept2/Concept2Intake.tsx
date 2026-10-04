@@ -166,7 +166,7 @@ export function Concept2Intake() {
                     {[
                       { title: 'Independent Luxury Villa', desc: 'Bespoke residences & private gated enclaves' },
                       { title: 'Prime Penthouse / Apartment', desc: 'High-specification high-rise residential floors' },
-                      { title: 'Residential Land / Plot', desc: 'Clear-title parcels in master-planned layouts' },
+                      { title: 'Residential Land / Plot', desc: 'Residential sites and plots' },
                       { title: 'Open to Advisory Guidance', desc: 'Consult on optimal asset class for capital goal' },
                     ].map((item) => (
                       <button

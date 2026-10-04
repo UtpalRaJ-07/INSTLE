@@ -16,11 +16,12 @@ export function Concept1Header() {
   const dialogRef = useRef<HTMLDivElement>(null);
 
   const navLinks = [
-    { label: 'Buy', href: '/concept-1/intake' },
+    { label: 'Buy', href: '/buy' },
     { label: 'Rent', href: '/rent' },
-    { label: 'Sell', href: '/sell' },
-    { label: 'Areas', href: '/areas' },
-    { label: 'How It Works', href: '/how-it-works' },
+    { label: 'Sell or Rent Out', href: '/sell' },
+    { label: 'Explore Areas', href: '/areas' },
+    { label: 'How We Help', href: '/how-it-works' },
+    { label: 'About', href: '/about' },
     { label: 'Contact', href: '/contact' },
   ];
 
@@ -75,7 +76,7 @@ export function Concept1Header() {
       <div className={styles.topDatum}>
         <div className={styles.topDatumInner}>
           <span className={styles.datumItem}>12°58′N 77°35′E · BENGALURU</span>
-          <span className={styles.datumItem}>SERVICE-LED REAL ESTATE BROKERAGE &amp; ADVISORY</span>
+          <span className={styles.datumItem}>REAL ESTATE BROKERAGE IN BENGALURU</span>
           <span className={styles.datumItem}>
             DIRECT CALL:{' '}
             <a href={PRIMARY_PHONE_TEL} className={styles.datumPhone}>
@@ -87,9 +88,9 @@ export function Concept1Header() {
 
       <div className={styles.mainNav}>
         <div className={styles.brandGroup}>
-          <Link href="/concept-1" className={styles.brandLink}>
+          <Link href="/" className={styles.brandLink}>
             <span className={styles.brandTitle}>{CANONICAL_BRAND}</span>
-            <span className={styles.brandSubtitle}>BENGALURU PROPERTY ADVISORY</span>
+            <span className={styles.brandSubtitle}>REAL ESTATE BROKERAGE · BENGALURU</span>
           </Link>
         </div>
 
@@ -113,8 +114,8 @@ export function Concept1Header() {
             <span>{PRIMARY_PHONE}</span>
           </a>
 
-          <Link href="/concept-1/intake" className={styles.ctaButton}>
-            <span>Submit Brief</span>
+          <Link href="/buy" className={styles.ctaButton}>
+            <span>Send Enquiry</span>
           </Link>
 
           {/* Mobile hamburger */}
@@ -173,16 +174,16 @@ export function Concept1Header() {
             </nav>
 
             <div className={styles.drawerFooter}>
-              <p className={styles.drawerMeta}>BENGALURU REAL ESTATE BROKERAGE</p>
+              <p className={styles.drawerMeta}>REAL ESTATE BROKERAGE IN BENGALURU</p>
               <a href={PRIMARY_PHONE_TEL} className={styles.drawerPhoneLink}>
-                Call Advisory: {PRIMARY_PHONE}
+                Call Our Team: {PRIMARY_PHONE}
               </a>
               <Link
-                href="/concept-1/intake"
+                href="/buy"
                 className={styles.drawerCta}
                 onClick={handleClose}
               >
-                Commission Acquisition Brief
+                Send Enquiry
               </Link>
             </div>
           </div>

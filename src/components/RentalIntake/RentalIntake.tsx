@@ -9,30 +9,32 @@ import {
 import styles from './RentalIntake.module.css';
 
 interface RentalFormData {
-  assetType: string;
+  propertyType: string;
+  bedrooms: string;
   localities: string[];
+  otherArea: string;
   monthlyBudget: string;
   furnishing: string;
-  leaseDuration: string;
   moveInTimeline: string;
   name: string;
   phone: string;
-  contactPreference: string;
+  email: string;
   consent: boolean;
 }
 
 export function RentalIntake() {
   const [currentStep, setCurrentStep] = useState<number>(1);
   const [formData, setFormData] = useState<RentalFormData>({
-    assetType: '',
+    propertyType: '',
+    bedrooms: '',
     localities: [],
+    otherArea: '',
     monthlyBudget: '',
     furnishing: '',
-    leaseDuration: '',
     moveInTimeline: '',
     name: '',
     phone: '',
-    contactPreference: 'Phone Call',
+    email: '',
     consent: false,
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -43,45 +45,70 @@ export function RentalIntake() {
 
   const toggleLocality = (loc: string) => {
     setFormData((prev) => {
-      const exists = prev.localities.includes(loc);
-      if (exists) {
-        return { ...prev, localities: prev.localities.filter((item) => item !== loc) };
+      if (loc === 'I am open to suggestions') {
+        const alreadyHasOpen = prev.localities.includes('I am open to suggestions');
+        return {
+          ...prev,
+          localities: alreadyHasOpen ? [] : ['I am open to suggestions'],
+          otherArea: '',
+        };
       }
-      return { ...prev, localities: [...prev.localities, loc] };
+      const filtered = prev.localities.filter((item) => item !== 'I am open to suggestions');
+      const exists = filtered.includes(loc);
+      if (exists) {
+        return { ...prev, localities: filtered.filter((item) => item !== loc) };
+      }
+      return { ...prev, localities: [...filtered, loc] };
+    });
+    setErrors((prev) => {
+      const copy = { ...prev };
+      delete copy.localities;
+      return copy;
     });
   };
 
   const validateContactStep = () => {
     const errs: Record<string, string> = {};
     if (!formData.name.trim() || formData.name.trim().length < 2) {
-      errs.name = 'Please provide your full name (minimum 2 characters).';
+      errs.name = 'Enter your name';
     }
     const cleanPhone = formData.phone.replace(/[^0-9]/g, '');
     const isIndian10Digit = /^[6-9]\d{9}$/.test(cleanPhone);
     const isStandardValid = cleanPhone.length >= 10 && cleanPhone.length <= 15;
 
     if (!cleanPhone || (!isIndian10Digit && !isStandardValid)) {
-      errs.phone = 'Please provide a valid 10-digit telephone number.';
+      errs.phone = 'Check your phone number';
     }
     if (formData.consent !== true) {
-      errs.consent = 'Consent under DPDP privacy principles is required to process your requirement.';
+      errs.consent = 'Please check the box to agree to INSTLE REAL ESTATE contacting you.';
     }
     setErrors(errs);
     return Object.keys(errs).length === 0;
   };
 
   const handleNext = () => {
-    if (currentStep === 1 && !formData.assetType) {
-      setErrors({ assetType: 'Please select a residence typology or choose "Open to Guidance".' });
-      return;
+    if (currentStep === 1) {
+      if (!formData.propertyType) {
+        setErrors({ propertyType: 'Please choose what type of home you want to rent' });
+        return;
+      }
+    }
+    if (currentStep === 2) {
+      const hasLocalities = formData.localities.length > 0;
+      const hasOtherArea = formData.otherArea.trim().length > 0;
+      if (!hasLocalities && !hasOtherArea) {
+        setErrors({ localities: 'Please choose an area or select “Open to suggestions”' });
+        return;
+      }
     }
     if (currentStep === 4) {
       if (!validateContactStep()) return;
-      setCurrentStep(5); // Review step
-    } else {
       setErrors({});
-      setCurrentStep((prev) => Math.min(prev + 1, 5));
+      setCurrentStep(5); // Review step
+      return;
     }
+    setErrors({});
+    setCurrentStep((prev) => Math.min(prev + 1, 5));
   };
 
   const handleBack = () => {
@@ -101,27 +128,39 @@ export function RentalIntake() {
 
     try {
       const cleanPhone = formData.phone.replace(/[^0-9]/g, '');
+
+      let selectedAreas = [...formData.localities];
+      if (formData.otherArea.trim()) {
+        selectedAreas.push(formData.otherArea.trim());
+      }
+      if (selectedAreas.length === 0) {
+        selectedAreas = ['Open to suggestions'];
+      }
+
+      const fullAsset = formData.bedrooms
+        ? `${formData.propertyType} (${formData.bedrooms})`
+        : formData.propertyType;
+
       const res = await fetch('/api/enquiry', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           intent: 'rent',
-          assetType: formData.assetType || 'Open to Guidance',
-          localities: formData.localities.length > 0 ? formData.localities : ['Open to Guidance'],
-          budgetBand: formData.monthlyBudget || 'Open to Discussion',
+          assetType: fullAsset || 'Flat / Apartment',
+          localities: selectedAreas,
+          budgetBand: formData.monthlyBudget || 'Open to discussion',
           timeline: formData.moveInTimeline || 'Flexible',
           furnishing: formData.furnishing || 'Flexible',
-          leaseDuration: formData.leaseDuration || 'Standard 11-12 Months',
           name: formData.name.trim(),
           phone: cleanPhone,
-          contactPreference: formData.contactPreference,
+          contactPreference: formData.email.trim() ? `Phone & Email (${formData.email.trim()})` : 'Phone Call',
           consent: formData.consent === true,
         }),
       });
 
       const data = await res.json();
       if (!res.ok || !data.success) {
-        throw new Error(data.error || 'Failed to submit rental enquiry.');
+        throw new Error(data.error || 'Failed to send rental enquiry.');
       }
 
       setReferenceId(data.leadId);
@@ -130,7 +169,7 @@ export function RentalIntake() {
       setApiError(
         err instanceof Error
           ? err.message
-          : 'Unable to connect to the intake queue. Please call our desk directly at 9353096264.'
+          : 'Unable to send enquiry. Please call our team directly at 9353096264.'
       );
     } finally {
       setIsSubmitting(false);
@@ -143,14 +182,14 @@ export function RentalIntake() {
         <div className={styles.formBox}>
           <div className={styles.headerBlock}>
             <div className={styles.dossierMeta}>
-              <span className={styles.dossierBadge}>TENANCY INTAKE</span>
+              <span className={styles.dossierBadge}>RENT A HOME</span>
               <span className={styles.stepCounter}>STEP {currentStep} OF 5</span>
             </div>
             <h2 id="rental-intake-title" className={styles.formHeading}>
-              Share Your Rental Requirement
+              Rent a home in Bengaluru
             </h2>
             <p className={styles.formSub}>
-              Looking for a high-specification residence in Bengaluru? Specify your leasing preferences for direct advisory coordination.
+              Tell us where you want to stay, your monthly rent budget and when you plan to move. Our team will help you find suitable homes.
             </p>
           </div>
 
@@ -161,33 +200,44 @@ export function RentalIntake() {
             aria-valuenow={currentStep}
             aria-valuemin={1}
             aria-valuemax={5}
-            aria-label="Tenancy intake progress"
+            aria-label="Rental enquiry progress"
           >
             <div className={styles.progressBar} style={{ width: `${(currentStep / 5) * 100}%` }} />
           </div>
 
           {submitted ? (
             <div className={styles.confirmationBox} role="alert">
-              <span className={styles.confirmBadge}>TENANCY REQUIREMENT LOGGED</span>
-              <h3 className={styles.confirmTitle}>Rental Brief Registered Successfully</h3>
+              <span className={styles.confirmBadge}>ENQUIRY SENT</span>
+              <h3 className={styles.confirmTitle}>Your enquiry has been received</h3>
               <p className={styles.confirmDesc}>
-                Your residential leasing parameters have been queued for brokerage review.
+                Thank you, {formData.name}. Our brokerage team has received your rental requirement and will contact you soon.
               </p>
               <div className={styles.referenceBlock}>
-                <span className={styles.refLabel}>Advisory Reference Number:</span>
+                <span className={styles.refLabel}>Enquiry Reference Number:</span>
                 <strong className={styles.refValue}>{referenceId}</strong>
               </div>
               <div className={styles.reviewSummary}>
-                <p><strong>Tenant Name:</strong> {formData.name} ({formData.phone})</p>
-                <p><strong>Typology:</strong> {formData.assetType || 'Open to Guidance'}</p>
-                <p><strong>Target Enclaves:</strong> {formData.localities.length ? formData.localities.join(', ') : 'Open to Guidance'}</p>
-                <p><strong>Monthly Rent Budget:</strong> {formData.monthlyBudget || 'Open to Discussion'}</p>
+                <p>
+                  <strong>Looking to rent:</strong> {formData.propertyType}
+                  {formData.bedrooms ? ` (${formData.bedrooms})` : ''}
+                </p>
+                <p>
+                  <strong>Preferred areas:</strong>{' '}
+                  {formData.localities.length > 0 ? formData.localities.join(', ') : ''}
+                  {formData.otherArea ? `${formData.localities.length > 0 ? ', ' : ''}${formData.otherArea}` : ''}
+                  {formData.localities.length === 0 && !formData.otherArea ? 'Open to suggestions' : ''}
+                </p>
+                <p><strong>Monthly rent budget:</strong> {formData.monthlyBudget || 'Open to discussion'}</p>
                 <p><strong>Furnishing:</strong> {formData.furnishing || 'Flexible'}</p>
-                <p><strong>Lease Duration:</strong> {formData.leaseDuration || 'Standard'}</p>
-                <p><strong>Move-in Target:</strong> {formData.moveInTimeline || 'Flexible'}</p>
+                <p><strong>Move-in timing:</strong> {formData.moveInTimeline || 'Flexible'}</p>
+                <p><strong>Contact:</strong> {formData.name} (+91 {formData.phone})</p>
               </div>
               <p className={styles.followupNote}>
-                Our team reviews rental briefs against direct landlord mandates. For immediate assistance, call our desk directly at <a href={PRIMARY_PHONE_TEL} className={styles.inlinePhone}>{PRIMARY_PHONE}</a>.
+                Have an urgent question? Speak directly with our team at{' '}
+                <a href={PRIMARY_PHONE_TEL} className={styles.inlinePhone}>
+                  {PRIMARY_PHONE}
+                </a>
+                .
               </p>
               <button
                 type="button"
@@ -196,20 +246,21 @@ export function RentalIntake() {
                   setSubmitted(false);
                   setCurrentStep(1);
                   setFormData({
-                    assetType: '',
+                    propertyType: '',
+                    bedrooms: '',
                     localities: [],
+                    otherArea: '',
                     monthlyBudget: '',
                     furnishing: '',
-                    leaseDuration: '',
                     moveInTimeline: '',
                     name: '',
                     phone: '',
-                    contactPreference: 'Phone Call',
+                    email: '',
                     consent: false,
                   });
                 }}
               >
-                Submit Another Rental Requirement
+                Send another rental enquiry
               </button>
             </div>
           ) : (
@@ -223,51 +274,78 @@ export function RentalIntake() {
                 </div>
               )}
 
-              {/* STEP 1: RESIDENCE TYPOLOGY */}
+              {/* STEP 1: PROPERTY TYPE & BEDROOMS */}
               {currentStep === 1 && (
                 <fieldset className={styles.fieldset}>
-                  <legend className={styles.legend}>01. Preferred Residence Typology</legend>
-                  <p className={styles.stepPrompt}>What typology of residential property do you wish to lease?</p>
-                  {errors.assetType && <span className={styles.errorMsg} role="alert">{errors.assetType}</span>}
+                  <legend className={styles.legend}>01. What type of home are you looking to rent?</legend>
+                  <p className={styles.stepPrompt}>Select property type:</p>
+                  {errors.propertyType && <span className={styles.errorMsg} role="alert">{errors.propertyType}</span>}
+
                   <div className={styles.optionsGrid}>
                     {[
-                      'Gated Community Apartment',
-                      'Gated Enclave Villa',
-                      'Boutique Penthouse / Duplex',
-                      'Independent Bungalow / House',
-                      'Serviced / Corporate Residence',
-                      'Open to Guidance / Exploring',
+                      'Flat / Apartment',
+                      'Independent House',
+                      'Villa',
+                      'Other',
                     ].map((type) => (
                       <button
                         key={type}
                         type="button"
-                        className={`${styles.optionCard} ${formData.assetType === type ? styles.selectedOption : ''}`}
+                        className={`${styles.optionCard} ${formData.propertyType === type ? styles.selectedOption : ''}`}
                         onClick={() => {
-                          setFormData({ ...formData, assetType: type });
+                          setFormData({ ...formData, propertyType: type });
                           setErrors({});
                         }}
                       >
-                        <span className={styles.optionRadio}>{formData.assetType === type ? '●' : '○'}</span>
+                        <span className={styles.optionRadio}>{formData.propertyType === type ? '●' : '○'}</span>
                         <span className={styles.optionLabel}>{type}</span>
                       </button>
                     ))}
                   </div>
+
+                  <div className={styles.chipGroup} style={{ marginTop: '24px' }}>
+                    <span className={styles.chipGroupLabel}>Number of bedrooms / BHK:</span>
+                    <div className={styles.chipsRow}>
+                      {[
+                        '1 BHK',
+                        '2 BHK',
+                        '3 BHK',
+                        '4 BHK',
+                        '5+ BHK',
+                        'Flexible / Open to suggestions',
+                      ].map((bhk) => (
+                        <button
+                          key={bhk}
+                          type="button"
+                          className={`${styles.chipBtn} ${formData.bedrooms === bhk ? styles.chipSelected : ''}`}
+                          onClick={() => setFormData({ ...formData, bedrooms: bhk })}
+                        >
+                          {bhk}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
                 </fieldset>
               )}
 
-              {/* STEP 2: MICRO-MARKETS */}
+              {/* STEP 2: PREFERRED AREAS */}
               {currentStep === 2 && (
                 <fieldset className={styles.fieldset}>
-                  <legend className={styles.legend}>02. Desired Bengaluru Enclaves</legend>
-                  <p className={styles.stepPrompt}>Select preferred areas (multiple choices supported, or leave open):</p>
+                  <legend className={styles.legend}>02. Which area do you prefer?</legend>
+                  <p className={styles.stepPrompt}>
+                    Choose one or more areas, or select “Open to suggestions”:
+                  </p>
+                  {errors.localities && <span className={styles.errorMsg} role="alert">{errors.localities}</span>}
+
                   <div className={styles.optionsGrid}>
                     {[
                       'Indiranagar & Defence Colony',
-                      'Koramangala (Blocks 3, 4, 5)',
-                      'Sadashivanagar / Palace Orchards',
+                      'Koramangala & HSR Layout',
+                      'Sadashivanagar & Palace Orchards',
                       'North Bengaluru / Hebbal Corridor',
-                      'Outer Ring Road / Sarjapur Belt',
-                      'Open to Recommendations',
+                      'Outer Ring Road / Sarjapur Road',
+                      'Whitefield / East Bengaluru',
+                      'I am open to suggestions',
                     ].map((loc) => {
                       const isSelected = formData.localities.includes(loc);
                       return (
@@ -283,22 +361,44 @@ export function RentalIntake() {
                       );
                     })}
                   </div>
+
+                  <div className={styles.fieldGroup} style={{ marginTop: '20px' }}>
+                    <label htmlFor="rent-other-area" className={styles.label}>
+                      Enter another area (optional):
+                    </label>
+                    <input
+                      id="rent-other-area"
+                      type="text"
+                      className={styles.input}
+                      placeholder="e.g. Malleshwaram, JP Nagar, Bellandur"
+                      value={formData.otherArea}
+                      onChange={(e) => {
+                        setFormData({
+                          ...formData,
+                          otherArea: e.target.value,
+                          localities: formData.localities.filter((l) => l !== 'I am open to suggestions'),
+                        });
+                        setErrors({});
+                      }}
+                    />
+                  </div>
                 </fieldset>
               )}
 
-              {/* STEP 3: MONTHLY RENTAL BUDGET */}
+              {/* STEP 3: MONTHLY RENT BUDGET */}
               {currentStep === 3 && (
                 <fieldset className={styles.fieldset}>
-                  <legend className={styles.legend}>03. Monthly Rental Budget Band</legend>
-                  <p className={styles.stepPrompt}>Select your anticipated monthly rental expenditure:</p>
+                  <legend className={styles.legend}>03. What is your monthly rent budget?</legend>
+                  <p className={styles.stepPrompt}>Select your expected monthly rent:</p>
+
                   <div className={styles.optionsGrid}>
                     {[
-                      '₹40,000 – ₹75,000 / month',
-                      '₹75,000 – ₹1,50,000 / month',
-                      '₹1,50,000 – ₹3,00,000 / month',
-                      '₹3,00,000 – ₹5,00,000 / month',
-                      '₹5,00,000+ / month',
-                      'Open to Discussion / Guidance Needed',
+                      'Under ₹30,000 / month',
+                      '₹30,000 – ₹50,000 / month',
+                      '₹50,000 – ₹1 Lakh / month',
+                      '₹1 Lakh – ₹2 Lakh / month',
+                      '₹2 Lakh+ / month',
+                      'Flexible / Not sure yet',
                     ].map((band) => (
                       <button
                         key={band}
@@ -314,72 +414,61 @@ export function RentalIntake() {
                 </fieldset>
               )}
 
-              {/* STEP 4: TENANCY PARAMETERS & CONTACT */}
+              {/* STEP 4: FURNISHING, TIMING & CONTACT */}
               {currentStep === 4 && (
                 <fieldset className={styles.fieldset}>
-                  <legend className={styles.legend}>04. Lease Specifications &amp; Contact</legend>
-                  <p className={styles.stepPrompt}>Specify your furnishing preference, lease horizon, and telephone contact:</p>
+                  <legend className={styles.legend}>04. Furnishing, timing &amp; contact details</legend>
 
-                  <div className={styles.twoColRow}>
-                    <div className={styles.fieldGroup}>
-                      <label htmlFor="rent-furnishing" className={styles.label}>
-                        Furnishing Requirement
-                      </label>
-                      <select
-                        id="rent-furnishing"
-                        className={styles.select}
-                        value={formData.furnishing}
-                        onChange={(e) => setFormData({ ...formData, furnishing: e.target.value })}
-                      >
-                        <option value="">Select furnishing (or flexible)</option>
-                        <option value="Fully Furnished">Fully Furnished</option>
-                        <option value="Semi-Furnished (with appliances)">Semi-Furnished (with appliances)</option>
-                        <option value="Unfurnished">Unfurnished</option>
-                        <option value="Flexible">Flexible</option>
-                      </select>
-                    </div>
-
-                    <div className={styles.fieldGroup}>
-                      <label htmlFor="rent-duration" className={styles.label}>
-                        Expected Lease Duration
-                      </label>
-                      <select
-                        id="rent-duration"
-                        className={styles.select}
-                        value={formData.leaseDuration}
-                        onChange={(e) => setFormData({ ...formData, leaseDuration: e.target.value })}
-                      >
-                        <option value="">Select duration</option>
-                        <option value="11–12 Months">11–12 Months</option>
-                        <option value="2–3 Years">2–3 Years</option>
-                        <option value="Long-term (3+ Years)">Long-term (3+ Years)</option>
-                        <option value="Flexible">Flexible</option>
-                      </select>
+                  <div className={styles.chipGroup}>
+                    <span className={styles.chipGroupLabel}>Furnishing preference</span>
+                    <div className={styles.chipsRow}>
+                      {[
+                        'Fully Furnished',
+                        'Semi-Furnished (with appliances)',
+                        'Unfurnished',
+                        'Flexible',
+                      ].map((f) => (
+                        <button
+                          key={f}
+                          type="button"
+                          className={`${styles.chipBtn} ${formData.furnishing === f ? styles.chipSelected : ''}`}
+                          onClick={() => setFormData({ ...formData, furnishing: f })}
+                        >
+                          {f}
+                        </button>
+                      ))}
                     </div>
                   </div>
 
-                  <div className={styles.fieldGroup}>
-                    <label htmlFor="rent-timeline" className={styles.label}>
-                      Target Move-In Window
-                    </label>
-                    <select
-                      id="rent-timeline"
-                      className={styles.select}
-                      value={formData.moveInTimeline}
-                      onChange={(e) => setFormData({ ...formData, moveInTimeline: e.target.value })}
-                    >
-                      <option value="">Select move-in target</option>
-                      <option value="Immediate (0–30 days)">Immediate (0–30 days)</option>
-                      <option value="30–60 Days">30–60 Days</option>
-                      <option value="60+ Days">60+ Days</option>
-                      <option value="Flexible / Exploring">Flexible / Exploring</option>
-                    </select>
+                  <div className={styles.chipGroup}>
+                    <span className={styles.chipGroupLabel}>When are you planning to move in?</span>
+                    <div className={styles.chipsRow}>
+                      {[
+                        'Immediate (within 30 days)',
+                        '1–2 Months',
+                        'Later',
+                        'Not sure yet',
+                      ].map((t) => (
+                        <button
+                          key={t}
+                          type="button"
+                          className={`${styles.chipBtn} ${formData.moveInTimeline === t ? styles.chipSelected : ''}`}
+                          onClick={() => setFormData({ ...formData, moveInTimeline: t })}
+                        >
+                          {t}
+                        </button>
+                      ))}
+                    </div>
                   </div>
+
+                  <p className={styles.stepPrompt} style={{ marginTop: '20px' }}>
+                    How can we contact you?
+                  </p>
 
                   <div className={styles.twoColRow}>
                     <div className={styles.fieldGroup}>
                       <label htmlFor="rent-name" className={styles.label}>
-                        Full Name *
+                        Your name *
                       </label>
                       <input
                         id="rent-name"
@@ -395,30 +484,48 @@ export function RentalIntake() {
 
                     <div className={styles.fieldGroup}>
                       <label htmlFor="rent-phone" className={styles.label}>
-                        Telephone Number *
+                        Phone number *
                       </label>
-                      <input
-                        id="rent-phone"
-                        type="tel"
-                        className={`${styles.input} ${errors.phone ? styles.inputError : ''}`}
-                        placeholder="e.g. 9845012345"
-                        value={formData.phone}
-                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                        required
-                      />
+                      <div className={styles.inputWithPrefix}>
+                        <span className={styles.phonePrefix}>🇮🇳 +91</span>
+                        <input
+                          id="rent-phone"
+                          type="tel"
+                          className={`${styles.input} ${errors.phone ? styles.inputError : ''}`}
+                          placeholder="9845012345"
+                          value={formData.phone}
+                          onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                          required
+                        />
+                      </div>
                       {errors.phone && <span className={styles.errorMsg} role="alert">{errors.phone}</span>}
                     </div>
+                  </div>
+
+                  <div className={styles.fieldGroup}>
+                    <label htmlFor="rent-email" className={styles.label}>
+                      Email (optional)
+                    </label>
+                    <input
+                      id="rent-email"
+                      type="email"
+                      className={styles.input}
+                      placeholder="e.g. ananya@example.com"
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    />
                   </div>
 
                   <div className={styles.consentGroup}>
                     <label className={styles.checkboxLabel}>
                       <input
                         type="checkbox"
+                        className={styles.checkboxInput}
                         checked={formData.consent}
                         onChange={(e) => setFormData({ ...formData, consent: e.target.checked })}
                       />
                       <span>
-                        I consent to {CANONICAL_BRAND} storing and processing these details under Indian privacy principles solely for tenancy advisory.
+                        I agree to {CANONICAL_BRAND} storing and using my contact details to discuss my rental requirement. No marketing spam or data resale.
                       </span>
                     </label>
                     {errors.consent && <span className={styles.errorMsg} role="alert">{errors.consent}</span>}
@@ -426,45 +533,49 @@ export function RentalIntake() {
                 </fieldset>
               )}
 
-              {/* STEP 5: REVIEW SUMMARY */}
+              {/* STEP 5: REVIEW DETAILS */}
               {currentStep === 5 && (
                 <div className={styles.fieldset}>
-                  <legend className={styles.legend}>05. Review &amp; Register Tenancy Brief</legend>
-                  <p className={styles.stepPrompt}>Please verify your parameters prior to transmitting to our intake queue.</p>
+                  <legend className={styles.legend}>05. Review your details</legend>
+                  <p className={styles.stepPrompt}>Please check your details before sending your enquiry:</p>
 
                   <div className={styles.summaryCard}>
                     <div className={styles.summaryRow}>
-                      <span className={styles.sumKey}>Typology</span>
-                      <span className={styles.sumVal}>{formData.assetType || 'Open to Guidance'}</span>
-                    </div>
-                    <div className={styles.summaryRow}>
-                      <span className={styles.sumKey}>Target Enclaves</span>
+                      <span className={styles.sumKey}>What you want to rent</span>
                       <span className={styles.sumVal}>
-                        {formData.localities.length ? formData.localities.join(', ') : 'Open to Guidance'}
+                        {formData.propertyType || 'Open to suggestions'}
+                        {formData.bedrooms ? ` (${formData.bedrooms})` : ''}
                       </span>
                     </div>
                     <div className={styles.summaryRow}>
-                      <span className={styles.sumKey}>Monthly Budget</span>
-                      <span className={styles.sumVal}>{formData.monthlyBudget || 'Open to Discussion'}</span>
-                    </div>
-                    <div className={styles.summaryRow}>
-                      <span className={styles.sumKey}>Furnishing &amp; Lease</span>
+                      <span className={styles.sumKey}>Preferred area</span>
                       <span className={styles.sumVal}>
-                        {formData.furnishing || 'Flexible'} · {formData.leaseDuration || 'Standard'}
+                        {formData.localities.length > 0 ? formData.localities.join(', ') : ''}
+                        {formData.otherArea ? `${formData.localities.length > 0 ? ', ' : ''}${formData.otherArea}` : ''}
+                        {formData.localities.length === 0 && !formData.otherArea ? 'Open to suggestions' : ''}
                       </span>
                     </div>
                     <div className={styles.summaryRow}>
-                      <span className={styles.sumKey}>Move-in Target</span>
-                      <span className={styles.sumVal}>{formData.moveInTimeline || 'Flexible'}</span>
+                      <span className={styles.sumKey}>Monthly rent budget</span>
+                      <span className={styles.sumVal}>{formData.monthlyBudget || 'Open to discussion'}</span>
                     </div>
                     <div className={styles.summaryRow}>
-                      <span className={styles.sumKey}>Tenant Contact</span>
-                      <span className={styles.sumVal}>{formData.name} ({formData.phone})</span>
+                      <span className={styles.sumKey}>Furnishing &amp; timing</span>
+                      <span className={styles.sumVal}>
+                        {formData.furnishing || 'Flexible'} · {formData.moveInTimeline || 'Flexible'}
+                      </span>
+                    </div>
+                    <div className={styles.summaryRow}>
+                      <span className={styles.sumKey}>Contact details</span>
+                      <span className={styles.sumVal}>
+                        {formData.name} (+91 {formData.phone})
+                        {formData.email ? ` · ${formData.email}` : ''}
+                      </span>
                     </div>
                   </div>
 
                   <p className={styles.submitNotice}>
-                    Submitting logs this brief into our advisory queue. You can also connect directly by calling {PRIMARY_PHONE}.
+                    Sending this enquiry shares your rental requirement with our brokerage team. This does not commit you to any contract or lease agreement.
                   </p>
                 </div>
               )}
@@ -478,7 +589,7 @@ export function RentalIntake() {
                     onClick={handleBack}
                     disabled={isSubmitting}
                   >
-                    ← Back
+                    ← Edit
                   </button>
                 )}
 
@@ -488,7 +599,7 @@ export function RentalIntake() {
                     className={styles.nextBtn}
                     onClick={handleNext}
                   >
-                    Next Stage →
+                    Next →
                   </button>
                 ) : (
                   <button
@@ -496,7 +607,7 @@ export function RentalIntake() {
                     className={styles.submitBtn}
                     disabled={isSubmitting}
                   >
-                    {isSubmitting ? 'Registering Brief...' : 'Transmit Tenancy Brief →'}
+                    {isSubmitting ? 'Sending enquiry...' : 'Send enquiry →'}
                   </button>
                 )}
               </div>

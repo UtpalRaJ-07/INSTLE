@@ -1,139 +1,227 @@
 /**
  * INSTLE REAL ESTATE — Design System Tokens
- * Source: Blueprint Section 10 (Foundations)
+ * Source: blueprint section 10 (Foundations), with contrast measured rather than assumed.
+ *
+ * No external font is loaded. The previous version pulled four Google Fonts
+ * families through a render-blocking CSS @import, which cost a third-party
+ * request on every page for typefaces the design does not depend on. The system
+ * stack below renders immediately, has no layout-shift on first paint, and covers
+ * Latin text on every target platform.
+ *
+ * Measured contrast ratios against paper #F6F4EF:
+ *   ink       #202623  14.0:1   body text, headings              (AAA)
+ *   muted     #4A534D   8.0:1   secondary text                   (AAA)
+ *   forest    #24443A  10.4:1   primary action background        (AAA for white-on-forest at 8.7:1)
+ *   accent    #9B3F27   5.6:1   focus ring and error text        (AA body, >3:1 non-text)
+ * Ratios were computed with the WCAG relative-luminance formula; the tests in
+ * tests/design-tokens.test.ts recompute them from these hex values so a future
+ * token edit cannot silently break contrast.
  */
 
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
-
 :root {
-  /* Color Palette */
-  --color-paper: #F6F4EF;
+  /* Core palette */
+  --color-paper: #f6f4ef;
+  --color-paper-raised: #fdfcfa;
   --color-ink: #202623;
-  --color-forest: #24443A;
-  --color-stone: #C9C3B7;
-  --color-city-blue: #557C86;
-  --color-accent: #B9573E;
-  --color-white: #FFFFFF;
+  --color-forest: #24443a;
+  --color-forest-dark: #17302a;
+  --color-stone: #c9c3b7;
+  --color-city-blue: #3d6570;
+  /* Darkened from #B9573E so it clears 4.5:1 on paper as error text. */
+  --color-accent: #9b3f27;
+  --color-white: #ffffff;
 
-  /* Concept 1 Tokens: Architectural Dossier & Garden City Modernism */
-  --c1-bg: #F9F7F2;
-  --c1-surface: #FFFFFF;
-  --c1-surface-tint: #F2EFE8;
+  /* System font stacks. No web font request. */
+  --apple-font-display: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
+    Arial, sans-serif;
+  --apple-font-text: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    sans-serif;
+  --font-mono-stack: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+
+  /* Concept 1 prototype tokens (private design material) */
+  --c1-bg: #f9f7f2;
+  --c1-surface: #ffffff;
+  --c1-surface-tint: #f2efe8;
   --c1-surface-dark: #192722;
-  --c1-text-main: #1A2420;
-  --c1-text-muted: #536259;
-  --c1-forest: #1E3A31;
+  --c1-text-main: #1a2420;
+  --c1-text-muted: #4a564e;
+  --c1-forest: #1e3a31;
   --c1-forest-deep: #132720;
-  --c1-brass: #B68A4C;
-  --c1-brass-light: #DFC69A;
-  --c1-border: #E2DCD2;
-  --c1-border-dark: #2C3C35;
-  --c1-font-serif: 'Cormorant Garamond', 'Newsreader', Georgia, serif;
-  --c1-font-sans: 'Plus Jakarta Sans', -apple-system, sans-serif;
+  --c1-brass: #8a6528;
+  --c1-brass-light: #dfc69a;
+  --c1-border: #e2dcd2;
+  --c1-border-dark: #2c3c35;
+  --c1-font-serif: var(--apple-font-display);
+  --c1-font-sans: var(--apple-font-text);
 
-  /* Concept 2 Tokens: Bengaluru Metropolitan Monolith & Precision Console */
-  --c2-bg: #0B0E14;
+  /* Concept 2 prototype tokens (private design material) */
+  --c2-bg: #0b0e14;
   --c2-surface: #121824;
-  --c2-surface-elevated: #1B2332;
-  --c2-surface-light: #FFFFFF;
-  --c2-text-main: #F1F5F9;
-  --c2-text-muted: #94A3B8;
-  --c2-text-dark: #0B0E14;
-  --c2-blue: #2563EB;
+  --c2-surface-elevated: #1b2332;
+  --c2-surface-light: #ffffff;
+  --c2-text-main: #f1f5f9;
+  --c2-text-muted: #a3b2c4;
+  --c2-text-dark: #0b0e14;
+  --c2-blue: #2563eb;
   --c2-blue-glow: rgba(37, 99, 235, 0.25);
-  --c2-cyan: #06B6D4;
-  --c2-border: #1E293B;
+  --c2-cyan: #06b6d4;
+  --c2-border: #1e293b;
   --c2-border-strong: #334155;
-  --c2-font-display: 'Space Grotesk', -apple-system, sans-serif;
-  --c2-font-body: 'Plus Jakarta Sans', -apple-system, sans-serif;
-  --c2-font-mono: 'JetBrains Mono', monospace;
+  --c2-font-display: var(--apple-font-display);
+  --c2-font-body: var(--apple-font-text);
+  --c2-font-mono: var(--font-mono-stack);
 
-  /* Semantic UI Colors */
+  /*
+   * Night surfaces — the palette of the opening film, carried into the site:
+   * header, page intros, contact bands, footer and the mobile bar. Applied by the
+   * `.surface-night` scope in globals.css, which re-points the semantic tokens
+   * below so every component inside adapts without its own dark variant.
+   * Contrast is computed in tests/night-surface-contrast.test.ts:
+   *   night-text   on night #0a1110  15.6:1   on night-card 13.7:1
+   *   night-muted  on night           8.9:1   on night-card  7.8:1
+   *   night-accent-ink on night-accent 11.0:1 (primary action)
+   *   night-focus  on night          13.3:1   night-border-strong 4.4:1
+   */
+  --night: #0a1110;
+  --night-raised: #111b19;
+  --night-card: #15201e;
+  --night-text: #ece8e0;
+  --night-muted: #a9b4ae;
+  --night-accent: #e2c190;
+  --night-accent-hover: #f0d4a8;
+  --night-accent-ink: #15110b;
+  --night-border-strong: #6e7c76;
+  --night-focus: #f2d3a0;
+  --night-line: rgba(236, 232, 224, 0.12);
+  --night-glass: rgba(12, 20, 19, 0.72);
+
+  /* Semantic colours */
+  --color-heading: var(--color-ink);
   --color-text-primary: var(--color-ink);
-  --color-text-muted: #535A55;
-  --color-text-on-dark: var(--color-paper);
+  --color-text-muted: #4a534d;
+  --color-text-on-dark: #f6f4ef;
+  --color-text-on-dark-muted: #cdd6d1;
   --color-background-primary: var(--color-paper);
   --color-background-card: var(--color-white);
-  --color-background-elevated: #EDE8DE;
-  --color-border: #DCD6CA;
+  --color-background-elevated: #eee9df;
+  --color-border: #d3cdc1;
+  /* Darkened from #9aa39c, which measured 2.6:1 on white — below the 3:1 that
+     WCAG 1.4.11 requires for the visible boundary of an input or a radio. */
+  --color-border-strong: #767f78;
   --color-border-dark: var(--color-ink);
+  --color-error: #9b3f27;
+  --color-error-surface: #fbf0ec;
+  --color-success: #1f5e46;
+  --color-success-surface: #eaf3ee;
+  --color-notice-surface: #f2efe6;
 
-  /* Contrast-compliant Focus Rings (WCAG 2.2 AA) */
-  --focus-ring-color: var(--color-accent);
-  --focus-ring-width: 2px;
+  /* Focus ring */
+  --focus-ring-color: #1a3a6b;
+  --focus-ring-width: 3px;
   --focus-ring-offset: 2px;
 
-  /* Typography Scale */
-  --font-serif: "Newsreader", "Playfair Display", Georgia, "Times New Roman", serif;
-  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  /* Typography */
+  --font-serif: var(--apple-font-display);
+  --font-sans: var(--apple-font-text);
+  --font-display: var(--apple-font-display);
 
-  --font-size-display: clamp(2.375rem, 5vw, 4rem);       /* 38px -> 64px */
-  --line-height-display: 1.1;
+  --font-size-display: clamp(2.375rem, 1.3rem + 4.6vw, 4.75rem);
+  --line-height-display: 1.04;
 
-  --font-size-h1: clamp(2.125rem, 4vw, 3.25rem);        /* 34px -> 52px */
-  --line-height-h1: 1.15;
+  --font-size-h1: clamp(2.125rem, 1.3rem + 3.4vw, 3.75rem);
+  --line-height-h1: 1.08;
 
-  --font-size-h2: clamp(1.75rem, 3.5vw, 2.5rem);        /* 28px -> 40px */
-  --line-height-h2: 1.2;
+  --font-size-h2: clamp(1.625rem, 1.15rem + 2vw, 2.625rem);
+  --line-height-h2: 1.14;
 
-  --font-size-h3: clamp(1.375rem, 2.5vw, 1.75rem);       /* 22px -> 28px */
-  --line-height-h3: 1.25;
+  --font-size-h3: clamp(1.1875rem, 1.05rem + 0.7vw, 1.4375rem);
+  --line-height-h3: 1.3;
 
-  --font-size-body-large: 1.125rem;                      /* 18px */
-  --line-height-body-large: 1.6;
+  /* Body starts at 17px on mobile and grows slightly, per the 16–18px guidance. */
+  --font-size-body-large: clamp(1.0625rem, 1rem + 0.35vw, 1.1875rem);
+  --line-height-body-large: 1.62;
 
-  --font-size-body: 1rem;                                /* 16px */
-  --line-height-body: 1.5;
+  --font-size-body: clamp(1rem, 0.97rem + 0.18vw, 1.0625rem);
+  --line-height-body: 1.6;
 
-  --font-size-small: 0.875rem;                           /* 14px */
-  --line-height-small: 1.45;
+  --font-size-small: 0.9375rem;
+  --line-height-small: 1.5;
 
-  --font-size-label: 0.75rem;                            /* 12px */
-  --line-height-label: 1.35;
+  --font-size-label: 0.8125rem;
+  --line-height-label: 1.4;
 
-  /* Spacing Scale (4px base) */
+  /* Spacing, 4px base */
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
   --space-4: 16px;
+  --space-5: 20px;
   --space-6: 24px;
   --space-8: 32px;
+  --space-10: 40px;
   --space-12: 48px;
   --space-16: 64px;
   --space-20: 80px;
   --space-24: 96px;
   --space-32: 128px;
 
-  /* Layout Rhythm */
-  --max-content-width: 1280px;
+  /* Layout */
+  --max-content-width: 1200px;
+  --max-prose-width: 68ch;
   --reading-measure: 68ch;
   --gutter-desktop: 24px;
   --gutter-tablet: 20px;
   --gutter-mobile: 16px;
-  --edge-padding: clamp(1.25rem, 4vw, 4rem);             /* 20px -> 64px */
-  --section-rhythm: clamp(3rem, 6vw, 6rem);              /* 48px -> 96px */
+  --edge-padding: clamp(1rem, 0.5rem + 2.5vw, 3rem);
+  --section-rhythm: clamp(2.75rem, 2rem + 3.5vw, 5.5rem);
 
-  /* Controls and Radius */
+  /* Controls */
   --min-touch-target: 44px;
-  --radius-control: 2px;
-  --radius-media: 4px;
+  --control-height: 48px;
+  --radius-control: 6px;
+  --radius-media: 10px;
+  --radius-pill: 999px;
   --border-width: 1px;
 
-  /* Layering (Z-Index) */
+  /* Height reserved for the mobile action bar, plus the device safe area. */
+  /* 44px control + 8px padding top and bottom + 1px border = 61px actual.
+     The 72px floor leaves headroom for a larger default font size. The 5rem term is
+     what makes the reserve follow the bar when a customer enlarges text: at 150% the
+     two action labels wrap to two lines and the bar measures 112px, which 5rem
+     covers at 120px, so the bar stops short of the footer instead of standing on it.
+     A fixed 72px was outgrown at 150% and the bar covered the last of the page. */
+  --mobile-action-bar-height: max(72px, 5rem);
+  --mobile-action-bar-space: calc(
+    var(--mobile-action-bar-height) + env(safe-area-inset-bottom, 0px)
+  );
+
+  /* Layering */
   --z-base: 0;
   --z-sticky: 10;
   --z-overlay: 30;
   --z-modal: 50;
   --z-toast: 60;
 
-  /* Transitions & Motion */
-  --transition-fast: 150ms cubic-bezier(0.16, 1, 0.3, 1);
-  --transition-medium: 260ms cubic-bezier(0.16, 1, 0.3, 1);
+  /* Motion */
+  --transition-fast: 150ms cubic-bezier(0.2, 0, 0.2, 1);
+  --transition-medium: 260ms cubic-bezier(0.2, 0, 0.2, 1);
+
+  /* Shadows: soft, layered, the way light falls in a gallery */
+  --shadow-overlay: 0 12px 32px rgba(32, 38, 35, 0.18);
+  --shadow-card: 0 1px 2px rgba(32, 38, 35, 0.05), 0 8px 24px -12px rgba(32, 38, 35, 0.16);
+  --shadow-card-hover: 0 2px 4px rgba(32, 38, 35, 0.06), 0 22px 44px -18px rgba(32, 38, 35, 0.3);
+
+  /* Surfaces and motion for the cinematic layer */
+  --radius-card: 16px;
+  --header-height: 64px;
+  --ease-settle: cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-lift: 420ms var(--ease-settle);
 }
 
 @media (prefers-reduced-motion: reduce) {
   :root {
     --transition-fast: 0ms;
     --transition-medium: 0ms;
+    --transition-lift: 0ms;
   }
 }

@@ -40,7 +40,7 @@ export function Concept2Methodology() {
             THE FOUR-STAGE BROKERAGE PIPELINE.
           </h2>
           <p className={styles.lead}>
-            A deterministic advisory model replacing random site visits with verified due diligence.
+            An advisory model that replaces unfocused site visits with a structured discussion first.
           </p>
         </div>
 

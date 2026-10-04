@@ -1,0 +1,484 @@
+{
+  "base": "http://localhost:4319",
+  "viewports": [
+    {
+      "viewport": "desktop-1440",
+      "frames": [
+        "desktop-1440-0150ms.png",
+        "desktop-1440-0700ms.png",
+        "desktop-1440-1300ms.png",
+        "desktop-1440-2000ms.png",
+        "desktop-1440-2600ms.png",
+        "desktop-1440-3350ms.png",
+        "desktop-1440-after.png"
+      ],
+      "errors": [
+        "Failed to load resource: the server responded with a status of 404 (Not Found)"
+      ],
+      "start": {
+        "mode": "full",
+        "tier": "webgl",
+        "reason": "high",
+        "overlay": true,
+        "canvas": true,
+        "renderer": null,
+        "h1": 1,
+        "scrollWidth": 1440,
+        "innerWidth": 1440
+      },
+      "release": {
+        "afterMs": 1011,
+        "overlayGone": true,
+        "canvasDetached": true,
+        "contextLost": true,
+        "headerLockupOpacity": "1",
+        "cls": 0
+      },
+      "end": {
+        "mode": null,
+        "tier": null,
+        "reason": null,
+        "overlay": false,
+        "canvas": false,
+        "renderer": null,
+        "h1": 1,
+        "scrollWidth": 1440,
+        "innerWidth": 1440
+      }
+    },
+    {
+      "viewport": "large-2560",
+      "frames": [
+        "large-2560-0150ms.png",
+        "large-2560-0700ms.png",
+        "large-2560-1300ms.png",
+        "large-2560-2000ms.png",
+        "large-2560-2600ms.png",
+        "large-2560-3350ms.png",
+        "large-2560-after.png"
+      ],
+      "errors": [],
+      "start": {
+        "mode": "full",
+        "tier": "webgl",
+        "reason": "high",
+        "overlay": true,
+        "canvas": true,
+        "renderer": null,
+        "h1": 1,
+        "scrollWidth": 2560,
+        "innerWidth": 2560
+      },
+      "release": {
+        "afterMs": 1019,
+        "overlayGone": true,
+        "canvasDetached": true,
+        "contextLost": true,
+        "headerLockupOpacity": "1",
+        "cls": 0
+      },
+      "end": {
+        "mode": null,
+        "tier": null,
+        "reason": null,
+        "overlay": false,
+        "canvas": false,
+        "renderer": null,
+        "h1": 1,
+        "scrollWidth": 2560,
+        "innerWidth": 2560
+      }
+    },
+    {
+      "viewport": "tablet-820",
+      "frames": [
+        "tablet-820-0150ms.png",
+        "tablet-820-0700ms.png",
+        "tablet-820-1300ms.png",
+        "tablet-820-2000ms.png",
+        "tablet-820-2600ms.png",
+        "tablet-820-3350ms.png",
+        "tablet-820-after.png"
+      ],
+      "errors": [],
+      "start": {
+        "mode": "full",
+        "tier": "webgl",
+        "reason": "lite",
+        "overlay": true,
+        "canvas": true,
+        "renderer": null,
+        "h1": 1,
+        "scrollWidth": 820,
+        "innerWidth": 820
+      },
+      "release": {
+        "afterMs": 992,
+        "overlayGone": true,
+        "canvasDetached": true,
+        "contextLost": true,
+        "headerLockupOpacity": "1",
+        "cls": 0
+      },
+      "end": {
+        "mode": null,
+        "tier": null,
+        "reason": null,
+        "overlay": false,
+        "canvas": false,
+        "renderer": null,
+        "h1": 1,
+        "scrollWidth": 820,
+        "innerWidth": 820
+      }
+    },
+    {
+      "viewport": "mobile-430",
+      "frames": [
+        "mobile-430-0150ms.png",
+        "mobile-430-0700ms.png",
+        "mobile-430-1300ms.png",
+        "mobile-430-2000ms.png",
+        "mobile-430-2600ms.png",
+        "mobile-430-3350ms.png",
+        "mobile-430-after.png"
+      ],
+      "errors": [],
+      "start": {
+        "mode": "full",
+        "tier": "webgl",
+        "reason": "lite",
+        "overlay": true,
+        "canvas": true,
+        "renderer": null,
+        "h1": 1,
+        "scrollWidth": 430,
+        "innerWidth": 430
+      },
+      "release": {
+        "afterMs": 999,
+        "overlayGone": true,
+        "canvasDetached": true,
+        "contextLost": true,
+        "headerLockupOpacity": "1",
+        "cls": 0
+      },
+      "end": {
+        "mode": null,
+        "tier": null,
+        "reason": null,
+        "overlay": false,
+        "canvas": false,
+        "renderer": null,
+        "h1": 1,
+        "scrollWidth": 430,
+        "innerWidth": 430
+      }
+    },
+    {
+      "viewport": "mobile-375",
+      "frames": [
+        "mobile-375-0150ms.png",
+        "mobile-375-0700ms.png",
+        "mobile-375-1300ms.png",
+        "mobile-375-2000ms.png",
+        "mobile-375-2600ms.png",
+        "mobile-375-3350ms.png",
+        "mobile-375-after.png"
+      ],
+      "errors": [],
+      "start": {
+        "mode": "full",
+        "tier": "webgl",
+        "reason": "lite",
+        "overlay": true,
+        "canvas": true,
+        "renderer": null,
+        "h1": 1,
+        "scrollWidth": 375,
+        "innerWidth": 375
+      },
+      "release": {
+        "afterMs": 1014,
+        "overlayGone": true,
+        "canvasDetached": true,
+        "contextLost": true,
+        "headerLockupOpacity": "1",
+        "cls": 0
+      },
+      "end": {
+        "mode": null,
+        "tier": null,
+        "reason": null,
+        "overlay": false,
+        "canvas": false,
+        "renderer": null,
+        "h1": 1,
+        "scrollWidth": 375,
+        "innerWidth": 375
+      }
+    },
+    {
+      "viewport": "mobile-320",
+      "frames": [
+        "mobile-320-0150ms.png",
+        "mobile-320-0700ms.png",
+        "mobile-320-1300ms.png",
+        "mobile-320-2000ms.png",
+        "mobile-320-2600ms.png",
+        "mobile-320-3350ms.png",
+        "mobile-320-after.png"
+      ],
+      "errors": [],
+      "start": {
+        "mode": "full",
+        "tier": "webgl",
+        "reason": "lite",
+        "overlay": true,
+        "canvas": true,
+        "renderer": null,
+        "h1": 1,
+        "scrollWidth": 358,
+        "innerWidth": 358
+      },
+      "release": {
+        "afterMs": 998,
+        "overlayGone": true,
+        "canvasDetached": true,
+        "contextLost": true,
+        "headerLockupOpacity": "1",
+        "cls": 0
+      },
+      "end": {
+        "mode": null,
+        "tier": null,
+        "reason": null,
+        "overlay": false,
+        "canvas": false,
+        "renderer": null,
+        "h1": 1,
+        "scrollWidth": 358,
+        "innerWidth": 358
+      }
+    },
+    {
+      "viewport": "css-desktop-1440",
+      "frames": [
+        "css-desktop-1440-0150ms.png",
+        "css-desktop-1440-0700ms.png",
+        "css-desktop-1440-1300ms.png",
+        "css-desktop-1440-2000ms.png",
+        "css-desktop-1440-2600ms.png",
+        "css-desktop-1440-3350ms.png",
+        "css-desktop-1440-after.png"
+      ],
+      "errors": [
+        "Failed to load resource: the server responded with a status of 404 (Not Found)"
+      ],
+      "start": {
+        "mode": "full",
+        "tier": "css",
+        "reason": "webgl-unavailable",
+        "overlay": true,
+        "canvas": false,
+        "renderer": null,
+        "h1": 1,
+        "scrollWidth": 1440,
+        "innerWidth": 1440
+      },
+      "release": {
+        "afterMs": 987,
+        "overlayGone": true,
+        "canvasDetached": null,
+        "contextLost": null,
+        "headerLockupOpacity": "1",
+        "cls": 0
+      },
+      "end": {
+        "mode": null,
+        "tier": null,
+        "reason": null,
+        "overlay": false,
+        "canvas": false,
+        "renderer": null,
+        "h1": 1,
+        "scrollWidth": 1440,
+        "innerWidth": 1440
+      }
+    },
+    {
+      "viewport": "css-mobile-375",
+      "frames": [
+        "css-mobile-375-0150ms.png",
+        "css-mobile-375-0700ms.png",
+        "css-mobile-375-1300ms.png",
+        "css-mobile-375-2000ms.png",
+        "css-mobile-375-2600ms.png",
+        "css-mobile-375-3350ms.png",
+        "css-mobile-375-after.png"
+      ],
+      "errors": [],
+      "start": {
+        "mode": "full",
+        "tier": "css",
+        "reason": "webgl-unavailable",
+        "overlay": true,
+        "canvas": false,
+        "renderer": null,
+        "h1": 1,
+        "scrollWidth": 375,
+        "innerWidth": 375
+      },
+      "release": {
+        "afterMs": 1013,
+        "overlayGone": true,
+        "canvasDetached": null,
+        "contextLost": null,
+        "headerLockupOpacity": "1",
+        "cls": 0
+      },
+      "end": {
+        "mode": null,
+        "tier": null,
+        "reason": null,
+        "overlay": false,
+        "canvas": false,
+        "renderer": null,
+        "h1": 1,
+        "scrollWidth": 375,
+        "innerWidth": 375
+      }
+    }
+  ],
+  "paths": {
+    "frameRate": {
+      "webgl-desktop": {
+        "tier": "high",
+        "frames": 265,
+        "medianMs": 16.7,
+        "p95Ms": 16.8,
+        "over50ms": 2,
+        "worstMs": 67,
+        "worstAtMs": 237,
+        "domContentLoadedMs": 307
+      },
+      "webgl-mobile": {
+        "tier": "lite",
+        "frames": 263,
+        "medianMs": 16.7,
+        "p95Ms": 16.8,
+        "over50ms": 0,
+        "worstMs": 50,
+        "worstAtMs": 144,
+        "domContentLoadedMs": 203
+      },
+      "css-desktop": {
+        "tier": "webgl-unavailable",
+        "frames": 263,
+        "medianMs": 16.7,
+        "p95Ms": 16.7,
+        "over50ms": 0,
+        "worstMs": 50,
+        "worstAtMs": 244,
+        "domContentLoadedMs": 245
+      }
+    },
+    "lazyChunks": [
+      {
+        "name": "1nmw325imwb_e.js",
+        "bytes": 7657,
+        "startMs": 222
+      },
+      {
+        "name": "3_kpja-cz731b.js",
+        "bytes": 71594,
+        "startMs": 222
+      },
+      {
+        "name": "3d2v-zqzn-gbn.js",
+        "bytes": 45211,
+        "startMs": 223
+      },
+      {
+        "name": "turbopack-3af8jb9ucgllx.js",
+        "bytes": 3911,
+        "startMs": 223
+      },
+      {
+        "name": "0zum3wpt5ohn4.js",
+        "bytes": 3791,
+        "startMs": 223
+      },
+      {
+        "name": "1dmp_354ghf7j.js",
+        "bytes": 8778,
+        "startMs": 223
+      },
+      {
+        "name": "073v2d3vkptvd.js",
+        "bytes": 8732,
+        "startMs": 394
+      }
+    ],
+    "reload": {
+      "mode": "brief",
+      "tier": null,
+      "reason": null,
+      "overlay": false,
+      "canvas": false,
+      "renderer": null,
+      "h1": 1,
+      "scrollWidth": 1440,
+      "innerWidth": 1440
+    },
+    "inSiteNavigation": {
+      "mode": null,
+      "tier": null,
+      "reason": null,
+      "overlay": false,
+      "canvas": false,
+      "renderer": null,
+      "h1": 1,
+      "scrollWidth": 1440,
+      "innerWidth": 1440
+    },
+    "reducedMotion": {
+      "mode": "still",
+      "tier": "css",
+      "reason": null,
+      "overlay": true,
+      "canvas": false,
+      "renderer": null,
+      "h1": 1,
+      "scrollWidth": 1440,
+      "innerWidth": 1440,
+      "releasedBy": "film end"
+    },
+    "skip": {
+      "releasedAfterMs": 325,
+      "focused": "Skip to main content",
+      "overlayGone": true
+    },
+    "tapSkip": {
+      "url": "http://localhost:4319/",
+      "stayedOnHome": true,
+      "overlayGone": true
+    },
+    "noJavaScript": {
+      "overlayDisplayDuring": "none",
+      "overlayVisibilityAfter": "none/visible",
+      "headlineVisible": true
+    },
+    "otherRoute": {
+      "mode": null,
+      "tier": null,
+      "reason": null,
+      "overlay": false,
+      "canvas": false,
+      "renderer": null,
+      "h1": 1,
+      "scrollWidth": 1440,
+      "innerWidth": 1440
+    }
+  }
+}

@@ -10,11 +10,16 @@ import styles from './OwnerIntake.module.css';
 
 interface OwnerFormData {
   intent: 'sell' | 'rent-out';
-  assetType: string;
+  propertyType: string;
+  configuration: string;
   locality: string;
+  otherLocality: string;
+  timeline: string;
+  expectedAmount: string;
   ownershipRole: string;
   name: string;
   phone: string;
+  email: string;
   consent: boolean;
 }
 
@@ -22,11 +27,16 @@ export function OwnerIntake() {
   const [step, setStep] = useState<number>(1);
   const [data, setData] = useState<OwnerFormData>({
     intent: 'sell',
-    assetType: '',
+    propertyType: '',
+    configuration: '',
     locality: '',
-    ownershipRole: '',
+    otherLocality: '',
+    timeline: '',
+    expectedAmount: '',
+    ownershipRole: 'I am the owner',
     name: '',
     phone: '',
+    email: '',
     consent: false,
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -38,38 +48,39 @@ export function OwnerIntake() {
   const validateContact = () => {
     const errs: Record<string, string> = {};
     if (!data.name.trim() || data.name.trim().length < 2) {
-      errs.name = 'Full name is required (minimum 2 characters).';
+      errs.name = 'Enter your name';
     }
     const cleanPhone = data.phone.replace(/[^0-9]/g, '');
     const isIndian10Digit = /^[6-9]\d{9}$/.test(cleanPhone);
     const isStandardValid = cleanPhone.length >= 10 && cleanPhone.length <= 15;
 
     if (!cleanPhone || (!isIndian10Digit && !isStandardValid)) {
-      errs.phone = 'Valid telephone contact number is required.';
+      errs.phone = 'Check your phone number';
     }
     if (data.consent !== true) {
-      errs.consent = 'DPDP consent acknowledgment is required.';
+      errs.consent = 'Please check the box to agree to INSTLE REAL ESTATE contacting you.';
     }
     setErrors(errs);
     return Object.keys(errs).length === 0;
   };
 
   const handleNext = () => {
-    if (step === 1 && !data.assetType) {
-      setErrors({ assetType: 'Please select an asset typology.' });
+    if (step === 1 && !data.propertyType) {
+      setErrors({ propertyType: 'Please select a property type.' });
       return;
     }
-    if (step === 2 && !data.locality) {
-      setErrors({ locality: 'Please select a micro-market or specify your location.' });
+    if (step === 2 && !data.locality && !data.otherLocality.trim()) {
+      setErrors({ locality: 'Please choose an area or enter where your property is located.' });
       return;
     }
     if (step === 3) {
       if (!validateContact()) return;
-      setStep(4);
-    } else {
       setErrors({});
-      setStep((prev) => Math.min(prev + 1, 4));
+      setStep(4);
+      return;
     }
+    setErrors({});
+    setStep((prev) => Math.min(prev + 1, 4));
   };
 
   const handleBack = () => {
@@ -89,23 +100,31 @@ export function OwnerIntake() {
 
     try {
       const cleanPhone = data.phone.replace(/[^0-9]/g, '');
+      const finalLocality = data.otherLocality.trim() || data.locality || 'Bengaluru';
+      const fullAsset = data.configuration
+        ? `${data.propertyType} (${data.configuration})`
+        : data.propertyType;
+
       const res = await fetch('/api/enquiry', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           intent: data.intent,
-          assetType: data.assetType || 'Open to Guidance',
-          localities: data.locality ? [data.locality] : ['Bengaluru'],
-          ownershipRole: data.ownershipRole || 'Direct Owner',
+          assetType: fullAsset || 'Property',
+          localities: [finalLocality],
+          timeline: data.timeline || 'Flexible',
+          budgetBand: data.expectedAmount.trim() || 'Open to discussion',
+          ownershipRole: data.ownershipRole,
           name: data.name.trim(),
           phone: cleanPhone,
+          contactPreference: data.email.trim() ? `Phone & Email (${data.email.trim()})` : 'Phone Call',
           consent: data.consent === true,
         }),
       });
 
       const resData = await res.json();
       if (!res.ok || !resData.success) {
-        throw new Error(resData.error || 'Failed to submit mandate.');
+        throw new Error(resData.error || 'Failed to send enquiry.');
       }
 
       setReferenceId(resData.leadId);
@@ -114,7 +133,7 @@ export function OwnerIntake() {
       setApiError(
         err instanceof Error
           ? err.message
-          : 'Unable to register mandate. Please call our advisory desk at 9353096264.'
+          : 'Unable to send enquiry. Please call our team directly at 9353096264.'
       );
     } finally {
       setIsSubmitting(false);
@@ -126,18 +145,18 @@ export function OwnerIntake() {
       <div className={styles.container}>
         <div className={styles.formBox}>
           <div className={styles.metaRow}>
-            <span className={styles.badge}>OWNER &amp; LANDLORD MANDATE</span>
+            <span className={styles.badge}>OWNER &amp; LANDLORD ENQUIRY</span>
             <span className={styles.stepCount}>STEP {step} OF 4</span>
           </div>
 
           <h2 id="owner-intake-heading" className={styles.heading}>
             {data.intent === 'sell'
-              ? 'Represent a Property Sale'
-              : 'Represent a Landlord Leasing Mandate'}
+              ? 'Sell your property in Bengaluru'
+              : 'Rent out your property in Bengaluru'}
           </h2>
 
           <p className={styles.lead}>
-            Discreet brokerage representation for Bengaluru property owners. We evaluate buyer or tenant suitability without broadcasting your property details to public listing portals.
+            Share your property details with {CANONICAL_BRAND}. We speak to interested buyers and tenants about their requirement before arranging a visit, and we do not publish your details on classified portals.
           </p>
 
           {/* Stepper track */}
@@ -147,30 +166,47 @@ export function OwnerIntake() {
             aria-valuenow={step}
             aria-valuemin={1}
             aria-valuemax={4}
-            aria-label="Owner intake progress"
+            aria-label="Owner form progress"
           >
             <div className={styles.fill} style={{ width: `${(step / 4) * 100}%` }} />
           </div>
 
           {submitted ? (
             <div className={styles.confirmBox} role="alert">
-              <span className={styles.confirmBadge}>MANDATE REGISTERED</span>
-              <h3 className={styles.confirmTitle}>Property Representation Brief Logged</h3>
+              <span className={styles.confirmBadge}>ENQUIRY SENT</span>
+              <h3 className={styles.confirmTitle}>Your enquiry has been received</h3>
               <p className={styles.confirmText}>
-                Thank you, {data.name}. Your property representation parameters have been logged in our advisory queue.
+                Thank you, {data.name}. Our brokerage team has received your property details and will speak with you soon.
               </p>
               <div className={styles.referenceBlock}>
-                <span className={styles.refLabel}>Mandate Reference:</span>
+                <span className={styles.refLabel}>Enquiry Reference Number:</span>
                 <strong className={styles.refValue}>{referenceId}</strong>
               </div>
               <div className={styles.summaryTable}>
-                <p><strong>Mandate Type:</strong> {data.intent === 'sell' ? 'Property Sale' : 'Leasing / Rent-Out'}</p>
-                <p><strong>Asset Typology:</strong> {data.assetType || 'Specified'}</p>
-                <p><strong>Micro-Market:</strong> {data.locality || 'Bengaluru'}</p>
-                <p><strong>Ownership Role:</strong> {data.ownershipRole || 'Direct Owner'}</p>
+                <p>
+                  <strong>Service:</strong>{' '}
+                  {data.intent === 'sell' ? 'Sell Property' : 'Rent Out Property'}
+                </p>
+                <p>
+                  <strong>Property type:</strong> {data.propertyType}
+                  {data.configuration ? ` (${data.configuration})` : ''}
+                </p>
+                <p><strong>Area:</strong> {data.otherLocality.trim() || data.locality || 'Bengaluru'}</p>
+                <p><strong>Timeline:</strong> {data.timeline || 'Not sure yet'}</p>
+                {data.expectedAmount && (
+                  <p>
+                    <strong>Expected {data.intent === 'sell' ? 'price' : 'rent'}:</strong>{' '}
+                    {data.expectedAmount}
+                  </p>
+                )}
+                <p><strong>Your role:</strong> {data.ownershipRole}</p>
               </div>
               <p className={styles.confirmSubtext}>
-                Our team reviews owner representations directly. For immediate consultation or documentation questions, connect with our desk directly at <a href={PRIMARY_PHONE_TEL} className={styles.inlinePhone}>{PRIMARY_PHONE}</a>.
+                Have an urgent question? Speak directly with our team at{' '}
+                <a href={PRIMARY_PHONE_TEL} className={styles.inlinePhone}>
+                  {PRIMARY_PHONE}
+                </a>
+                .
               </p>
               <button
                 type="button"
@@ -180,16 +216,21 @@ export function OwnerIntake() {
                   setStep(1);
                   setData({
                     intent: 'sell',
-                    assetType: '',
+                    propertyType: '',
+                    configuration: '',
                     locality: '',
-                    ownershipRole: '',
+                    otherLocality: '',
+                    timeline: '',
+                    expectedAmount: '',
+                    ownershipRole: 'I am the owner',
                     name: '',
                     phone: '',
+                    email: '',
                     consent: false,
                   });
                 }}
               >
-                Submit Another Property
+                Send another property enquiry
               </button>
             </div>
           ) : (
@@ -203,84 +244,104 @@ export function OwnerIntake() {
                 </div>
               )}
 
-              {/* STEP 1: INTENT & ASSET */}
+              {/* STEP 1: INTENT & PROPERTY TYPE */}
               {step === 1 && (
                 <fieldset className={styles.fieldset}>
-                  <legend className={styles.legend}>01. Mandate Scope &amp; Asset Typology</legend>
-                  
+                  <legend className={styles.legend}>
+                    01. Do you want to sell or rent out your property?
+                  </legend>
+
                   <div className={styles.intentToggleRow}>
                     <button
                       type="button"
                       className={`${styles.intentToggleBtn} ${data.intent === 'sell' ? styles.activeIntent : ''}`}
                       onClick={() => setData({ ...data, intent: 'sell' })}
                     >
-                      Sell Property
+                      I want to sell
                     </button>
                     <button
                       type="button"
                       className={`${styles.intentToggleBtn} ${data.intent === 'rent-out' ? styles.activeIntent : ''}`}
                       onClick={() => setData({ ...data, intent: 'rent-out' })}
                     >
-                      Lease to Tenant (Landlord)
+                      I want to rent out
                     </button>
                   </div>
 
-                  <p className={styles.stepPrompt}>Select property typology:</p>
-                  {errors.assetType && <span className={styles.errorMsg} role="alert">{errors.assetType}</span>}
-                  
+                  <p className={styles.stepPrompt}>Select property type:</p>
+                  {errors.propertyType && <span className={styles.errorMsg} role="alert">{errors.propertyType}</span>}
+
                   <div className={styles.optionsGrid}>
                     {[
-                      'Independent Villa / House',
-                      'High-Specification Apartment',
-                      'Penthouse / Luxury Duplex',
-                      'Residential Plot / Land Parcel',
-                      'Commercial Property (Held Pending Counsel Approval)',
-                    ].map((t) => {
-                      const isCommercial = t.includes('Commercial');
-                      return (
+                      'Flat / Apartment',
+                      'Independent House / Villa',
+                      ...(data.intent === 'sell' ? ['Site / Plot'] : []),
+                      'Commercial Property',
+                      'Other',
+                    ].map((t) => (
+                      <button
+                        key={t}
+                        type="button"
+                        className={`${styles.optionCard} ${data.propertyType === t ? styles.selectedOption : ''}`}
+                        onClick={() => {
+                          setData({ ...data, propertyType: t });
+                          setErrors({});
+                        }}
+                      >
+                        <span className={styles.optionRadio}>{data.propertyType === t ? '●' : '○'}</span>
+                        <span className={styles.optionLabel}>{t}</span>
+                      </button>
+                    ))}
+                  </div>
+
+                  <div className={styles.chipGroup} style={{ marginTop: '24px' }}>
+                    <span className={styles.chipGroupLabel}>Size or number of bedrooms:</span>
+                    <div className={styles.chipsRow}>
+                      {[
+                        '1 BHK',
+                        '2 BHK',
+                        '3 BHK',
+                        '4 BHK',
+                        '5+ BHK',
+                        'Plot / Land',
+                        'Other size',
+                      ].map((c) => (
                         <button
-                          key={t}
+                          key={c}
                           type="button"
-                          disabled={isCommercial}
-                          className={`${styles.optionCard} ${data.assetType === t ? styles.selectedOption : ''} ${isCommercial ? styles.disabledOption : ''}`}
-                          onClick={() => {
-                            if (!isCommercial) {
-                              setData({ ...data, assetType: t });
-                              setErrors({});
-                            }
-                          }}
+                          className={`${styles.chipBtn} ${data.configuration === c ? styles.chipSelected : ''}`}
+                          onClick={() => setData({ ...data, configuration: c })}
                         >
-                          <span className={styles.optionRadio}>{data.assetType === t ? '●' : '○'}</span>
-                          <span className={styles.optionLabel}>{t}</span>
+                          {c}
                         </button>
-                      );
-                    })}
+                      ))}
+                    </div>
                   </div>
                 </fieldset>
               )}
 
-              {/* STEP 2: LOCATION & OWNERSHIP ROLE */}
+              {/* STEP 2: LOCATION & TIMELINE */}
               {step === 2 && (
                 <fieldset className={styles.fieldset}>
-                  <legend className={styles.legend}>02. Location &amp; Ownership Verification</legend>
-                  
+                  <legend className={styles.legend}>02. Area, timeline &amp; expected price</legend>
+
                   <p className={styles.stepPrompt}>Where is the property located?</p>
                   {errors.locality && <span className={styles.errorMsg} role="alert">{errors.locality}</span>}
-                  
+
                   <div className={styles.optionsGrid}>
                     {[
                       'Indiranagar / Old Airport Road',
-                      'Koramangala & Surrounding Blocks',
-                      'Sadashivanagar / Palace Orchards',
+                      'Koramangala & HSR Layout',
+                      'Sadashivanagar / Central North',
                       'North Bengaluru / Hebbal Corridor',
-                      'Other Prime Bengaluru Enclave',
+                      'Whitefield / East Bengaluru',
                     ].map((loc) => (
                       <button
                         key={loc}
                         type="button"
                         className={`${styles.optionCard} ${data.locality === loc ? styles.selectedOption : ''}`}
                         onClick={() => {
-                          setData({ ...data, locality: loc });
+                          setData({ ...data, locality: loc, otherLocality: '' });
                           setErrors({});
                         }}
                       >
@@ -290,34 +351,105 @@ export function OwnerIntake() {
                     ))}
                   </div>
 
-                  <div className={styles.fieldGroup} style={{ marginTop: '20px' }}>
-                    <label htmlFor="owner-role" className={styles.label}>
-                      Your Representation Role
+                  <div className={styles.fieldGroup} style={{ marginTop: '16px' }}>
+                    <label htmlFor="owner-other-locality" className={styles.label}>
+                      Or enter another area:
                     </label>
-                    <select
-                      id="owner-role"
-                      className={styles.select}
-                      value={data.ownershipRole}
-                      onChange={(e) => setData({ ...data, ownershipRole: e.target.value })}
-                    >
-                      <option value="">Select your role</option>
-                      <option value="Direct Title Owner">Direct Title Owner</option>
-                      <option value="Co-Owner / Family Representative">Co-Owner / Family Representative</option>
-                      <option value="Authorized Corporate Representative">Authorized Corporate Representative</option>
-                    </select>
+                    <input
+                      id="owner-other-locality"
+                      type="text"
+                      className={styles.input}
+                      placeholder="e.g. Jayanagar, JP Nagar, Sarjapur Road"
+                      value={data.otherLocality}
+                      onChange={(e) => {
+                        setData({ ...data, otherLocality: e.target.value, locality: '' });
+                        setErrors({});
+                      }}
+                    />
+                  </div>
+
+                  {/* Timing with compliant wording: Want to sell your property soon? Tell us your preferred timeline. */}
+                  <div className={styles.chipGroup} style={{ marginTop: '24px' }}>
+                    <span className={styles.chipGroupLabel}>
+                      {data.intent === 'sell' ? 'When would you like to sell?' : 'When will it be available?'}
+                    </span>
+                    <p className={styles.fieldHelp} style={{ marginBottom: '10px' }}>
+                      {data.intent === 'sell'
+                        ? 'Want to sell your property soon? Tell us your preferred timeline.'
+                        : 'Tell us when your property is ready for a tenant.'}
+                    </p>
+                    <div className={styles.chipsRow}>
+                      {[
+                        'Within 30 days',
+                        'Within 3 months',
+                        'Later',
+                        'Not sure yet',
+                      ].map((t) => (
+                        <button
+                          key={t}
+                          type="button"
+                          className={`${styles.chipBtn} ${data.timeline === t ? styles.chipSelected : ''}`}
+                          onClick={() => setData({ ...data, timeline: t })}
+                        >
+                          {t}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className={styles.fieldGroup} style={{ marginTop: '20px' }}>
+                    <label htmlFor="owner-price" className={styles.label}>
+                      {data.intent === 'sell'
+                        ? 'Expected price (optional)'
+                        : 'Expected monthly rent (optional)'}
+                    </label>
+                    <input
+                      id="owner-price"
+                      type="text"
+                      className={styles.input}
+                      placeholder={
+                        data.intent === 'sell'
+                          ? 'e.g. ₹2.5 Crore, or open to discussion'
+                          : 'e.g. ₹60,000 / month, or open to discussion'
+                      }
+                      value={data.expectedAmount}
+                      onChange={(e) => setData({ ...data, expectedAmount: e.target.value })}
+                    />
+                  </div>
+
+                  <div className={styles.chipGroup} style={{ marginTop: '20px' }}>
+                    <span className={styles.chipGroupLabel}>What is your role?</span>
+                    <div className={styles.chipsRow}>
+                      {[
+                        'I am the owner',
+                        'Authorized family member',
+                        'Representative',
+                      ].map((role) => (
+                        <button
+                          key={role}
+                          type="button"
+                          className={`${styles.chipBtn} ${data.ownershipRole === role ? styles.chipSelected : ''}`}
+                          onClick={() => setData({ ...data, ownershipRole: role })}
+                        >
+                          {role}
+                        </button>
+                      ))}
+                    </div>
                   </div>
                 </fieldset>
               )}
 
-              {/* STEP 3: CONTACT & DPDP CONSENT */}
+              {/* STEP 3: CONTACT & CONSENT */}
               {step === 3 && (
                 <fieldset className={styles.fieldset}>
-                  <legend className={styles.legend}>03. Owner Contact &amp; Confidentiality</legend>
-                  <p className={styles.stepPrompt}>Provide your direct telephone details for confidential communication:</p>
+                  <legend className={styles.legend}>03. Your contact details</legend>
+                  <p className={styles.stepPrompt}>
+                    How can our brokerage team reach you to discuss your property?
+                  </p>
 
                   <div className={styles.fieldGroup}>
                     <label htmlFor="owner-name" className={styles.label}>
-                      Full Legal / Representative Name *
+                      Your name *
                     </label>
                     <input
                       id="owner-name"
@@ -333,19 +465,38 @@ export function OwnerIntake() {
 
                   <div className={styles.fieldGroup}>
                     <label htmlFor="owner-phone" className={styles.label}>
-                      Telephone Number *
+                      Phone number *
+                    </label>
+                    <div className={styles.inputWithPrefix}>
+                      <span className={styles.phonePrefix}>🇮🇳 +91</span>
+                      <input
+                        id="owner-phone"
+                        type="tel"
+                        className={`${styles.input} ${errors.phone ? styles.inputError : ''}`}
+                        placeholder="9845012345"
+                        value={data.phone}
+                        onChange={(e) => setData({ ...data, phone: e.target.value })}
+                        required
+                      />
+                    </div>
+                    {errors.phone && <span className={styles.errorMsg} role="alert">{errors.phone}</span>}
+                    <span className={styles.help}>
+                      We keep your details private. We do not publish your phone number or property details publicly.
+                    </span>
+                  </div>
+
+                  <div className={styles.fieldGroup}>
+                    <label htmlFor="owner-email" className={styles.label}>
+                      Email (optional)
                     </label>
                     <input
-                      id="owner-phone"
-                      type="tel"
-                      className={`${styles.input} ${errors.phone ? styles.inputError : ''}`}
-                      placeholder="e.g. 9845012345"
-                      value={data.phone}
-                      onChange={(e) => setData({ ...data, phone: e.target.value })}
-                      required
+                      id="owner-email"
+                      type="email"
+                      className={styles.input}
+                      placeholder="e.g. ramesh@example.com"
+                      value={data.email}
+                      onChange={(e) => setData({ ...data, email: e.target.value })}
                     />
-                    {errors.phone && <span className={styles.errorMsg} role="alert">{errors.phone}</span>}
-                    <span className={styles.help}>Strict confidentiality: We do not publish your property or telephone number publicly.</span>
                   </div>
 
                   <div className={styles.consentGroup}>
@@ -356,7 +507,7 @@ export function OwnerIntake() {
                         onChange={(e) => setData({ ...data, consent: e.target.checked })}
                       />
                       <span>
-                        I consent to {CANONICAL_BRAND} storing and processing these details under Indian privacy principles solely for advisory communication.
+                        I agree to {CANONICAL_BRAND} storing and using my contact details to discuss my property. No marketing spam or data resale.
                       </span>
                     </label>
                     {errors.consent && <span className={styles.errorMsg} role="alert">{errors.consent}</span>}
@@ -367,34 +518,56 @@ export function OwnerIntake() {
               {/* STEP 4: REVIEW */}
               {step === 4 && (
                 <div className={styles.fieldset}>
-                  <legend className={styles.legend}>04. Review &amp; Register Mandate</legend>
-                  <p className={styles.stepPrompt}>Verify your representation details before transmitting to our advisory queue:</p>
+                  <legend className={styles.legend}>04. Review your details</legend>
+                  <p className={styles.stepPrompt}>
+                    Please check your details before sending your enquiry:
+                  </p>
 
                   <div className={styles.summaryCard}>
                     <div className={styles.summaryRow}>
-                      <span className={styles.sumKey}>Mandate Objective</span>
-                      <span className={styles.sumVal}>{data.intent === 'sell' ? 'Property Sale' : 'Lease to Tenant'}</span>
+                      <span className={styles.sumKey}>Service</span>
+                      <span className={styles.sumVal}>
+                        {data.intent === 'sell' ? 'Sell Property' : 'Rent Out Property'}
+                      </span>
                     </div>
                     <div className={styles.summaryRow}>
-                      <span className={styles.sumKey}>Asset Typology</span>
-                      <span className={styles.sumVal}>{data.assetType || 'Specified'}</span>
+                      <span className={styles.sumKey}>Property type</span>
+                      <span className={styles.sumVal}>
+                        {data.propertyType || 'Specified'}
+                        {data.configuration ? ` (${data.configuration})` : ''}
+                      </span>
                     </div>
                     <div className={styles.summaryRow}>
-                      <span className={styles.sumKey}>Micro-Market</span>
-                      <span className={styles.sumVal}>{data.locality || 'Bengaluru'}</span>
+                      <span className={styles.sumKey}>Area</span>
+                      <span className={styles.sumVal}>
+                        {data.otherLocality.trim() || data.locality || 'Bengaluru'}
+                      </span>
                     </div>
                     <div className={styles.summaryRow}>
-                      <span className={styles.sumKey}>Ownership Role</span>
-                      <span className={styles.sumVal}>{data.ownershipRole || 'Direct Owner'}</span>
+                      <span className={styles.sumKey}>Preferred timeline</span>
+                      <span className={styles.sumVal}>{data.timeline || 'Not sure yet'}</span>
+                    </div>
+                    {data.expectedAmount && (
+                      <div className={styles.summaryRow}>
+                        <span className={styles.sumKey}>Expected amount</span>
+                        <span className={styles.sumVal}>{data.expectedAmount}</span>
+                      </div>
+                    )}
+                    <div className={styles.summaryRow}>
+                      <span className={styles.sumKey}>Your role</span>
+                      <span className={styles.sumVal}>{data.ownershipRole}</span>
                     </div>
                     <div className={styles.summaryRow}>
-                      <span className={styles.sumKey}>Contact</span>
-                      <span className={styles.sumVal}>{data.name} ({data.phone})</span>
+                      <span className={styles.sumKey}>Contact details</span>
+                      <span className={styles.sumVal}>
+                        {data.name} (+91 {data.phone})
+                        {data.email ? ` · ${data.email}` : ''}
+                      </span>
                     </div>
                   </div>
 
                   <p className={styles.submitNotice}>
-                    Submitting registers this mandate in our internal queue. You can also connect directly by calling {PRIMARY_PHONE}.
+                    Sending this enquiry shares your property details with our team. This is an initial enquiry and does not commit you to an exclusive brokerage agreement.
                   </p>
                 </div>
               )}
@@ -408,7 +581,7 @@ export function OwnerIntake() {
                     onClick={handleBack}
                     disabled={isSubmitting}
                   >
-                    ← Back
+                    ← Edit
                   </button>
                 )}
 
@@ -418,7 +591,7 @@ export function OwnerIntake() {
                     className={styles.nextBtn}
                     onClick={handleNext}
                   >
-                    Next Stage →
+                    Next →
                   </button>
                 ) : (
                   <button
@@ -426,7 +599,7 @@ export function OwnerIntake() {
                     className={styles.submitBtn}
                     disabled={isSubmitting}
                   >
-                    {isSubmitting ? 'Registering Mandate...' : 'Transmit Owner Mandate →'}
+                    {isSubmitting ? 'Sending enquiry...' : 'Send enquiry →'}
                   </button>
                 )}
               </div>

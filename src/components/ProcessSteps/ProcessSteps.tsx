@@ -10,21 +10,21 @@ interface Step {
 const STEPS: Step[] = [
   {
     number: '01',
-    title: 'Telephone Consultation',
+    title: 'Tell us what you need',
     description:
-      'Call our team at 9353096264 to discuss your property parameters, preferred localities, and timeline.',
+      'Share your preferred property type, area, budget and timeline, or call 9353096264 to speak with our team.',
   },
   {
     number: '02',
-    title: 'Clarify Priorities',
+    title: 'Discuss the details with our team',
     description:
-      'Discuss your priorities, local trade-offs, and requirement details directly with the brokerage team.',
+      'Our brokerage team reviews your criteria, discusses what you are looking for, and clarifies your preferences.',
   },
   {
     number: '03',
-    title: 'Discuss Relevant Next Steps',
+    title: 'Talk about the next steps',
     description:
-      'Review suitable pathways and discuss realistic next steps directly with the brokerage team.',
+      'We coordinate property walkthroughs, share honest area facts, and guide you through paperwork and closing.',
   },
 ];
 
@@ -32,13 +32,12 @@ export const ProcessSteps: React.FC = () => {
   return (
     <section className={styles.section} aria-labelledby="process-title">
       <div className={styles.header}>
-        <span className={styles.eyebrow}>Advisory Process</span>
+        <span className={styles.eyebrow}>Our Process</span>
         <h2 id="process-title" className={styles.title}>
-          How the Advisory Model Operates
+          How We Help
         </h2>
         <p className={styles.subtitle}>
-          A human-led brokerage process focused on understanding your requirement and discussing
-          relevant next steps.
+          A straightforward brokerage process to understand your requirement and discuss realistic next steps.
         </p>
       </div>
 

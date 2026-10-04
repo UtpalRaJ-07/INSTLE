@@ -1,0 +1,177 @@
+{
+  "generatedAt": "2026-09-29T14:18:53.503Z",
+  "baseUrl": "http://127.0.0.1:3219",
+  "buildId": "TGrTHs2AcF1J-QbO-ppfJ",
+  "ceilingCompressedKb": 170,
+  "method": "served HTML, each <script src> gzipped from .next on its own; nomodule counted apart",
+  "routes": [
+    {
+      "route": "/",
+      "status": 200,
+      "inlineScripts": 4,
+      "modernScripts": 7,
+      "legacyNomoduleScripts": 1,
+      "modernCompressedKb": 139.64,
+      "modernRawKb": 471.84,
+      "legacyCompressedKb": 38.7,
+      "combinedCompressedKb": 178.34,
+      "headroomKb": 30.36,
+      "scripts": [
+        {
+          "src": "/_next/static/chunks/1nmw325imwb_e.js",
+          "compressedKb": 7.48,
+          "nomodule": false
+        },
+        {
+          "src": "/_next/static/chunks/3_kpja-cz731b.js",
+          "compressedKb": 69.92,
+          "nomodule": false
+        },
+        {
+          "src": "/_next/static/chunks/3d2v-zqzn-gbn.js",
+          "compressedKb": 44.15,
+          "nomodule": false
+        },
+        {
+          "src": "/_next/static/chunks/turbopack-3af8jb9ucgllx.js",
+          "compressedKb": 3.82,
+          "nomodule": false
+        },
+        {
+          "src": "/_next/static/chunks/344om4grd3olr.js",
+          "compressedKb": 3.7,
+          "nomodule": false
+        },
+        {
+          "src": "/_next/static/chunks/3ddnb6tjwqo34.js",
+          "compressedKb": 8.59,
+          "nomodule": false
+        },
+        {
+          "src": "/_next/static/chunks/01_dsxz3llcys.js",
+          "compressedKb": 1.99,
+          "nomodule": false
+        },
+        {
+          "src": "/_next/static/chunks/0cz1d0mv5g_q7.js",
+          "compressedKb": 38.7,
+          "nomodule": true
+        }
+      ]
+    },
+    {
+      "route": "/buy",
+      "status": 200,
+      "inlineScripts": 4,
+      "modernScripts": 8,
+      "legacyNomoduleScripts": 1,
+      "modernCompressedKb": 167.98,
+      "modernRawKb": 725.81,
+      "legacyCompressedKb": 38.7,
+      "combinedCompressedKb": 206.68,
+      "headroomKb": 2.02,
+      "scripts": [
+        {
+          "src": "/_next/static/chunks/1nmw325imwb_e.js",
+          "compressedKb": 7.48,
+          "nomodule": false
+        },
+        {
+          "src": "/_next/static/chunks/3_kpja-cz731b.js",
+          "compressedKb": 69.92,
+          "nomodule": false
+        },
+        {
+          "src": "/_next/static/chunks/3d2v-zqzn-gbn.js",
+          "compressedKb": 44.15,
+          "nomodule": false
+        },
+        {
+          "src": "/_next/static/chunks/turbopack-3af8jb9ucgllx.js",
+          "compressedKb": 3.82,
+          "nomodule": false
+        },
+        {
+          "src": "/_next/static/chunks/344om4grd3olr.js",
+          "compressedKb": 3.7,
+          "nomodule": false
+        },
+        {
+          "src": "/_next/static/chunks/3ddnb6tjwqo34.js",
+          "compressedKb": 8.59,
+          "nomodule": false
+        },
+        {
+          "src": "/_next/static/chunks/3kckc17u82yug.js",
+          "compressedKb": 28.34,
+          "nomodule": false
+        },
+        {
+          "src": "/_next/static/chunks/01_dsxz3llcys.js",
+          "compressedKb": 1.99,
+          "nomodule": false
+        },
+        {
+          "src": "/_next/static/chunks/0cz1d0mv5g_q7.js",
+          "compressedKb": 38.7,
+          "nomodule": true
+        }
+      ]
+    },
+    {
+      "route": "/areas",
+      "status": 200,
+      "inlineScripts": 3,
+      "modernScripts": 7,
+      "legacyNomoduleScripts": 1,
+      "modernCompressedKb": 139.64,
+      "modernRawKb": 471.84,
+      "legacyCompressedKb": 38.7,
+      "combinedCompressedKb": 178.34,
+      "headroomKb": 30.36,
+      "scripts": [
+        {
+          "src": "/_next/static/chunks/1nmw325imwb_e.js",
+          "compressedKb": 7.48,
+          "nomodule": false
+        },
+        {
+          "src": "/_next/static/chunks/3_kpja-cz731b.js",
+          "compressedKb": 69.92,
+          "nomodule": false
+        },
+        {
+          "src": "/_next/static/chunks/3d2v-zqzn-gbn.js",
+          "compressedKb": 44.15,
+          "nomodule": false
+        },
+        {
+          "src": "/_next/static/chunks/turbopack-3af8jb9ucgllx.js",
+          "compressedKb": 3.82,
+          "nomodule": false
+        },
+        {
+          "src": "/_next/static/chunks/344om4grd3olr.js",
+          "compressedKb": 3.7,
+          "nomodule": false
+        },
+        {
+          "src": "/_next/static/chunks/3ddnb6tjwqo34.js",
+          "compressedKb": 8.59,
+          "nomodule": false
+        },
+        {
+          "src": "/_next/static/chunks/01_dsxz3llcys.js",
+          "compressedKb": 1.99,
+          "nomodule": false
+        },
+        {
+          "src": "/_next/static/chunks/0cz1d0mv5g_q7.js",
+          "compressedKb": 38.7,
+          "nomodule": true
+        }
+      ]
+    }
+  ],
+  "findings": []
+}

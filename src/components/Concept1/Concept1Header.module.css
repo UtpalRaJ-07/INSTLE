@@ -37,22 +37,25 @@
 }
 
 .brandTitle {
-  font-family: var(--c1-font-serif);
-  font-size: clamp(1.15rem, 1.8vw, 1.45rem);
-  font-weight: 600;
-  letter-spacing: 0.12em;
+  font-family: var(--apple-font-display, -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", sans-serif);
+  font-size: clamp(1.15rem, 1.8vw, 1.35rem);
+  font-weight: 700;
+  letter-spacing: 0.02em;
   color: var(--c1-forest);
   text-transform: uppercase;
   line-height: 1.1;
+  -webkit-font-smoothing: antialiased;
 }
 
 .brandSubtitle {
-  font-family: var(--font-sans);
+  font-family: var(--apple-font-text, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", sans-serif);
   font-size: 0.5625rem;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.25em;
+  font-weight: 600;
   color: var(--c1-text-muted);
   text-transform: uppercase;
-  margin-top: 2px;
+  margin-top: 3px;
+  -webkit-font-smoothing: antialiased;
 }
 
 .desktopNav {
@@ -213,10 +216,10 @@
 }
 
 .drawerBrand {
-  font-family: var(--c1-font-serif);
+  font-family: var(--apple-font-display, -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", sans-serif);
   font-size: 1.125rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
+  font-weight: 700;
+  letter-spacing: 0.02em;
   color: var(--c1-forest);
 }
 
@@ -239,11 +242,12 @@
 }
 
 .drawerLink {
-  font-family: var(--c1-font-serif);
-  font-size: 1.5rem;
+  font-family: var(--apple-font-display, -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", sans-serif);
+  font-size: 1.375rem;
+  font-weight: 600;
   color: var(--c1-text-main);
   text-decoration: none;
-  letter-spacing: 0.02em;
+  letter-spacing: -0.015em;
   transition: color 150ms ease;
 }
 

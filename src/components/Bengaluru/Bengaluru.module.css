@@ -1,0 +1,121 @@
+/**
+ * The Bengaluru identity elements.
+ *
+ * Three rules this file exists to hold:
+ *
+ * 1. `color` is set on the frame, so every `currentColor` stroke inside a drawing
+ *    resolves to a token rather than to whatever the surrounding page inherited.
+ * 2. The drawing's own ground is `--color-paper-raised`, the same colour as the
+ *    frame, so the colour behind the caption is one known value and not a blend.
+ *    `backgroundColoursBehindText` in the Media_Register declares exactly that.
+ * 3. No transition, no animation, no scroll behaviour. There is nothing here for
+ *    `prefers-reduced-motion: reduce` to switch off, which is a stronger
+ *    guarantee than a media query.
+ */
+
+.figure {
+  margin: 0;
+  background-color: var(--color-paper-raised);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-media);
+  padding: var(--space-4);
+  color: var(--color-ink);
+  overflow: hidden;
+}
+
+.frame {
+  display: block;
+}
+
+/* Intrinsic width and height stay on the <svg> for the aspect ratio; the drawing
+   scales to the column so it reflows at 320px and at 150% text without clipping. */
+.drawing {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+}
+
+/* The street band is 4.7:1 wide. At 320px that is a strip about 60px tall, where
+   every line drops below a pixel. On a narrow screen the band takes a taller shape
+   instead and the svg's `xMidYMid slice` crops the sides, centred on the
+   monkey-top house and the rain tree. Width stays 100% and height stays auto, so
+   this can never widen the page. */
+@media (max-width: 40rem) {
+  .band {
+    aspect-ratio: 5 / 2;
+  }
+}
+
+.caption {
+  margin-top: var(--space-3);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+  max-width: var(--max-prose-width);
+}
+
+/* ---------- Typographic fallback ---------- */
+
+.plate {
+  position: relative;
+  border-radius: var(--radius-media);
+  overflow: hidden;
+  background-color: var(--color-paper-raised);
+}
+
+.plateTexture {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.plateBody {
+  position: relative;
+  padding: var(--space-10) var(--space-6);
+  text-align: center;
+}
+
+.plateKicker {
+  display: block;
+  font-size: var(--font-size-label);
+  line-height: var(--line-height-label);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+}
+
+.plateName {
+  margin: var(--space-3) 0 0;
+  font-family: var(--font-display);
+  font-size: var(--font-size-display);
+  line-height: var(--line-height-display);
+  color: var(--color-ink);
+  overflow-wrap: break-word;
+}
+
+/* ---------- The orientation plate ----------
+   Mostly text, so it is capped rather than stretched to a wide column: past this
+   width the names would only grow larger than the page's own headings. Still
+   `width: 100%` below the cap, so it never widens a 320px page. */
+
+.plateMap {
+  max-width: 34rem;
+  margin-inline: auto;
+}
+
+/* ---------- Plate labels inside the orientation map ----------
+   No font-size here. Each label carries its own `font-size` attribute, sized to
+   fit its plate, and a CSS font-size would override that attribute and let a long
+   area name run out of its box. */
+
+.plateLabelCentre {
+  font-family: var(--font-sans);
+  font-weight: 600;
+}
+
+.plateLabelNeighbour {
+  font-family: var(--font-sans);
+  font-weight: 400;
+}

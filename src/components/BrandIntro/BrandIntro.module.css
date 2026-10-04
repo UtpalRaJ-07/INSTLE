@@ -1,0 +1,896 @@
+/*
+ * INSTLE brand intro.
+ *
+ * Nothing here applies until the boot script sets data-instle-intro on <html>:
+ * the overlay is display:none by default, so a crawler, a visitor with
+ * JavaScript off, or any page but the homepage never sees or pays for it.
+ *
+ * Every time comes from custom properties the boot script writes from
+ * intro-config.ts (--ix-*). Every animated property is transform, opacity,
+ * visibility or a background position on a small text layer, so the sequence
+ * stays on the compositor.
+ *
+ * Layers, back to front:
+ *   .stage   the scene: CSS architecture, then the WebGL canvas when it joins,
+ *            then the dawn layer that lifts the scene into the site's paper.
+ *   .titles  the lockup and the journey line.
+ *   .shield  catches presses during the film so nothing hidden underneath is
+ *            activated; the boot script turns the first press into a skip.
+ */
+
+.root {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  pointer-events: none;
+  contain: strict;
+  overflow: hidden;
+  color: #ece8e0;
+}
+
+/* Scene geometry, on both the film and the hero's copy of the scene.
+   Camera focus is the tower corner the film opens on. */
+.root,
+.art {
+  --fx: 61%;
+  --fy: 30%;
+  --horizon: 82%;
+  --void: #050908;
+}
+
+@media (max-aspect-ratio: 4/5) {
+  .root,
+  .art {
+    --fx: 47%;
+    --fy: 24%;
+    --horizon: 62%;
+  }
+}
+
+:global(html[data-instle-intro='full']) .root,
+:global(html[data-instle-intro='still']) .root {
+  display: block;
+  animation: introClock var(--ix-total) linear both;
+}
+
+/* The clock. Its currentTime is what the script reads; its end hides the root. */
+@keyframes introClock {
+  from {
+    visibility: visible;
+  }
+  to {
+    visibility: hidden;
+  }
+}
+
+.stage,
+.titles,
+.shield {
+  position: absolute;
+  inset: 0;
+}
+
+.stage {
+  background: var(--void);
+  overflow: hidden;
+}
+
+.shield {
+  pointer-events: auto;
+  cursor: default;
+}
+
+/* ---------------------------------------------------------------------------
+ * CSS scene
+ * ------------------------------------------------------------------------ */
+
+.art,
+.plane,
+.sky,
+.canvasHost,
+.dawn {
+  position: absolute;
+  inset: 0;
+}
+
+.canvasHost {
+  opacity: 0;
+  transition: opacity 320ms ease;
+}
+
+.canvasHost canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.root[data-tier='webgl'] .canvasHost {
+  opacity: 1;
+}
+
+.art {
+  transition: opacity 320ms ease, visibility 0s linear 320ms;
+}
+
+.root[data-tier='webgl'] .art {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.dawn {
+  /* The site is night now; the film dissolves into the hero rather than
+     lifting to paper. Kept as a layer for a future lighter handoff. */
+  display: none;
+}
+
+.sky {
+  background:
+    radial-gradient(ellipse 70% 38% at 70% var(--horizon), rgba(118, 102, 80, 0.32), transparent 70%),
+    radial-gradient(ellipse 120% 60% at 50% var(--horizon), rgba(52, 72, 74, 0.34), transparent 75%),
+    linear-gradient(
+      to bottom,
+      #040807 0%,
+      #070d0d 38%,
+      #0d1716 calc(var(--horizon) - 14%),
+      #17221f var(--horizon),
+      #090e0d calc(var(--horizon) + 1%),
+      #050908 100%
+    );
+}
+
+.plane {
+  transform-origin: var(--fx) var(--fy);
+  will-change: transform;
+}
+
+.far {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(100% - var(--horizon));
+  height: 34%;
+}
+
+.farLights {
+  position: absolute;
+  inset: 0;
+}
+
+.mid {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(100% - var(--horizon));
+  height: 44%;
+}
+
+.midTower {
+  position: absolute;
+  bottom: 0;
+  background:
+    repeating-linear-gradient(to bottom, transparent 0 9px, rgba(120, 140, 138, 0.07) 9px 10px),
+    repeating-linear-gradient(to right, transparent 0 7px, rgba(0, 0, 0, 0.28) 7px 9px),
+    linear-gradient(to bottom, #0c1413, #0a1110 70%, #0d1413);
+  box-shadow: inset 1px 0 0 rgba(170, 176, 168, 0.1);
+}
+
+.ground {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: var(--horizon);
+  bottom: 0;
+  background:
+    radial-gradient(circle, rgba(246, 204, 150, 0.95) 0 1px, rgba(246, 204, 150, 0.2) 2px, transparent 3.5px) 0 4px /
+      23px 8px repeat-x,
+    radial-gradient(circle, rgba(246, 204, 150, 0.8) 0 1.5px, rgba(246, 204, 150, 0.16) 3px, transparent 5px) 9px 22px /
+      57px 12px repeat-x,
+    radial-gradient(ellipse 30% 40% at 67% 0%, rgba(230, 176, 112, 0.18), transparent 70%),
+    linear-gradient(to bottom, #111a18, #070b0a 55%, #040706);
+}
+
+.haze {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(var(--horizon) - 22%);
+  height: 30%;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(122, 138, 134, 0.1) 60%,
+    rgba(122, 138, 134, 0.05) 78%,
+    transparent
+  );
+}
+
+/* The tower: a narrow side face and the main face, drawn with two-point
+   perspective baked into the side face's clip. */
+.tower {
+  position: absolute;
+  left: 59.5%;
+  width: 14%;
+  top: 9%;
+  bottom: calc(100% - var(--horizon));
+}
+
+@media (max-aspect-ratio: 4/5) {
+  .tower {
+    left: 40%;
+    width: 38%;
+    top: 5%;
+  }
+}
+
+.towerSide,
+.towerFront {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  overflow: hidden;
+}
+
+.towerSide {
+  left: 0;
+  width: 24%;
+  clip-path: polygon(0 1.4%, 100% 0, 100% 100%, 0 100%);
+  background: linear-gradient(to bottom, #09110f, #0c1514 70%, #121a18);
+}
+
+.towerFront {
+  left: 24%;
+  right: 0;
+  background:
+    linear-gradient(98deg, rgba(174, 186, 180, 0.14) 0%, transparent 30%, transparent 72%, rgba(174, 186, 180, 0.06)),
+    linear-gradient(to bottom, #0c1719 0%, #102022 55%, #19282a 100%);
+  /* The corner catches the light; the far edge keeps a faint rim. */
+  box-shadow:
+    inset 2px 0 0 rgba(226, 216, 198, 0.5),
+    inset -1px 0 0 rgba(226, 216, 198, 0.12);
+}
+
+.rooms {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  /* Rooms seen through tinted glass, not lamps on a wall. */
+  filter: saturate(0.85) brightness(0.88);
+}
+
+/* The glass itself: sky caught on the left of each face, shade to the right,
+   drawn over the rooms so they sit behind a surface. */
+.towerFront::after,
+.towerSide::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(to bottom, rgba(170, 190, 190, 0.1), transparent 30%, transparent 75%, rgba(0, 0, 0, 0.25)),
+    linear-gradient(100deg, rgba(190, 205, 200, 0.14) 0%, rgba(190, 205, 200, 0.03) 30%, transparent 55%, rgba(0, 0, 0, 0.3) 100%);
+}
+
+.towerSide::after {
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.2));
+}
+
+/* Slabs every floor, mullions every pane. Drawn over the rooms so the rooms
+   read as rooms behind a facade, not as rectangles on a wall. */
+.towerGrid {
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      #6a716b 0 0.3%,
+      #3b433f 0.3% 0.62%,
+      #1a2120 0.62% 0.95%,
+      transparent 0.95% 4.7619%
+    ),
+    repeating-linear-gradient(to right, rgba(8, 13, 13, 0.92) 0 0.9%, transparent 0.9% 12.5%);
+}
+
+.towerGridSide {
+  background:
+    repeating-linear-gradient(to bottom, #2b3230 0 0.42%, #171e1d 0.42% 0.9%, transparent 0.9% 4.7619%),
+    repeating-linear-gradient(to right, rgba(6, 10, 10, 0.9) 0 2.4%, transparent 2.4% 33.333%);
+}
+
+.towerCrown {
+  position: absolute;
+  left: 24%;
+  right: 0;
+  top: -1.4%;
+  height: 1.4%;
+  background: linear-gradient(to bottom, #6d706a, #2a302e 30%, #1a211f);
+}
+
+.towerLobby {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 5.5%;
+  opacity: 0;
+  background:
+    repeating-linear-gradient(to right, rgba(20, 16, 12, 0.85) 0 1.2%, transparent 1.2% 16.666%),
+    linear-gradient(to bottom, #f0c992, #d8a064);
+}
+
+/* Darkness that the light pushes back, and the light itself, in screen space so
+   they stay aligned while the planes zoom. */
+.shade {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 260vw;
+  background: linear-gradient(
+    to right,
+    transparent 0 38.46%,
+    rgba(5, 9, 8, 0.86) 42%,
+    var(--void) 50%,
+    var(--void) 100%
+  );
+  transform: translate3d(-130vw, 0, 0);
+  will-change: transform;
+}
+
+/* Sits on the shade's reveal edge (38.46% of 260vw = 100vw, eased to 42%). */
+.line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 39.6%;
+  width: 2px;
+  background: linear-gradient(
+    to bottom,
+    transparent 4%,
+    rgba(255, 244, 226, 0.7) 26%,
+    rgba(255, 248, 236, 0.95) 52%,
+    rgba(255, 244, 226, 0.6) 80%,
+    transparent 97%
+  );
+  box-shadow:
+    0 0 14px 2px rgba(255, 232, 200, 0.35),
+    0 0 60px 12px rgba(255, 226, 190, calc(0.12 * var(--ix-intensity, 1)));
+  opacity: 0;
+}
+
+/* The settled composition, as the homepage hero shows it once the film ends.
+   The film's own rules still drive it while a film plays, so the hero moves in
+   step underneath the overlay and is already in place when the overlay fades. */
+.art[data-still] .shade,
+.art[data-still] .line {
+  display: none;
+}
+
+.art[data-still] .rooms,
+.art[data-still] .towerLobby {
+  opacity: 1;
+}
+
+/* Under the film the hero is covered until the handoff, and by then the film
+   has settled into this same composition; animating the hidden copy would
+   only double the work on a slow device. */
+.art[data-still],
+.art[data-still] * {
+  animation: none !important;
+}
+
+/* ---------------------------------------------------------------------------
+ * Lockup
+ * ------------------------------------------------------------------------ */
+
+/* Above the ground line on landscape, so small text never sits on street lights. */
+.titleBox {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 38%;
+}
+
+/* A quiet scrim behind the lockup, fading in with it: keeps the small lines
+   legible over lit windows without a visible box. */
+.titles::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 48% at 22% 50%, rgba(5, 9, 8, 0.62), rgba(5, 9, 8, 0.28) 55%, transparent 80%);
+  opacity: 0;
+}
+
+@media (max-aspect-ratio: 4/5) {
+  .titles::before {
+    background: linear-gradient(to top, rgba(5, 9, 8, 0.78), rgba(5, 9, 8, 0.4) 34%, transparent 52%);
+  }
+}
+
+:global(html[data-instle-intro='full']) .titles::before {
+  animation: fadeIn 700ms ease var(--ix-mark-in) both;
+}
+
+:global(html[data-instle-intro='still']) .titles::before {
+  opacity: 1;
+}
+
+@media (max-aspect-ratio: 4/5) {
+  .titleBox {
+    top: auto;
+    bottom: calc(8% + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+.lockup {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1;
+  text-transform: uppercase;
+  -webkit-font-smoothing: antialiased;
+}
+
+.word {
+  position: relative;
+  z-index: 1;
+  display: inline-grid;
+  transform-origin: 0 50%;
+  white-space: nowrap;
+}
+
+.layer {
+  grid-area: 1 / 1;
+}
+
+.wordName {
+  font-size: clamp(4rem, 1rem + 9.5vw, 10.5rem);
+  letter-spacing: 0.02em;
+}
+
+.wordEstate {
+  margin-top: clamp(0.55rem, 0.3rem + 1.2vh, 1.1rem);
+  font-size: clamp(1.05rem, 0.7rem + 1.5vw, 2.1rem);
+  letter-spacing: 0.02em;
+}
+
+/* BrandLockup's descriptor: 600 weight, 0.22em tracking. */
+.wordPlace {
+  margin-top: clamp(0.45rem, 0.3rem + 0.8vh, 0.8rem);
+  font-size: clamp(0.72rem, 0.55rem + 0.55vw, 1.05rem);
+  font-weight: 600;
+  letter-spacing: 0.22em;
+}
+
+@media (max-aspect-ratio: 4/5) {
+  .wordName {
+    font-size: clamp(3.5rem, 1rem + 17vw, 8rem);
+  }
+
+  .wordEstate {
+    font-size: clamp(1.05rem, 0.6rem + 3.4vw, 1.6rem);
+  }
+
+  .wordPlace {
+    font-size: clamp(0.72rem, 0.5rem + 1.3vw, 0.95rem);
+  }
+}
+
+/* Extrusion: a stack of hard shadows, darker with depth, lit from above, and one
+   soft contact shadow. In em, so the depth scales with the letters. */
+.depth {
+  color: #1c2623;
+  text-shadow:
+    0 0.006em 0 #18211f,
+    0 0.012em 0 #151d1b,
+    0 0.018em 0 #121917,
+    0 0.024em 0 #0f1514,
+    0 0.03em 0 #0c1211,
+    0 0.036em 0 #0a0f0e,
+    0 0.09em 0.14em rgba(0, 0, 0, 0.6);
+  opacity: 0;
+}
+
+/* The letters before the front light reaches them: silhouettes against the
+   light passing behind. */
+.face {
+  color: #0a100f;
+  opacity: 0;
+}
+
+/* Satin, architectural white: brighter where it faces the sky. */
+.lit {
+  background: linear-gradient(178deg, #f5f2eb 0%, #e8e3d9 42%, #cdc7bb 70%, #b6b0a4 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  opacity: 0;
+}
+
+.wordEstate .lit {
+  background: none;
+  color: #e7e2d8;
+}
+
+.wordPlace .lit {
+  background: none;
+  color: #a3aea9;
+}
+
+.glint {
+  background: linear-gradient(
+      104deg,
+      transparent 0 41%,
+      rgba(255, 252, 244, 0.9) 50%,
+      transparent 59% 100%
+    )
+    100% 0 / 260% 100% no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  opacity: 0;
+}
+
+.ink {
+  /* The header lockup's colours, so the flight lands on an exact match. */
+  color: var(--night-text);
+  opacity: 0;
+}
+
+.wordPlace .ink {
+  color: var(--night-muted);
+}
+
+/* Light passing behind the name. */
+.backlight {
+  position: absolute;
+  z-index: 0;
+  left: -12%;
+  top: -40%;
+  width: 62%;
+  height: 150%;
+  border-radius: 50%;
+  /* Soft by construction: a filter blur here costs a lot on software
+     compositing and changes nothing visible. */
+  background: radial-gradient(
+    closest-side,
+    rgba(232, 220, 198, 0.55),
+    rgba(232, 220, 198, 0.22) 38%,
+    rgba(232, 220, 198, 0.07) 68%,
+    transparent
+  );
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.journey {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: clamp(1.25rem, 0.8rem + 2.4vh, 2.25rem);
+  font-family: var(--font-sans);
+  font-size: clamp(0.75rem, 0.66rem + 0.3vw, 0.875rem);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #b9c2bd;
+}
+
+.journeyItem {
+  opacity: 0;
+}
+
+.journeyItem + .journeyItem::before {
+  content: '';
+  display: inline-block;
+  width: 3px;
+  height: 3px;
+  margin: 0 1.05em 0 0.9em;
+  border-radius: 50%;
+  background: currentColor;
+  vertical-align: middle;
+  opacity: 0.55;
+}
+
+/* ---------------------------------------------------------------------------
+ * Full film
+ * ------------------------------------------------------------------------ */
+
+:global(html[data-instle-intro='full']) .plane {
+  animation: camera var(--ix-cam) var(--ix-ease-camera) var(--ix-cam-in) both;
+}
+
+.plane[data-depth='far'] {
+  --z0: 1.12;
+}
+.plane[data-depth='mid'] {
+  --z0: 1.45;
+}
+.plane[data-depth='ground'] {
+  --z0: 1.9;
+}
+.plane[data-depth='tower'] {
+  --z0: 2.5;
+}
+.plane[data-depth='haze'] {
+  --z0: 1.3;
+}
+
+@keyframes camera {
+  from {
+    transform: scale(var(--z0, 1));
+  }
+  to {
+    transform: none;
+  }
+}
+
+:global(html[data-instle-intro='full']) .shade {
+  animation: sweep var(--ix-line) var(--ix-ease-light) var(--ix-line-in) both;
+}
+
+@keyframes sweep {
+  from {
+    transform: translate3d(-130vw, 0, 0);
+  }
+  to {
+    transform: translate3d(4vw, 0, 0);
+  }
+}
+
+:global(html[data-instle-intro='full']) .line {
+  animation: lineGlow var(--ix-line) linear var(--ix-line-in) both;
+}
+
+@keyframes lineGlow {
+  0% {
+    opacity: 0;
+  }
+  14% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 0.85;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+:global(html[data-instle-intro='full']) .rooms {
+  animation: fadeIn 520ms var(--ix-ease-settle) calc(var(--ix-win-in) + var(--ix-win) * 0.05) both;
+}
+:global(html[data-instle-intro='full']) .rooms[data-group='1'] {
+  animation-delay: calc(var(--ix-win-in) + var(--ix-win) * 0.38);
+}
+:global(html[data-instle-intro='full']) .rooms[data-group='2'] {
+  animation-delay: calc(var(--ix-win-in) + var(--ix-win) * 0.7);
+}
+:global(html[data-instle-intro='full']) .towerLobby {
+  animation: fadeIn 700ms var(--ix-ease-settle) var(--ix-win-in) both;
+}
+
+:global(html[data-instle-intro='full']) .far,
+:global(html[data-instle-intro='full']) .mid,
+:global(html[data-instle-intro='full']) .ground {
+  animation: fadeIn var(--ix-city) var(--ix-ease-settle) var(--ix-city-in) both;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* The lockup: light behind, silhouette, front light, depth, focus, glint. */
+:global(html[data-instle-intro='full']) .backlight {
+  animation: backlight calc(var(--ix-mark) * 1.25) var(--ix-ease-light) var(--ix-mark-in) both;
+}
+
+@keyframes backlight {
+  0% {
+    opacity: 0;
+    transform: translate3d(-35%, 0, 0);
+  }
+  30% {
+    opacity: calc(0.95 * var(--ix-intensity, 1));
+  }
+  100% {
+    opacity: calc(0.22 * var(--ix-intensity, 1));
+    transform: translate3d(95%, 0, 0);
+  }
+}
+
+:global(html[data-instle-intro='full']) .face {
+  animation: fadeIn 240ms linear var(--ix-mark-in) both;
+}
+
+:global(html[data-instle-intro='full']) .wordName .lit {
+  animation: fadeIn calc(var(--ix-mark) * 0.62) var(--ix-ease-settle) calc(var(--ix-mark-in) + var(--ix-mark) * 0.38)
+    both;
+}
+
+:global(html[data-instle-intro='full']) .depth {
+  animation: fadeIn calc(var(--ix-mark) * 0.55) var(--ix-ease-settle) calc(var(--ix-mark-in) + var(--ix-mark) * 0.45)
+    both;
+}
+
+:global(html[data-instle-intro='full']) .wordName {
+  /* Its own layer, so the defocus composites instead of repainting 170px text. */
+  will-change: transform, filter;
+  animation: focus var(--ix-mark) var(--ix-ease-settle) var(--ix-mark-in) both;
+}
+
+@keyframes focus {
+  from {
+    transform: scale(1.035);
+    filter: blur(9px);
+  }
+  65% {
+    filter: blur(0);
+  }
+  to {
+    transform: none;
+    filter: none;
+  }
+}
+
+:global(html[data-instle-intro='full']) .glint {
+  animation: glint var(--ix-sweep) var(--ix-ease-light) var(--ix-sweep-in) both;
+}
+
+@keyframes glint {
+  0% {
+    opacity: 1;
+    background-position: 100% 0;
+  }
+  100% {
+    opacity: 1;
+    background-position: 0% 0;
+  }
+}
+
+:global(html[data-instle-intro='full']) .wordEstate .lit {
+  animation: fadeIn 520ms var(--ix-ease-settle) calc(var(--ix-mark-in) + var(--ix-mark) * 0.6) both;
+}
+
+:global(html[data-instle-intro='full']) .wordEstate {
+  animation: rise 620ms var(--ix-ease-settle) calc(var(--ix-mark-in) + var(--ix-mark) * 0.6) both;
+}
+
+:global(html[data-instle-intro='full']) .wordPlace .lit {
+  animation: fadeIn 520ms var(--ix-ease-settle) var(--ix-tag-in) both;
+}
+
+:global(html[data-instle-intro='full']) .wordPlace {
+  animation: rise 620ms var(--ix-ease-settle) var(--ix-tag-in) both;
+}
+
+@keyframes rise {
+  from {
+    transform: translate3d(0, 0.45em, 0);
+  }
+  to {
+    transform: none;
+  }
+}
+
+/* Buy · Sell · Rent · Rent out — then gone as the site arrives. */
+:global(html[data-instle-intro='full']) .journeyItem {
+  animation:
+    fadeIn 420ms var(--ix-ease-settle) var(--ix-journey-in) both,
+    fadeOut 260ms ease var(--ix-hand-in) forwards;
+}
+:global(html[data-instle-intro='full']) .journeyItem:nth-child(2) {
+  animation-delay: calc(var(--ix-journey-in) + 70ms), var(--ix-hand-in);
+}
+:global(html[data-instle-intro='full']) .journeyItem:nth-child(3) {
+  animation-delay: calc(var(--ix-journey-in) + 140ms), var(--ix-hand-in);
+}
+:global(html[data-instle-intro='full']) .journeyItem:nth-child(4) {
+  animation-delay: calc(var(--ix-journey-in) + 210ms), var(--ix-hand-in);
+}
+
+/* Handoff: the scene dissolves into the homepage hero, which holds the same
+   architecture in its settled state, and
+   the lockup flies into the header (transition.ts). Without the script, the
+   lockup fades instead and the header's own lockup fades in. */
+:global(html[data-instle-intro='full']) .dawn {
+  animation: fadeIn calc(var(--ix-hand) * 0.55) ease-in-out var(--ix-hand-in) both;
+}
+
+:global(html[data-instle-intro='full']) .stage {
+  animation: fadeOut calc(var(--ix-hand) * 0.62) ease-in-out calc(var(--ix-hand-in) + var(--ix-hand) * 0.38) both;
+}
+
+:global(html[data-instle-intro='full']) .titles {
+  animation: fadeOut calc(var(--ix-hand) * 0.4) ease-in var(--ix-hand-in) both;
+}
+
+.root[data-handoff='js'] .titles {
+  animation: none;
+}
+
+:global(html[data-instle-intro]) .shield {
+  animation: shieldOff 1ms linear var(--ix-hand-in) both;
+}
+
+@keyframes shieldOff {
+  from {
+    visibility: visible;
+  }
+  to {
+    visibility: hidden;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * Reduced motion: the settled composition, opacity only.
+ * ------------------------------------------------------------------------ */
+
+:global(html[data-instle-intro='still']) .shade,
+:global(html[data-instle-intro='still']) .line,
+:global(html[data-instle-intro='still']) .backlight,
+:global(html[data-instle-intro='still']) .glint,
+:global(html[data-instle-intro='still']) .face {
+  display: none;
+}
+
+:global(html[data-instle-intro='still']) .rooms,
+:global(html[data-instle-intro='still']) .towerLobby,
+:global(html[data-instle-intro='still']) .lit,
+:global(html[data-instle-intro='still']) .depth,
+:global(html[data-instle-intro='still']) .journeyItem {
+  opacity: 1;
+}
+
+:global(html[data-instle-intro='still']) .art,
+:global(html[data-instle-intro='still']) .titleBox {
+  animation: fadeIn var(--ix-fade) ease-out both;
+}
+
+:global(html[data-instle-intro='still']) .dawn {
+  animation: fadeIn calc(var(--ix-hand) * 0.5) ease-in-out var(--ix-hand-in) both;
+}
+
+:global(html[data-instle-intro='still']) .stage {
+  animation: fadeOut calc(var(--ix-hand) * 0.6) ease-in-out calc(var(--ix-hand-in) + var(--ix-hand) * 0.4) both;
+}
+
+:global(html[data-instle-intro='still']) .titles {
+  animation: fadeOut calc(var(--ix-hand) * 0.45) ease-in-out var(--ix-hand-in) both;
+}
+
+/* ---------------------------------------------------------------------------
+ * Skip: the first key, press, wheel or touch-move.
+ * ------------------------------------------------------------------------ */
+
+:global(html[data-instle-intro-skip]) .root {
+  animation: skipOut 280ms ease-out both;
+}
+
+@keyframes skipOut {
+  from {
+    opacity: 1;
+    visibility: visible;
+  }
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}

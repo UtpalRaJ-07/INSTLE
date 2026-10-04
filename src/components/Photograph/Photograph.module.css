@@ -1,0 +1,37 @@
+/*
+ * The photograph pathway's styles — Requirement 10, blocked on checklist C12.
+ *
+ * No url(), no image-set(), no gradient standing in for a missing picture: this
+ * stylesheet loads nothing. Everything here is layout and type for an element that
+ * only exists once a cleared photograph is recorded, and no rule in it renders
+ * anything on its own.
+ */
+
+.figure {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+/*
+ * The element keeps the recorded intrinsic width and height as attributes so the
+ * browser reserves the right aspect ratio before layout; these rules then let it
+ * fill its column, so no photograph imposes a pixel width on a 320 px screen.
+ */
+.photograph {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  border-radius: var(--radius-media);
+  background-color: var(--color-paper-raised);
+}
+
+.caption {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+  max-width: var(--max-prose-width);
+}

@@ -1,0 +1,88 @@
+.bar {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: var(--z-sticky);
+  /*
+    Flex rather than two grid columns, so the two actions can give way instead of
+    forcing the bar wider than the screen. A `1fr` column still grows to its
+    content's minimum, and with labels that could not wrap the bar measured 365px of
+    content inside a 272px screen at 320px with 150% text — and because the bar is
+    fixed, that surplus never became a document scroll width, so the enquiry action
+    simply sat off the right edge of the screen with no way to scroll to it.
+  */
+  display: flex;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  padding-bottom: calc(var(--space-2) + env(safe-area-inset-bottom, 0px));
+  background-color: var(--night-glass);
+  -webkit-backdrop-filter: saturate(140%) blur(18px);
+  backdrop-filter: saturate(140%) blur(18px);
+  border-top: var(--border-width) solid var(--night-line);
+}
+
+/* Desktop has the header phone button and in-page actions, so the bar is not
+   rendered visually above the tablet breakpoint. */
+@media (min-width: 768px) {
+  .bar {
+    display: none;
+  }
+}
+
+.callAction,
+.enquiryAction {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* Share the row, and shrink before the row gives up. */
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: var(--min-touch-target);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-pill);
+  font-size: var(--font-size-body);
+  font-weight: 600;
+  text-decoration: none;
+  text-align: center;
+  /*
+    A label may wrap. It does not at the default text size — measured at 320, 360 and
+    390px, where the bar stays 61px tall — and when a customer enlarges text it wraps
+    to two lines and the bar grows to 112px. That growth used to push the bar over the
+    footer, which is why this was `nowrap`; the space reserved for the bar in
+    tokens.css now scales with the text size instead, so the label is free to wrap
+    rather than the row being free to overflow the screen.
+  */
+  white-space: normal;
+}
+
+@media (max-width: 359px) {
+  .callAction,
+  .enquiryAction {
+    font-size: var(--font-size-small);
+    padding-inline: var(--space-2);
+  }
+}
+
+.callAction {
+  background-color: var(--color-forest);
+  color: var(--color-white);
+  border: var(--border-width) solid var(--color-forest);
+}
+
+.callAction:hover,
+.callAction:focus-visible {
+  background-color: var(--color-forest-dark);
+  text-decoration: none;
+}
+
+.enquiryAction {
+  background-color: transparent;
+  color: var(--color-ink);
+  border: var(--border-width) solid var(--color-border-strong);
+}
+
+.enquiryAction:hover,
+.enquiryAction:focus-visible {
+  border-color: var(--color-ink);
+  text-decoration: none;
+}

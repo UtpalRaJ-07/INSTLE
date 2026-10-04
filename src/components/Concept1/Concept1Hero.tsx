@@ -3,7 +3,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { PRIMARY_PHONE, PRIMARY_PHONE_TEL } from '@/config/constants';
+import { CANONICAL_BRAND, PRIMARY_PHONE, PRIMARY_PHONE_TEL } from '@/config/constants';
 import styles from './Concept1Hero.module.css';
 
 export function Concept1Hero() {
@@ -15,21 +15,36 @@ export function Concept1Hero() {
           <div className={styles.dossierBadge}>
             <span className={styles.dossierNum}>BENGALURU</span>
             <span className={styles.dossierDivider} aria-hidden="true" />
-            <span className={styles.dossierType}>PROPERTY ADVISORY &amp; BROKERAGE</span>
+            <span className={styles.dossierType}>REAL ESTATE BROKERAGE</span>
           </div>
 
           <h1 id="c1-hero-title" className={styles.heroTitle}>
-            Property Advisory &amp; Brokerage in Bengaluru
+            Buy, sell or rent property in Bengaluru
           </h1>
 
           <p className={styles.heroSummary}>
-            Direct advisory, ground diligence, and private brokerage for buyers, tenants, and property owners across Bengaluru’s prime residential enclaves. No public listings; purely dedicated client representation.
+            Looking for a flat, independent house, villa or site? Tell {CANONICAL_BRAND} your preferred area and budget. Selling or renting out your property? Speak to our team.
           </p>
 
-          {/* Quick Dual Action Group */}
+          {/* Primary Actions Group */}
           <div className={styles.actionGroup}>
             <Link href="/buy" className={styles.primaryAction}>
-              <span>Share Requirement</span>
+              <span>I want to buy</span>
+              <span className={styles.arrow} aria-hidden="true">→</span>
+            </Link>
+
+            <Link href="/rent" className={styles.primaryAction} style={{ background: '#24443A' }}>
+              <span>I want to rent</span>
+              <span className={styles.arrow} aria-hidden="true">→</span>
+            </Link>
+
+            <Link href="/sell" className={styles.primaryAction} style={{ background: '#354E45' }}>
+              <span>I want to sell</span>
+              <span className={styles.arrow} aria-hidden="true">→</span>
+            </Link>
+
+            <Link href="/sell" className={styles.primaryAction} style={{ background: '#455E55' }}>
+              <span>I want to rent out</span>
               <span className={styles.arrow} aria-hidden="true">→</span>
             </Link>
 
@@ -40,25 +55,27 @@ export function Concept1Hero() {
 
           {/* Secondary Intent Links */}
           <div className={styles.intentRow}>
-            <span className={styles.intentLabel}>Direct Services:</span>
-            <Link href="/buy" className={styles.intentLink}>Buy</Link>
+            <span className={styles.intentLabel}>Direct Options:</span>
+            <Link href="/buy" className={styles.intentLink}>Buy Property</Link>
             <span className={styles.intentDivider}>·</span>
-            <Link href="/rent" className={styles.intentLink}>Rent</Link>
+            <Link href="/rent" className={styles.intentLink}>Rent a Home</Link>
             <span className={styles.intentDivider}>·</span>
-            <Link href="/sell" className={styles.intentLink}>Sell / Lease</Link>
+            <Link href="/sell" className={styles.intentLink}>Sell Property</Link>
             <span className={styles.intentDivider}>·</span>
-            <Link href="/areas" className={styles.intentLink}>Localities</Link>
+            <Link href="/sell" className={styles.intentLink}>Rent Out Property</Link>
+            <span className={styles.intentDivider}>·</span>
+            <Link href="/areas" className={styles.intentLink}>Explore Areas</Link>
           </div>
 
           {/* Direct Phone Line */}
           <div className={styles.phoneTouchpoint}>
             <div className={styles.phoneMeta}>
-              <span className={styles.phoneLabel}>Advisory Desk Telephone:</span>
+              <span className={styles.phoneLabel}>Speak to Our Team:</span>
             </div>
             <a href={PRIMARY_PHONE_TEL} className={styles.phoneLink}>
               {PRIMARY_PHONE}
             </a>
-            <span className={styles.phoneSubtext}>Direct connection to an accountable brokerage team member</span>
+            <span className={styles.phoneSubtext}>Call our team directly at {PRIMARY_PHONE} to discuss your property requirement</span>
           </div>
         </div>
 

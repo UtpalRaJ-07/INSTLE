@@ -1,97 +1,123 @@
 import React from 'react';
 import type { Metadata } from 'next';
-import Link from 'next/link';
-import { CANONICAL_BRAND, PRIMARY_PHONE, PRIMARY_PHONE_TEL } from '@/config/constants';
-import styles from './contact.module.css';
+import { CANONICAL_BRAND, CUSTOMER_INTENTS, PRIMARY_PHONE } from '@/config/constants';
+import { isRealIntakeEnabled } from '@/config/site';
+import { buildPageMetadata } from '@/lib/metadata';
+import {
+  ActionRow,
+  BulletList,
+  CallButton,
+  Callout,
+  CalloutText,
+  ContactBand,
+  IntentCards,
+  LinkCard,
+  LinkCardGrid,
+  PageIntro,
+  Prose,
+  Section,
+  SectionHeader,
+} from '@/components/ui';
 
-export const metadata: Metadata = {
-  title: `Contact Advisory Desk — ${CANONICAL_BRAND}`,
-  description:
-    'Direct telephone and digital communication with INSTLE REAL ESTATE in Bengaluru. Connect at 9353096264 for property advisory and client representation.',
-};
+export const metadata: Metadata = buildPageMetadata({
+  title: 'Contact us',
+  description: `Call ${CANONICAL_BRAND} on ${PRIMARY_PHONE} to discuss buying, selling, renting or renting out property in Bengaluru.`,
+  path: '/contact',
+});
 
 export default function ContactPage() {
+  const intakeEnabled = isRealIntakeEnabled();
+
   return (
-    <div className={styles.contactWrapper}>
-      <section className={styles.introSection} aria-labelledby="contact-heading">
-        <div className={styles.container}>
-          <span className={styles.kicker}>DIRECT COMMUNICATIONS</span>
-          <h1 id="contact-heading" className={styles.heading}>
-            Connect with {CANONICAL_BRAND}
-          </h1>
-          <p className={styles.lead}>
-            To discuss property requirements or owner representation in Bengaluru, connect directly with our brokerage team by telephone or share a tailored digital brief.
+    <>
+      <PageIntro
+        eyebrow="Contact"
+        titleId="contact-heading"
+        title="Talk to us about your property requirement"
+        lead={`The phone is the direct route. Call ${PRIMARY_PHONE} and tell us what you need.`}
+      >
+        <ActionRow>
+          <CallButton />
+        </ActionRow>
+      </PageIntro>
+
+      <Section labelledBy="contact-phone-heading">
+        <SectionHeader
+          titleId="contact-phone-heading"
+          eyebrow="By phone"
+          title={PRIMARY_PHONE}
+          lead="This reaches our team. It is the number to use for anything — buying, selling, renting, renting out, or just working out whether we are the right people to ask."
+        />
+        <Prose>
+          <p>
+            Handy to have ready: what kind of property, which area, roughly what you can spend or
+            expect, and when. None of it has to be settled.
           </p>
-        </div>
-      </section>
+          <p>
+            We have not published business hours yet, because we are not going to advertise hours we
+            have not committed to staffing. If a call is not answered, try again — there is no queue
+            system swallowing it.
+          </p>
+        </Prose>
+        <Callout title="About this number">
+          <CalloutText>
+            {PRIMARY_PHONE} is our business phone line. We have not set up messaging or chat on it, so
+            please do not expect a reply to a message sent to it.
+          </CalloutText>
+        </Callout>
+      </Section>
 
-      <section className={styles.contentSection} aria-label="Contact Channels">
-        <div className={styles.container}>
-          <div className={styles.channelsGrid}>
-            {/* Primary Phone Box */}
-            <div className={styles.phoneBox}>
-              <span className={styles.boxTag}>DIRECT TELEPHONE DESK</span>
-              <h2 className={styles.phoneHeading}>Voice Consultation</h2>
-              <p className={styles.boxText}>
-                Speak directly with a member of our brokerage team for guidance regarding Bengaluru residential micro-markets.
-              </p>
-              <a href={PRIMARY_PHONE_TEL} className={styles.bigPhoneLink}>
-                ☎ {PRIMARY_PHONE}
-              </a>
-              <div className={styles.hoursMeta}>
-                <span>Desk Connection: Direct phone access to brokerage team</span>
-                <span>Focus Areas: Indiranagar, Koramangala, Sadashivanagar &amp; North Bengaluru</span>
-              </div>
-            </div>
+      <Section tone="raised" labelledBy="contact-online-heading">
+        <SectionHeader
+          titleId="contact-online-heading"
+          eyebrow="Online"
+          title={intakeEnabled ? 'Send your details instead' : 'The online form is not switched on yet'}
+          lead={
+            intakeEnabled
+              ? 'Pick the page that matches what you want to do. Each one asks only what is relevant.'
+              : 'We would rather say that plainly than take your details with nowhere proper to put them. The pages below explain what to have ready for a call.'
+          }
+        />
+        <IntentCards intents={CUSTOMER_INTENTS} />
+        <LinkCardGrid>
+          <LinkCard href="/commercial" title="Commercial property">
+            Office, shop, warehouse or industrial. We will say whether we can help.
+          </LinkCard>
+          <LinkCard href="/how-it-works" title="How we work">
+            What happens at each stage, and what we do not promise.
+          </LinkCard>
+        </LinkCardGrid>
+      </Section>
 
-            {/* Digital Briefs Box */}
-            <div className={styles.briefBox}>
-              <span className={styles.boxTag}>DIGITAL REQUIREMENT INTAKE</span>
-              <h2 className={styles.boxHeading}>Share Your Requirement</h2>
-              <p className={styles.boxText}>
-                Prefer to outline spatial and capital parameters online before a phone consultation? Select your service pathway:
-              </p>
+      <Section labelledBy="contact-privacy-heading">
+        <SectionHeader
+          titleId="contact-privacy-heading"
+          eyebrow="Your details"
+          title="What happens to what you tell us"
+        />
+        <Prose>
+          <BulletList
+            items={[
+              'Your name and number are used by our team to talk to you about your requirement.',
+              'We do not sell contact details or pass them to third parties for marketing.',
+              'We do not publish your requirement, your address, or photographs of your property.',
+              'If you ask us to stop contacting you, we stop.',
+            ]}
+          />
+          <p>
+            A full privacy notice is not published on this site yet. We are not going to put up legal
+            wording that has not been properly drawn up. Until it is there, the four points above are
+            what we do, and you are welcome to ask about any of it on the phone.
+          </p>
+        </Prose>
+      </Section>
 
-              <div className={styles.trackList}>
-                <Link href="/buy" className={styles.trackLink}>
-                  <div className={styles.trackInfo}>
-                    <strong>Buy a Home</strong>
-                    <span>Independent residences, boutique apartments &amp; plots</span>
-                  </div>
-                  <span className={styles.arrow} aria-hidden="true">→</span>
-                </Link>
-
-                <Link href="/rent" className={styles.trackLink}>
-                  <div className={styles.trackInfo}>
-                    <strong>Rent a Residence</strong>
-                    <span>Executive leasing and corporate tenancy advisory</span>
-                  </div>
-                  <span className={styles.arrow} aria-hidden="true">→</span>
-                </Link>
-
-                <Link href="/sell" className={styles.trackLink}>
-                  <div className={styles.trackInfo}>
-                    <strong>Sell or Lease Property</strong>
-                    <span>Discreet representation for property owners and landlords</span>
-                  </div>
-                  <span className={styles.arrow} aria-hidden="true">→</span>
-                </Link>
-              </div>
-            </div>
-          </div>
-
-          {/* Privacy and Boundaries */}
-          <div className={styles.boundaryCard}>
-            <h3 className={styles.boundaryTitle}>Communications &amp; Privacy Boundary</h3>
-            <p className={styles.boundaryText}>
-              In accordance with Indian privacy principles (DPDP Act 2023), personal contact details shared during phone consultations or digital briefs are utilized solely for direct advisory communication by {CANONICAL_BRAND}. We do not operate unsolicited telemarketing, automated promotional calls, or third-party lead resale.
-            </p>
-            <p className={styles.boundarySubtext}>
-              * Physical consultations are scheduled by prior appointment. Corporate address disclosures are maintained in accordance with applicable statutory registration filings.
-            </p>
-          </div>
-        </div>
-      </section>
-    </div>
+      <ContactBand
+        title={`Call ${PRIMARY_PHONE}`}
+        text="One number, our team, no hold menu."
+        enquiryHref="/how-it-works"
+        enquiryLabel="How we work"
+      />
+    </>
   );
 }

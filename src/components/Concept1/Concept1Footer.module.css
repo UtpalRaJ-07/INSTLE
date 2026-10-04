@@ -26,13 +26,14 @@
 }
 
 .brandTitle {
-  font-family: var(--c1-font-serif);
+  font-family: var(--apple-font-display, -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", sans-serif);
   font-size: clamp(1.5rem, 2vw, 2rem);
-  font-weight: 600;
-  letter-spacing: 0.16em;
+  font-weight: 700;
+  letter-spacing: 0.02em;
   color: #FFFFFF;
   text-transform: uppercase;
   margin-bottom: 14px;
+  -webkit-font-smoothing: antialiased;
 }
 
 .brandMission {
@@ -57,9 +58,10 @@
 }
 
 .phoneLink {
-  font-family: var(--c1-font-serif);
+  font-family: var(--apple-font-display, -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", sans-serif);
   font-size: 1.5rem;
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: -0.01em;
   color: #FFFFFF;
   text-decoration: none;
 }

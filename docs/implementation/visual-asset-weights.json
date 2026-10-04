@@ -1,0 +1,287 @@
+{
+  "generatedAt": "2026-09-29T14:18:06.603Z",
+  "requirement": "9.17",
+  "budgets": {
+    "perAssetCompressedBytes": 81920,
+    "perRouteCompressedBytes": 153600
+  },
+  "method": {
+    "compression": "gzip, Node zlib default level, each span compressed on its own (18-byte header included)",
+    "serialised": "renderToStaticMarkup through the vitest.config.ts Vite pipeline; the <svg data-asset-id> span is weighed — the method compressedBytes is recorded by",
+    "served": "HTTP GET of every public route from next start (build TGrTHs2AcF1J-QbO-ppfJ), http://127.0.0.1:3217; an asset's served weight is its <svg> span plus its RSC flight copy inlined in the same HTML",
+    "servedAgainstRecorded": "served <svg> may exceed recorded by max(16, ceil(1% of recorded)) + raw bytes of its class values; production and test CSS module class names differ and nothing else does (checked per asset below)"
+  },
+  "assets": [
+    {
+      "assetId": "ILL-STREETSCAPE-001",
+      "registerKey": "ILL-STREETSCAPE-001",
+      "recordedBytes": 3625,
+      "serialised": {
+        "rawBytes": 17968,
+        "compressedBytes": 3630
+      },
+      "servedOnRoutes": [
+        "/"
+      ],
+      "heaviestServedCompressedBytes": 7924,
+      "budgetBytes": 81920,
+      "withinBudget": true
+    },
+    {
+      "assetId": "ILL-STREETSCAPE-002",
+      "registerKey": "ILL-STREETSCAPE-002",
+      "recordedBytes": 3624,
+      "serialised": {
+        "rawBytes": 17956,
+        "compressedBytes": 3628
+      },
+      "servedOnRoutes": [
+        "/buy",
+        "/sell",
+        "/rent",
+        "/rent-out",
+        "/commercial"
+      ],
+      "heaviestServedCompressedBytes": 7891,
+      "budgetBytes": 81920,
+      "withinBudget": true
+    },
+    {
+      "assetId": "MAP-CORRIDOR-001",
+      "registerKey": "MAP-CORRIDOR-001",
+      "recordedBytes": 627,
+      "serialised": {
+        "rawBytes": 2234,
+        "compressedBytes": 628
+      },
+      "servedOnRoutes": [
+        "/areas"
+      ],
+      "heaviestServedCompressedBytes": 1513,
+      "budgetBytes": 81920,
+      "withinBudget": true
+    },
+    {
+      "assetId": "TEX-LAYOUT-GRID-001",
+      "registerKey": "TEX-LAYOUT-GRID-001",
+      "recordedBytes": 1317,
+      "serialised": {
+        "rawBytes": 7047,
+        "compressedBytes": 1320
+      },
+      "servedOnRoutes": [],
+      "heaviestServedCompressedBytes": null,
+      "budgetBytes": 81920,
+      "withinBudget": true
+    },
+    {
+      "assetId": "MAP-AREA-whitefield-inner-enclaves",
+      "registerKey": "MAP-AREA",
+      "note": "worst case: Whitefield (inner residential enclaves) with the 4 next-longest names",
+      "recordedBytes": 759,
+      "serialised": {
+        "rawBytes": 2459,
+        "compressedBytes": 767
+      },
+      "servedOnRoutes": [],
+      "heaviestServedCompressedBytes": null,
+      "budgetBytes": 81920,
+      "withinBudget": true
+    }
+  ],
+  "routes": [
+    {
+      "route": "/",
+      "status": 200,
+      "assets": [
+        {
+          "assetId": "ILL-STREETSCAPE-001",
+          "svg": {
+            "rawBytes": 18000,
+            "compressedBytes": 3638
+          },
+          "flightCopy": {
+            "rows": 39,
+            "hostElements": 258,
+            "rawBytes": 25842,
+            "compressedBytes": 4286,
+            "locatedVerbatim": true
+          },
+          "servedCompressedBytes": 7924,
+          "recordedBytes": 3625,
+          "servedMinusRecordedBytes": 13,
+          "allowanceBytes": 101,
+          "identicalToSerialisedApartFromClassNames": true
+        }
+      ],
+      "routeCompressedBytes": 7924
+    },
+    {
+      "route": "/buy",
+      "status": 200,
+      "assets": [
+        {
+          "assetId": "ILL-STREETSCAPE-002",
+          "svg": {
+            "rawBytes": 17988,
+            "compressedBytes": 3636
+          },
+          "flightCopy": {
+            "rows": 35,
+            "hostElements": 258,
+            "rawBytes": 25778,
+            "compressedBytes": 4255,
+            "locatedVerbatim": true
+          },
+          "servedCompressedBytes": 7891,
+          "recordedBytes": 3624,
+          "servedMinusRecordedBytes": 12,
+          "allowanceBytes": 101,
+          "identicalToSerialisedApartFromClassNames": true
+        }
+      ],
+      "routeCompressedBytes": 7891
+    },
+    {
+      "route": "/sell",
+      "status": 200,
+      "assets": [
+        {
+          "assetId": "ILL-STREETSCAPE-002",
+          "svg": {
+            "rawBytes": 17988,
+            "compressedBytes": 3636
+          },
+          "flightCopy": {
+            "rows": 35,
+            "hostElements": 258,
+            "rawBytes": 25778,
+            "compressedBytes": 4255,
+            "locatedVerbatim": true
+          },
+          "servedCompressedBytes": 7891,
+          "recordedBytes": 3624,
+          "servedMinusRecordedBytes": 12,
+          "allowanceBytes": 101,
+          "identicalToSerialisedApartFromClassNames": true
+        }
+      ],
+      "routeCompressedBytes": 7891
+    },
+    {
+      "route": "/rent",
+      "status": 200,
+      "assets": [
+        {
+          "assetId": "ILL-STREETSCAPE-002",
+          "svg": {
+            "rawBytes": 17988,
+            "compressedBytes": 3636
+          },
+          "flightCopy": {
+            "rows": 35,
+            "hostElements": 258,
+            "rawBytes": 25778,
+            "compressedBytes": 4255,
+            "locatedVerbatim": true
+          },
+          "servedCompressedBytes": 7891,
+          "recordedBytes": 3624,
+          "servedMinusRecordedBytes": 12,
+          "allowanceBytes": 101,
+          "identicalToSerialisedApartFromClassNames": true
+        }
+      ],
+      "routeCompressedBytes": 7891
+    },
+    {
+      "route": "/rent-out",
+      "status": 200,
+      "assets": [
+        {
+          "assetId": "ILL-STREETSCAPE-002",
+          "svg": {
+            "rawBytes": 17988,
+            "compressedBytes": 3636
+          },
+          "flightCopy": {
+            "rows": 35,
+            "hostElements": 258,
+            "rawBytes": 25778,
+            "compressedBytes": 4255,
+            "locatedVerbatim": true
+          },
+          "servedCompressedBytes": 7891,
+          "recordedBytes": 3624,
+          "servedMinusRecordedBytes": 12,
+          "allowanceBytes": 101,
+          "identicalToSerialisedApartFromClassNames": true
+        }
+      ],
+      "routeCompressedBytes": 7891
+    },
+    {
+      "route": "/commercial",
+      "status": 200,
+      "assets": [
+        {
+          "assetId": "ILL-STREETSCAPE-002",
+          "svg": {
+            "rawBytes": 17988,
+            "compressedBytes": 3636
+          },
+          "flightCopy": {
+            "rows": 35,
+            "hostElements": 258,
+            "rawBytes": 25778,
+            "compressedBytes": 4255,
+            "locatedVerbatim": true
+          },
+          "servedCompressedBytes": 7891,
+          "recordedBytes": 3624,
+          "servedMinusRecordedBytes": 12,
+          "allowanceBytes": 101,
+          "identicalToSerialisedApartFromClassNames": true
+        }
+      ],
+      "routeCompressedBytes": 7891
+    },
+    {
+      "route": "/areas",
+      "status": 200,
+      "assets": [
+        {
+          "assetId": "MAP-CORRIDOR-001",
+          "svg": {
+            "rawBytes": 2250,
+            "compressedBytes": 642
+          },
+          "flightCopy": {
+            "rows": 1,
+            "hostElements": 40,
+            "rawBytes": 3429,
+            "compressedBytes": 871,
+            "locatedVerbatim": true
+          },
+          "servedCompressedBytes": 1513,
+          "recordedBytes": 627,
+          "servedMinusRecordedBytes": 15,
+          "allowanceBytes": 49,
+          "identicalToSerialisedApartFromClassNames": true
+        }
+      ],
+      "routeCompressedBytes": 1513
+    }
+  ],
+  "routesWithoutAssets": [
+    "/guides",
+    "/how-it-works",
+    "/about",
+    "/about/utpal-raj-kb",
+    "/contact",
+    "/guides/what-to-tell-us-when-you-want-to-sell-your-property",
+    "/guides/can-a-broker-guarantee-a-property-sale-in-30-days",
+    "/guides/decisions-to-make-before-you-rent-out-your-property"
+  ],
+  "findings": []
+}

@@ -17,38 +17,38 @@ interface LocalityItem {
 const LOCALITIES: LocalityItem[] = [
   {
     id: 'indiranagar',
-    name: 'Indiranagar & Old Airport Road',
-    zone: 'East Urban Enclave',
-    character: 'Historic residential layouts with dense raintree canopy, generous low-rise plots, and vibrant cultural perimeter.',
-    connectivity: 'Namma Metro Purple Line operational; 15 min to Central Business District.',
-    targetAssets: 'Bespoke townhomes, private bungalows & heritage redevelopment penthouses.',
+    name: 'Indiranagar',
+    zone: 'East Bengaluru',
+    character: 'Established residential neighbourhood with tree-lined streets, independent houses, villas and modern apartments near 100 Feet Road and 12th Main.',
+    connectivity: 'Placeholder text for layout review. Not a source-checked statement.',
+    targetAssets: 'Flats, independent houses and residential plots.',
     sourceRef: 'BBMP East Zone Ward 80 / Master Plan 2031',
   },
   {
     id: 'koramangala',
     name: 'Koramangala & HSR Layout',
-    zone: 'South-East Growth Belt',
-    character: 'Prominent innovation and executive residential hub with quiet residential blocks (3rd & 4th Blocks) and established civic greenery.',
-    connectivity: 'Proximity to Outer Ring Road tech corridor; Silk Board junction transit interchange.',
-    targetAssets: 'Contemporary gated luxury residences & independent executive villas.',
+    zone: 'South-East Bengaluru',
+    character: 'Popular residential blocks (3rd & 4th Blocks) with neighbourhood parks and quick access to the Outer Ring Road tech corridor.',
+    connectivity: 'Placeholder text for layout review. Not a source-checked statement.',
+    targetAssets: 'Apartments, independent houses and villas.',
     sourceRef: 'BDA Layout Master Records / BBMP South',
   },
   {
     id: 'sadashivanagar',
     name: 'Sadashivanagar & Palace Orchards',
-    zone: 'Central Heritage Belt',
-    character: 'Premier sanctuary enclave characterized by expansive leafy avenues, institutional prestige, and high architectural restraint.',
-    connectivity: 'Direct access to Sankey Tank, Central Bengaluru, and Hebbal flyover gateway.',
-    targetAssets: 'High-capital independent estates & ultra-low-density residential floors.',
+    zone: 'Central North Bengaluru',
+    character: 'Quiet, green residential area near Sankey Tank with spacious independent houses and premium low-rise apartments.',
+    connectivity: 'Placeholder text for layout review. Not a source-checked statement.',
+    targetAssets: 'Independent houses, villas and premium apartments.',
     sourceRef: 'BBMP West Zone / Heritage Precinct Registry',
   },
   {
     id: 'north-bengaluru',
-    name: 'Hebbal & Bellary Road Corridor',
-    zone: 'North Strategic Corridor',
-    character: 'Rapidly transforming master-planned residential belt linking central Bengaluru to Kempegowda International Airport.',
-    connectivity: 'Operational Bellary Road expressway; Blue Line Metro construction under Phase 2B.',
-    targetAssets: 'Large-footprint luxury apartments, lakeview condominiums & gated golf communities.',
+    name: 'Hebbal & Airport Corridor',
+    zone: 'North Bengaluru',
+    character: 'Growing residential corridor along Bellary Road connecting Hebbal to Kempegowda International Airport.',
+    connectivity: 'Placeholder text for layout review. Not a source-checked statement.',
+    targetAssets: 'Gated community flats, villas and residential layouts.',
     sourceRef: 'BMRDA Master Strategy & BMRCL Phase 2B Alignment',
   },
 ];
@@ -59,14 +59,14 @@ export function Concept1Gazetteer() {
       <div className={styles.container}>
         <div className={styles.header}>
           <div className={styles.metaRow}>
-            <span className={styles.kicker}>MICRO-MARKET GAZETTEER</span>
-            <span className={styles.gateBadge}>MUNICIPAL &amp; TRANSIT CITATIONS</span>
+            <span className={styles.kicker}>EXPLORE BENGALURU AREAS</span>
+            <span className={styles.gateBadge}>PROTOTYPE CONTENT &mdash; NOT SOURCE-CHECKED</span>
           </div>
           <h2 id="c1-gazetteer-title" className={styles.title}>
-            Bengaluru micro-market intelligence. Context before commitment.
+            Which area are you considering?
           </h2>
           <p className={styles.lead}>
-            Locality guidance grounded in verified physical geography, operational transit infrastructure, and architectural typology—distinguishing between established enclaves and planned developmental corridors.
+            We help buyers, tenants and property owners understand established neighbourhoods and emerging residential corridors across Bengaluru.
           </p>
         </div>
 
@@ -86,11 +86,11 @@ export function Concept1Gazetteer() {
 
                 <div className={styles.attributeGrid}>
                   <div className={styles.attr}>
-                    <span className={styles.attrLabel}>TRANSIT &amp; CONNECTIVITY</span>
+                    <span className={styles.attrLabel}>CONNECTIVITY</span>
                     <span className={styles.attrVal}>{loc.connectivity}</span>
                   </div>
                   <div className={styles.attr}>
-                    <span className={styles.attrLabel}>TYPICAL PROPERTY PROFILE</span>
+                    <span className={styles.attrLabel}>COMMON PROPERTY TYPES</span>
                     <span className={styles.attrVal}>{loc.targetAssets}</span>
                   </div>
                 </div>
@@ -102,7 +102,7 @@ export function Concept1Gazetteer() {
                   href={`/areas/${loc.id}`}
                   className={styles.inquireLink}
                 >
-                  <span>View Enclave Profile →</span>
+                  <span>View area details →</span>
                 </Link>
               </div>
             </article>
@@ -111,7 +111,7 @@ export function Concept1Gazetteer() {
 
         <div className={styles.footerNote}>
           <p>
-            * Note on Urban Boundaries: Public infrastructure timelines (such as Namma Metro Phase 2B) reflect current BMRCL structural schedules. Unverified market speculation is excluded from our advisory datasets.
+            * Prototype layout only. The locality statements shown here have not passed the project claim gate and are not published on the public site.
           </p>
         </div>
       </div>

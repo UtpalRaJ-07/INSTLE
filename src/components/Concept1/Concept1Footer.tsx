@@ -18,10 +18,10 @@ export function Concept1Footer() {
           <div className={styles.brandBlock}>
             <span className={styles.brandTitle}>{CANONICAL_BRAND}</span>
             <p className={styles.brandMission}>
-              Service-led real estate brokerage &amp; property advisory platform for buyers, tenants, and property owners in Bengaluru.
+              Real estate brokerage in Bengaluru for buyers, tenants, sellers and landlords.
             </p>
             <div className={styles.phoneGroup}>
-              <span className={styles.phoneLabel}>Direct Brokerage Telephone:</span>
+              <span className={styles.phoneLabel}>Call Our Team:</span>
               <a href={PRIMARY_PHONE_TEL} className={styles.phoneLink}>
                 {PRIMARY_PHONE}
               </a>
@@ -34,24 +34,24 @@ export function Concept1Footer() {
               <ul className={styles.linkList}>
                 <li>
                   <Link href="/buy" className={styles.link}>
-                    Buy a Home
+                    Buy Property
                   </Link>
                 </li>
                 <li>
                   <Link href="/rent" className={styles.link}>
-                    Rent a Residence
+                    Rent a Home
                   </Link>
                 </li>
                 <li>
                   <Link href="/sell" className={styles.link}>
-                    Sell / Lease Property
+                    Sell or Rent Out Property
                   </Link>
                 </li>
               </ul>
             </div>
 
             <div className={styles.linkCol}>
-              <span className={styles.colTitle}>LOCALITIES</span>
+              <span className={styles.colTitle}>AREAS</span>
               <ul className={styles.linkList}>
                 <li>
                   <Link href="/areas/indiranagar" className={styles.link}>
@@ -77,11 +77,11 @@ export function Concept1Footer() {
             </div>
 
             <div className={styles.linkCol}>
-              <span className={styles.colTitle}>PRACTICE</span>
+              <span className={styles.colTitle}>COMPANY</span>
               <ul className={styles.linkList}>
                 <li>
                   <Link href="/how-it-works" className={styles.link}>
-                    How It Works
+                    How We Help
                   </Link>
                 </li>
                 <li>
@@ -107,9 +107,9 @@ export function Concept1Footer() {
             © {new Date().getFullYear()} {CANONICAL_BRAND}. All rights reserved.
           </p>
           <div className={styles.legalLinks}>
-            <span>Bengaluru Real Estate Advisory</span>
+            <span>Bengaluru Real Estate Brokerage</span>
             <span>·</span>
-            <span>Non-Portal Brokerage Model</span>
+            <span>Direct Client Representation</span>
           </div>
         </div>
       </div>

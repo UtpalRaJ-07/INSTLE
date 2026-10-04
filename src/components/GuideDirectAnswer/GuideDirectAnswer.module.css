@@ -1,0 +1,16 @@
+/*
+ * The direct answer sits where a page intro's lead sits and reads at the same
+ * size, so the guide's opening looks as it did when the answer was the lead. It is
+ * the answer rather than a lede, so it takes the full body text colour.
+ *
+ * Styled by class only. The component's data attribute is a test locator, and no
+ * rule here or anywhere else selects on it.
+ */
+.directAnswer {
+  font-size: var(--font-size-body-large);
+  line-height: var(--line-height-body-large);
+  color: var(--color-text-primary);
+  margin-top: var(--space-4);
+  max-width: var(--max-prose-width);
+  overflow-wrap: break-word;
+}

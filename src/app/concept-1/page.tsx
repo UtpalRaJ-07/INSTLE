@@ -7,6 +7,7 @@ import { Concept1Pillars } from '@/components/Concept1/Concept1Pillars';
 import { Concept1Gazetteer } from '@/components/Concept1/Concept1Gazetteer';
 import { Concept1Methodology } from '@/components/Concept1/Concept1Methodology';
 import { Concept1Footer } from '@/components/Concept1/Concept1Footer';
+import { assertPrototypeAccessAllowed } from '@/lib/prototype-guard';
 
 export const metadata: Metadata = {
   title: `[INTERNAL PREVIEW] Concept 1: Garden City Modernism — ${CANONICAL_BRAND}`,
@@ -18,7 +19,14 @@ export const metadata: Metadata = {
   },
 };
 
+// Rendered per request so the production 404 guard cannot be frozen into a
+// prerendered page by a build that ran with a different environment.
+export const dynamic = 'force-dynamic';
+
 export default function Concept1Page() {
+  // Private design material: 404 in a production deployment.
+  assertPrototypeAccessAllowed();
+
   return (
     <>
       <Concept1Header />

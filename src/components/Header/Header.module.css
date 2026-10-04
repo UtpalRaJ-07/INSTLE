@@ -2,24 +2,58 @@
   position: sticky;
   top: 0;
   z-index: var(--z-sticky);
-  background-color: var(--color-paper);
-  border-bottom: 1px solid var(--color-border);
-  width: 100%;
+  /* Night glass: the page shows through, softly, as it scrolls underneath. */
+  background-color: var(--night-glass);
+  -webkit-backdrop-filter: saturate(140%) blur(18px);
+  backdrop-filter: saturate(140%) blur(18px);
+  border-bottom: var(--border-width) solid var(--night-line);
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .header {
+    background-color: var(--night);
+  }
 }
 
 .headerInner {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  height: 72px;
+  /*
+    The row reflows rather than overflowing. The lockup, the call button and the
+    menu control have a combined minimum width, and at 320px with text enlarged to
+    150% that minimum is wider than the screen — measured 378px against 320px, on
+    every page, before this rule existed. Wrapping moves the actions onto a second
+    line instead of pushing the page sideways. Requirements 9.7 and 9.8.
+  */
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  min-height: var(--header-height);
+  padding-block: var(--space-2);
 }
 
-/* Desktop Navigation */
+/*
+  Paired with the wrap above. `flex-basis: min-content` is what keeps the wrap from
+  firing early: a flex line wraps on the items' hypothetical sizes, so with the
+  default `auto` basis the lockup asked for its full single-line width and the
+  actions were pushed to a second line at widths where the lockup could simply have
+  wrapped its own text. Asking for min-content and growing back up to max-content
+  reproduces the previous single-row layout wherever it fit, and reflows only where
+  nothing else can be done. Measured across 320 to 1440px, at 100% and 150% text:
+  zero horizontal overflow, where the previous rule overflowed at 380, 400, 420,
+  480 and 500px even at 100% text.
+*/
+.brand {
+  flex: 1 1 min-content;
+  max-width: max-content;
+}
+
+/* Desktop navigation is hidden below the breakpoint; the drawer covers it. */
 .desktopNav {
   display: none;
+  flex: 1 1 auto;
 }
 
-@media (min-width: 860px) {
+@media (min-width: 1024px) {
   .desktopNav {
     display: block;
   }
@@ -27,206 +61,384 @@
 
 .navList {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
+  gap: var(--space-5);
   list-style: none;
-  gap: var(--space-6);
+  padding: 0;
+  margin-left: var(--space-6);
 }
 
 .navLink {
-  font-family: var(--font-sans);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--min-touch-target);
   font-size: var(--font-size-small);
-  font-weight: 500;
-  color: var(--color-text-primary);
+  font-weight: 550;
+  letter-spacing: 0.01em;
+  color: var(--color-text-muted);
   text-decoration: none;
-  padding: var(--space-2) var(--space-1);
   transition: color var(--transition-fast);
 }
 
-.navLink:hover {
-  color: var(--color-forest);
-  text-decoration: underline;
-  text-underline-offset: 4px;
+/* A line of light under the link, drawn from the left. */
+.navLink::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 8px;
+  height: 1px;
+  background: var(--night-accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--transition-lift);
 }
 
-/* Header Actions */
+.navLink:hover,
+.navLink:focus-visible {
+  color: var(--color-text-primary);
+  text-decoration: none;
+}
+
+.navLink:hover::after,
+.navLink:focus-visible::after {
+  transform: scaleX(1);
+}
+
 .headerActions {
   display: flex;
   align-items: center;
-  gap: var(--space-4);
+  gap: var(--space-2);
+  margin-left: auto;
 }
 
 .phoneLink {
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
-  font-family: var(--font-sans);
-  font-size: var(--font-size-small);
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  color: var(--color-paper);
-  background-color: var(--color-forest);
+  min-height: var(--min-touch-target);
   padding: var(--space-2) var(--space-4);
-  border-radius: var(--radius-control);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-forest);
+  color: var(--color-white);
   text-decoration: none;
-  min-height: 40px;
-  transition: background-color var(--transition-fast);
+  font-weight: 600;
 }
 
-.phoneLink:hover {
-  background-color: var(--color-ink);
+.phoneLink:hover,
+.phoneLink:focus-visible {
+  background-color: var(--color-forest-dark);
   text-decoration: none;
 }
 
-.phoneIcon {
-  font-size: 0.95rem;
+.phoneLabel {
+  font-size: var(--font-size-small);
 }
 
 .phoneDigits {
-  letter-spacing: 0.05em;
+  font-size: var(--font-size-body);
+  font-variant-numeric: tabular-nums;
 }
 
-/* Mobile Toggle */
-.menuToggle {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 5px;
-  width: 44px;
-  height: 44px;
-  padding: 10px;
-  background: none;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-control);
-  cursor: pointer;
-}
-
-@media (min-width: 860px) {
-  .menuToggle {
-    display: none;
+/* Below 400px the digits alone are enough; the word "Call" is redundant next to
+   a clearly labelled phone button and starts to crowd the brand lockup. */
+@media (min-width: 640px) {
+  .phoneLink {
+    padding-inline: var(--space-5);
   }
+}
+
+/* On a phone the button's accessible name stays "Menu"; only the word is
+   hidden, so the lockup keeps one line. */
+@media (max-width: 479px) {
+  .menuToggleLabel {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+
+  .menuToggle {
+    padding-inline: var(--space-3);
+  }
+}
+
+@media (max-width: 379px) {
+  .headerInner {
+    gap: var(--space-2);
+  }
+
+  .phoneLink {
+    padding-inline: var(--space-3);
+  }
+
+  .phoneDigits {
+    font-size: var(--font-size-small);
+  }
+}
+
+@media (max-width: 399px) {
+  .phoneLabel {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+}
+
+.menuToggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--min-touch-target);
+  min-width: var(--min-touch-target);
+  padding: var(--space-2) var(--space-4);
+  border: var(--border-width) solid var(--color-border-strong);
+  border-radius: var(--radius-pill);
+  background-color: transparent;
+  font-weight: 600;
+  transition: border-color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.menuToggle:hover,
+.menuToggle:focus-visible {
+  border-color: var(--color-ink);
+}
+
+@media (min-width: 1024px) {
+  .menuToggle {
+    /* Kept on desktop as well: the drawer is the only place the full grouped
+       navigation lives, and secondary pages are reachable from nowhere else. */
+    display: inline-flex;
+  }
+}
+
+.menuBars {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 18px;
 }
 
 .menuBar {
   display: block;
-  width: 100%;
   height: 2px;
   background-color: var(--color-ink);
-  transition: transform var(--transition-fast);
+  border-radius: 1px;
 }
 
-/* Mobile Modal Drawer */
-.mobileModal {
+.menuToggleLabel {
+  font-size: var(--font-size-small);
+}
+
+/* ---------- Drawer ---------- */
+
+.drawerLayer {
   position: fixed;
   inset: 0;
   z-index: var(--z-modal);
-  display: flex;
-  justify-content: flex-end;
 }
 
-.modalBackdrop {
-  position: fixed;
+.backdrop {
+  position: absolute;
   inset: 0;
-  background-color: rgba(32, 38, 35, 0.5);
-  backdrop-filter: blur(2px);
+  background-color: rgba(4, 8, 7, 0.62);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
 }
 
-.modalContent {
-  position: relative;
-  width: 100%;
-  max-width: 320px;
-  height: 100%;
-  background-color: var(--color-paper);
-  border-left: 1px solid var(--color-border);
+.drawer {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-end: 0;
+  width: min(380px, 100%);
   display: flex;
   flex-direction: column;
-  padding: var(--space-6);
-  z-index: 1;
-  box-shadow: -4px 0 24px rgba(0, 0, 0, 0.08);
+  background-color: var(--color-paper);
+  border-inline-start: var(--border-width) solid var(--color-border);
+  box-shadow: var(--shadow-overlay);
+  overflow-y: auto;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
-.modalHeader {
+.drawerHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: var(--space-4);
-  border-bottom: 1px solid var(--color-border);
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-5);
+  border-bottom: var(--border-width) solid var(--color-border);
+  position: sticky;
+  top: 0;
+  background-color: var(--color-paper);
 }
 
-.modalTitle {
-  font-family: var(--font-sans);
+.drawerTitle {
   font-size: var(--font-size-label);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   font-weight: 700;
-  letter-spacing: 0.15em;
   color: var(--color-text-muted);
 }
 
 .closeButton {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
-  font-size: 1.25rem;
-  color: var(--color-ink);
-  cursor: pointer;
+  min-width: var(--min-touch-target);
+  min-height: var(--min-touch-target);
+  border: var(--border-width) solid var(--color-border-strong);
   border-radius: var(--radius-control);
+  font-size: var(--font-size-body-large);
 }
 
-.closeButton:hover {
-  background-color: var(--color-background-elevated);
+.closeButton:hover,
+.closeButton:focus-visible {
+  border-color: var(--color-ink);
 }
 
-.mobileNav {
-  flex: 1;
-  padding-top: var(--space-6);
+.drawerNav {
+  padding: var(--space-5);
+  display: grid;
+  gap: var(--space-8);
 }
 
-.mobileNavList {
+.drawerGroup {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.drawerGroupTitle {
+  font-size: var(--font-size-label);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-1);
+}
+
+.drawerList {
   list-style: none;
+  padding: 0;
+  display: grid;
+  gap: var(--space-1);
+}
+
+.drawerLink {
   display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-}
-
-.mobileNavItem {
-  border-bottom: 1px solid var(--color-border);
-}
-
-.mobileNavLink {
-  display: block;
-  padding: var(--space-3) 0;
-  font-family: var(--font-serif);
-  font-size: var(--font-size-h3);
-  color: var(--color-ink);
+  align-items: center;
+  min-height: var(--min-touch-target);
+  padding: var(--space-2) 0;
+  font-size: var(--font-size-body-large);
+  font-weight: 550;
   text-decoration: none;
+  border-bottom: var(--border-width) solid var(--color-border);
 }
 
-.mobileNavLink:hover {
-  color: var(--color-forest);
-  text-decoration: none;
+.drawerLink:hover,
+.drawerLink:focus-visible {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
 }
 
-.modalFooter {
-  padding-top: var(--space-6);
-  border-top: 1px solid var(--color-border);
+.drawerFooter {
+  margin-top: auto;
+  padding: var(--space-5);
+  border-top: var(--border-width) solid var(--color-border);
+  position: sticky;
+  bottom: 0;
+  background-color: var(--color-paper);
 }
 
-.mobilePhoneCta {
+.drawerCall {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-2);
-  width: 100%;
-  min-height: 48px;
+  min-height: var(--min-touch-target);
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-pill);
   background-color: var(--color-forest);
-  color: var(--color-paper);
+  color: var(--color-white);
   font-weight: 600;
-  font-size: var(--font-size-body);
-  border-radius: var(--radius-control);
   text-decoration: none;
 }
 
-.mobilePhoneCta:hover {
-  background-color: var(--color-ink);
+.drawerCall:hover,
+.drawerCall:focus-visible {
+  background-color: var(--color-forest-dark);
   text-decoration: none;
+}
+
+/* ---------- Homepage intro handoff ----------
+ * During the opening film the header lockup waits, hidden, for the film's
+ * lockup to land on it (src/components/BrandIntro/transition.ts). Without the
+ * script, it fades in as the film fades out. The attributes are set on <html>
+ * by the intro's boot script and removed when the film ends.
+ */
+
+:global(html[data-instle-intro='full']) .brand,
+:global(html[data-instle-intro='still']) .brand {
+  animation: brandArrive 420ms ease both;
+  animation-delay: calc(var(--ix-hand-in) + var(--ix-hand) * 0.45);
+}
+
+:global(html[data-instle-handoff]) .brand {
+  animation: none;
+  opacity: 0;
+}
+
+:global(html[data-instle-intro-skip]) .brand {
+  animation: none;
+  opacity: 1;
+}
+
+@keyframes brandArrive {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Returning visit: no overlay, just one pass of light across the name. */
+:global(html[data-instle-intro='brief']) .brand [data-lockup-part='name'] {
+  background: linear-gradient(
+      100deg,
+      var(--night-text) 0 38%,
+      var(--night-accent-hover) 50%,
+      var(--night-text) 62% 100%
+    )
+    100% 0 / 280% 100% no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: brandSweep var(--ix-total) cubic-bezier(0.45, 0, 0.25, 1) both;
+}
+
+:global(html[data-instle-intro='brief']) .brand [data-lockup-part='place'] {
+  animation: brandArrive calc(var(--ix-total) * 0.6) ease both;
+}
+
+@keyframes brandSweep {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: 0% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :global(html[data-instle-intro='brief']) .brand [data-lockup-part='name'],
+  :global(html[data-instle-intro='brief']) .brand [data-lockup-part='place'] {
+    animation: none;
+  }
 }

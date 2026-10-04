@@ -1,5 +1,270 @@
-.homeWrapper {
-  width: 100%;
+/* Homepage */
+
+/*
+ * The hero is the last frame of the opening film: the same tower and city,
+ * settled, with the heading set over the dark side of the composition. It
+ * fills the first screen below the header, so the film's dissolve lands on it.
+ */
+.hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   display: flex;
-  flex-direction: column;
+  align-items: flex-end;
+  min-height: calc(100svh - var(--header-height));
+  padding-top: clamp(4rem, 2rem + 8vw, 9rem);
+  padding-bottom: clamp(2.5rem, 1.5rem + 3vw, 4rem);
+}
+
+.heroArt {
+  position: absolute;
+  z-index: -1;
+  inset: 0 0 auto 0;
+  /* The first screen only: taller content continues on plain night. */
+  height: calc(100svh - var(--header-height));
+}
+
+/* Scrims keep the heading and the small text clear of lit windows. */
+.heroArt::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to right, rgba(10, 17, 16, 0.94) 0%, rgba(10, 17, 16, 0.72) 34%, rgba(10, 17, 16, 0.12) 62%, transparent 78%),
+    linear-gradient(to top, var(--night) 0%, rgba(10, 17, 16, 0.78) 26%, transparent 55%);
+}
+
+@media (max-aspect-ratio: 4/5) {
+  .hero {
+    padding-top: 30svh;
+  }
+
+  .heroArt::after {
+    background: linear-gradient(
+      to bottom,
+      rgba(10, 17, 16, 0.2) 0%,
+      rgba(10, 17, 16, 0.55) 26%,
+      rgba(10, 17, 16, 0.9) 42%,
+      var(--night) 60%
+    );
+  }
+}
+
+.heroContent {
+  position: relative;
+}
+
+.heroInner {
+  max-width: min(40rem, 52%);
+}
+
+@media (max-aspect-ratio: 4/5) {
+  .heroInner {
+    max-width: none;
+  }
+}
+
+.heroEyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: var(--font-size-label);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 650;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-5);
+}
+
+.heroEyebrow::before {
+  content: '';
+  width: 32px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--night-accent));
+}
+
+.heroTitle {
+  max-width: 12ch;
+  font-size: var(--font-size-display);
+  line-height: var(--line-height-display);
+  letter-spacing: -0.038em;
+  font-weight: 700;
+}
+
+.heroLead {
+  margin-top: var(--space-6);
+  font-size: var(--font-size-body-large);
+  line-height: var(--line-height-body-large);
+  color: var(--color-text-muted);
+  max-width: 46ch;
+}
+
+/*
+ * The four intents sit immediately under the headline: the offer and the first
+ * action stay together, and the tiles are the first step of the journey.
+ */
+.heroIntents {
+  margin-top: clamp(2rem, 1.25rem + 2.5vw, 3.5rem);
+}
+
+.heroPhoneRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3) var(--space-5);
+  margin-top: var(--space-8);
+}
+
+.heroPhoneNote {
+  font-size: var(--font-size-body);
+  color: var(--color-text-muted);
+}
+
+/* The hero settles in on a normal visit; under the film it is already there. */
+@media (prefers-reduced-motion: no-preference) {
+  .heroInner,
+  .heroIntents,
+  .heroPhoneRow {
+    animation: heroRise 1000ms var(--ease-settle) both;
+  }
+
+  .heroIntents {
+    animation-delay: 120ms;
+  }
+
+  .heroPhoneRow {
+    animation-delay: 220ms;
+  }
+
+  :global(html[data-instle-intro]) .heroInner,
+  :global(html[data-instle-intro]) .heroIntents,
+  :global(html[data-instle-intro]) .heroPhoneRow {
+    animation: none;
+  }
+}
+
+@keyframes heroRise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 20px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------- Property types ---------- */
+
+.typeList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-5);
+  list-style: none;
+  padding: 0;
+}
+
+.typeItem {
+  padding: var(--space-3) var(--space-5);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-pill);
+  font-size: var(--font-size-body);
+  font-weight: 550;
+  background-color: var(--color-background-card);
+  box-shadow: var(--shadow-card);
+}
+
+.typeNote a {
+  padding-block: 4px;
+}
+
+.typeNote {
+  margin-top: var(--space-5);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body-large);
+  color: var(--color-text-muted);
+  max-width: var(--max-prose-width);
+}
+
+/* ---------- Process ---------- */
+
+.processList {
+  counter-reset: step;
+  display: grid;
+  gap: var(--space-5);
+  list-style: none;
+  padding: 0;
+}
+
+@media (min-width: 720px) {
+  .processList {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1080px) {
+  .processList {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.processItem {
+  position: relative;
+  counter-increment: step;
+  padding-top: var(--space-6);
+  border-top: var(--border-width) solid var(--color-border-strong);
+}
+
+/* The journey line: each step lights its own length of it. */
+.processItem::after {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 0;
+  width: 56px;
+  height: 2px;
+  background: var(--color-forest);
+}
+
+.processItem::before {
+  content: counter(step, decimal-leading-zero);
+  display: block;
+  font-size: clamp(2rem, 1.6rem + 1.4vw, 2.75rem);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: var(--color-text-muted);
+  font-variant-numeric: tabular-nums;
+  margin-bottom: var(--space-4);
+}
+
+.processTitle {
+  font-size: var(--font-size-h3);
+  line-height: var(--line-height-h3);
+  margin-bottom: var(--space-2);
+}
+
+.processText {
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body-large);
+  color: var(--color-text-muted);
+}
+
+/* ---------- Owner ---------- */
+
+.ownerBlock {
+  display: grid;
+  gap: var(--space-5);
+  max-width: var(--max-prose-width);
+}
+
+.ownerName {
+  font-size: var(--font-size-h2);
+  line-height: var(--line-height-h2);
+}
+
+.ownerRole {
+  font-size: var(--font-size-body-large);
+  color: var(--color-text-muted);
 }

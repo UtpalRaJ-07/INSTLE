@@ -13,28 +13,36 @@ interface IntentOption {
 
 const INTENTS: IntentOption[] = [
   {
-    title: 'Buying Advisory',
-    audience: 'Home & Site Seekers',
+    title: 'Buy property',
+    audience: 'Home & Site Buyers',
     description:
-      'Connect with our team by telephone to discuss your property parameters, timeline, and preferred areas in Bengaluru.',
+      'Tell us what you are looking for, your preferred area and your budget. We assist you with flats, independent houses, villas and plots.',
     href: '/buy',
-    ctaText: 'View Buying Advisory Details',
+    ctaText: 'Tell us what you need',
   },
   {
-    title: 'Rental Guidance',
+    title: 'Rent a home',
     audience: 'Tenants & Relocations',
     description:
-      'Connect with our team by telephone to discuss move-in timing, preferred localities, and rental space needs.',
+      'Tell us where you want to stay, your monthly rent budget and when you plan to move. We help you find suitable residences across Bengaluru.',
     href: '/rent',
-    ctaText: 'View Rental Advisory Details',
+    ctaText: 'Share rental details',
   },
   {
-    title: 'Owner Representation',
-    audience: 'Sellers & Landlords',
+    title: 'Sell property',
+    audience: 'Property Owners',
     description:
-      'Connect with our team by telephone to discuss property representation, parameters, and next steps.',
+      'Share your property type, area and when you would like to sell. We speak to interested buyers before arranging a visit.',
     href: '/sell',
-    ctaText: 'View Owner Advisory Details',
+    ctaText: 'Sell with our team',
+  },
+  {
+    title: 'Rent out property',
+    audience: 'Landlords',
+    description:
+      'Share your property details and when the property is available. We speak to prospective tenants about their requirement before arranging a visit.',
+    href: '/sell',
+    ctaText: 'Find tenants',
   },
 ];
 
@@ -42,12 +50,12 @@ export const IntentRail: React.FC = () => {
   return (
     <section className={styles.section} aria-labelledby="intents-title">
       <div className={styles.header}>
-        <span className={styles.eyebrow}>Service Pathways</span>
+        <span className={styles.eyebrow}>Our Services</span>
         <h2 id="intents-title" className={styles.title}>
-          Select Your Property Objective
+          How can we help you today?
         </h2>
         <p className={styles.subtitle}>
-          Choose an advisory pathway to review details, or speak directly with our team by telephone.
+          Choose an option below to share your requirement, or speak directly with our team by telephone.
         </p>
       </div>
 
